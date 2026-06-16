@@ -1,22 +1,41 @@
 <!doctype HTML>
 <style>
-.jayret-wip-banner {
-  background: #fffbcc;
-  border-bottom: 2px solid #e6c800;
-  color: #5a4700;
-  font-family: sans-serif;
-  font-size: 0.9em;
-  padding: 0.5em 1em;
-  text-align: center;
-}
-.jayret-wip-banner a { color: #0066cc; }
+  /* WIP banner: pinned to top of viewport, above Scribble's fixed sidebar */
+  .jayret-wip-banner {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 10000;
+    height: 2.5rem;
+    box-sizing: border-box;
+    background: #fffbcc;
+    border-bottom: 2px solid #e6c800;
+    color: #5a4700;
+    font: 0.85rem/2.5rem -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding: 0 1rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .jayret-wip-banner a { color: #0066cc; text-decoration: underline; }
+  .jayret-wip-banner strong { font-weight: 700; }
+
+  /* Push Scribble's fixed/absolute chrome below the banner */
+  .tocset      { top: 2.5rem !important; }
+  .versionbox  { top: 2.75rem !important; }
+  .maincolumn  { margin-top: 6.5rem !important; }
+  @media all and (max-width: 720px) {
+    .navsettop  { top: 2.5rem !important; }
+    .versionbox { top: 7rem !important; }
+    .maincolumn { margin-top: 9.5rem !important; }
+  }
 </style>
 <div class="jayret-wip-banner">
-  <strong>Work in progress:</strong> Jayret docs are in progress &mdash; syntax pages currently show Pyret syntax.
-  See <a href="https://github.com/jayret-lang/jayret-lang/blob/main/docs/jayret-spec.md">jayret-spec.md</a>
+  <strong>Work in progress:</strong> pages still show Pyret syntax. See
+  <a href="https://github.com/jayret-lang/jayret-lang/blob/main/docs/jayret-spec.md">jayret-spec.md</a>
   for current Jayret syntax.
-  &nbsp;|&nbsp; <a href="https://jayret-lang.github.io/">Jayret home</a>
-  &nbsp;|&nbsp; <a href="https://code.jayret.org/">Jayret playground</a>
+  &nbsp;·&nbsp; <a href="https://jayret-lang.github.io/">Home</a>
+  &nbsp;·&nbsp; <a href="https://code.jayret.org/">Playground</a>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
