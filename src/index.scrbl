@@ -33,7 +33,7 @@ See
 for the current Jayret syntax reference.}
 
 @nested{If you want to learn about (or teach!) programming and computer science
-using Jayret, check out @link["https://dcic-world.org" "A Data Centric Introduction to Computing"], a textbook on programming that inspired Jayret's
+using Jayret, check out @link["https://jayret-lang.github.io/dcic" "A Data Centric Introduction to Computing"], a textbook on programming that inspired Jayret's
 design. The @link["https://code.jayret.org" "Jayret playground"] lets you run
 Jayret programs in your browser.}
 

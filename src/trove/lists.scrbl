@@ -1166,7 +1166,7 @@ role for both historical and practical reasons, and a fuller
 understanding of linked lists goes hand in hand with a fuller
 understanding of Pyret.  If you have not encountered linked
 lists before and would like to know more, we recommend reading
-@link["http://dcic-world.org/" "the material on
+@link["https://jayret-lang.github.io/dcic/" "the material on
 lists in DCIC"].
 
 In lieu of a full explanation on this page, here are a few quick points
