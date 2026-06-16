@@ -18,35 +18,24 @@
          #'(include-section file)
          #'(void)))]))
 
-@title[#:version @VERSION]{Pyret}
+@title[#:version @VERSION]{Jayret}
 
 
-@nested{This document has detailed information on the Pyret grammar and the
+@nested{This document has detailed information on the Jayret grammar and the
 behavior of its expression forms and built-in libraries, along with many
-examples and some longer descriptions of language design choices. If you want
-to do something in a program and you can't find how in this document, feel free
-to post a message on the
-@link["https://groups.google.com/forum/#!forum/pyret-discuss" "Pyret discussion
-list"], and we'll be happy to help.}
+examples and some longer descriptions of language design choices.
+
+@bold{Note:} Jayret is a Java-flavored variant of Pyret. This documentation
+site is a work in progress — syntax shown here currently reflects Pyret syntax.
+See
+@link["https://github.com/jayret-lang/jayret-lang/blob/main/docs/jayret-spec.md"
+      "jayret-spec.md"]
+for the current Jayret syntax reference.}
 
 @nested{If you want to learn about (or teach!) programming and computer science
-using Pyret, check out @link["https://dcic-world.org" "A Data Centric Introduction to Computing"], which is a textbook on programming starting with
-Pyret.}
-
-@nested{Previous release notes documents have useful information on major
-updates over time.
-
-@itemlist[
-  @item{@hyperlink["https://www.pyret.org/release-notes/2025.html"]{Summer 2025}}
-  @item{@hyperlink["https://www.pyret.org/release-notes/summer-2021.html"]{Summer 2021}}
-  @item{@hyperlink["https://www.pyret.org/release-notes/summer-2020.html"]{Summer 2020}}
-  @item{@hyperlink["https://groups.google.com/g/pyret-discuss/c/kUr3iIYsheE/m/Z7FTW9ZcEwAJ"]{Fall 2017}}
-  @item{@hyperlink["https://groups.google.com/g/pyret-discuss/c/n4yAxubXHyY/m/EJr0yMlwAAAJ"]{Fall 2016}}
-  @item{@hyperlink["https://groups.google.com/g/pyret-discuss/c/i1qMU_YP9Tw/m/j67PlQx0CQAJ"]{Summer 2016}}
-  @item{@hyperlink["https://www.pyret.org/release-notes/v0.5.html"]{Summer 2014}}
-]
-
-}
+using Jayret, check out @link["https://dcic-world.org" "A Data Centric Introduction to Computing"], a textbook on programming that inspired Jayret's
+design. The @link["https://code.jayret.org" "Jayret playground"] lets you run
+Jayret programs in your browser.}
 
 @include-section["getting-started.scrbl"]
 
