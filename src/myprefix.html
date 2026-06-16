@@ -20,12 +20,15 @@
   .jayret-wip-banner a { color: #0066cc; text-decoration: underline; }
   .jayret-wip-banner strong { font-weight: 700; }
 
-  /* Push Scribble's fixed/absolute chrome below the banner */
+  /* Push Scribble's fixed/absolute chrome below the banner.
+     .navsettop on desktop is the fixed search/toggle bar over the
+     sidebar header — it sits at top:0 and would be covered by the
+     banner unless pushed down too. */
   .tocset      { top: 2.5rem !important; }
+  .navsettop   { top: 2.5rem !important; }
   .versionbox  { top: 2.75rem !important; }
   .maincolumn  { margin-top: 6.5rem !important; }
   @media all and (max-width: 720px) {
-    .navsettop  { top: 2.5rem !important; }
     .versionbox { top: 7rem !important; }
     .maincolumn { margin-top: 9.5rem !important; }
   }
