@@ -90,8 +90,8 @@ yet executable; use recursion or @tt{for}/comprehensions.
 
 The Pyret runtime supports @tt{use context starter2024} /
 @tt{essentials2024} / etc. Jayret does not yet expose a surface form.
-The default context is whichever the surrounding @link["https://code.jayret.org"
-"code.jayret.org"] configuration sets.
+The default context is whichever the surrounding @link["https://jayret-lang.github.io/code"
+"jayret-lang.github.io/code"] configuration sets.
 
 Upstream: @link["https://www.pyret.org/docs/latest/use.html"
                 "Pyret docs: use"].

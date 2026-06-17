@@ -391,7 +391,7 @@ syntax can prevent namespace pollution, especially if you expect
 programmers (students) to use @pyret{include} to add the
 names directly to their top level namespace.}
 
-Programmers working through @url{http://code.jayret.org} can @pyret{provide}
+Programmers working through @url{http://jayret-lang.github.io/code} can @pyret{provide}
 and @pyret{import} code via Google Drive sharing integrated into the
 development environment.  
 

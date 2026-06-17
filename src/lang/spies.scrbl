@@ -42,7 +42,7 @@ Spying (at file:///spies.jrt:2:0-2:10)
   x: 10
 }
 
-On code.jayret.org, you'll see output like:
+On jayret-lang.github.io/code, you'll see output like:
 
 @image[#:scale 0.3 "src/lang/simple-spy.png"]
 
@@ -243,7 +243,7 @@ This ends up being onerous and error prone.
 
 Finally, for rich values like tables and images, the string representation
 produced by @pyret-id["print" "<global>"] isn't as useful as the rich rendering
-that Jayret provides in an interface like code.jayret.org.
+that Jayret provides in an interface like jayret-lang.github.io/code.
 
 The @tt{spy} statement is designed to make it natural and useful to add printed
 observations to the program, supporting and enhancing the practice of

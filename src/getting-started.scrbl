@@ -4,7 +4,7 @@
 
 @title[#:style '(toc)]{Getting Started and Running Jayret}
 
-The most direct way to Jayret is to visit @url["https://code.jayret.org"], which
+The most direct way to Jayret is to visit @url["https://jayret-lang.github.io/code"], which
 runs Jayret entirely within your browser.
 
 There are a few other ways to run Jayret via the command-line and via Visual

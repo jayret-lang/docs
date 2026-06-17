@@ -118,7 +118,7 @@ These are not allowed:
 While there are a number of useful operations on a reactor, the most central is
 interacting with one.  The @pyret-id{interact} function takes a reactor as an
 argument starts an interactive event loop as described by the reactor's
-configuration.  In @url{https://code.jayret.org}, for a very simple reactor with
+configuration.  In @url{https://jayret-lang.github.io/code}, for a very simple reactor with
 just an initial value, the reactor's display looks like:
 
 @(image "src/builtin/inert-reactor.png")

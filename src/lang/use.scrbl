@@ -78,8 +78,8 @@ single default context. It had provided common names related to, for example,
 @seclink["lists" "Lists"] and @seclink["option" "Option"].  Now files that
 don't have a @tt{use} line are treated as if they start with @tt{use context
 essentials2020}, which is equivalent to this historically available default
-context. The online environment @hyperlink["https://code.jayret.org"
-"code.jayret.org"] inserts @tt{use context essentialsYEAR} into new programs,
+context. The online environment @hyperlink["https://jayret-lang.github.io/code"
+"jayret-lang.github.io/code"] inserts @tt{use context essentialsYEAR} into new programs,
 where @tt{YEAR} will change when new useful names are available. Notably,
 @tt{essentials2021} includes all of the names for the untyped @seclink["image"
 "Image"] library by default, removing the need to @tt{include image} in new

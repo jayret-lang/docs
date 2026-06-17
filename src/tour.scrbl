@@ -12,7 +12,7 @@
 @title{A Tour of Jayret}
 
 You can start playing with Jayret right away at
-@url{https://code.jayret.org/editor}.  You can copy the examples below, run
+@url{https://jayret-lang.github.io/code/editor}.  You can copy the examples below, run
 them, and play with them to get a feel for the language.
 
 @section{Testing and Assertions}

@@ -7,7 +7,7 @@
 @docmodule["type-check" #:noimport #t #:friendly-title "Type Checking"]{
 
 Jayret has an optional static type checker. On
-@url["https://code.jayret.org"] it can be accessed as a drop down option
+@url["https://jayret-lang.github.io/code"] it can be accessed as a drop down option
 under the Run button, and from the command line it can be run by adding
 the flag @tt{-type-check}.
 

@@ -45,7 +45,11 @@ SKIP_MACROS = {
 }
 
 URL_SUBS = [
-    (re.compile(r'code\.pyret\.org'), 'code.jayret.org'),
+    # The playground lives at jayret-lang.github.io/code, not at a code.*
+    # subdomain. Force this rewrite first so it wins over the bare-host one
+    # below; also catch any existing `code.jayret.org` URLs from earlier runs.
+    (re.compile(r'\bcode\.pyret\.org'), 'jayret-lang.github.io/code'),
+    (re.compile(r'\bcode\.jayret\.org'), 'jayret-lang.github.io/code'),
     (re.compile(r'\bwww\.pyret\.org'), 'jayret-lang.github.io'),
     (re.compile(r'(?<!code\.)(?<!www\.)\bpyret\.org\b'), 'jayret-lang.github.io'),
 ]

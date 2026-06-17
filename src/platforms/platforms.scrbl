@@ -11,7 +11,7 @@ only work in particular settings.
 Elsewhere in the documentation you may see features flagged with
 
 @cpo-only{@para{Behavior that is specific to, or works only in,
-@url["https://code.jayret.org"]. These typically require using a Google-specific
+@url["https://jayret-lang.github.io/code"]. These typically require using a Google-specific
 API to access files in Google Drive.}}
 
 @vscode-only{@para{Behavior that is specific to, or works only in, the Visual
@@ -25,9 +25,9 @@ A common combination is:
 Studio Code extension @emph{or} at the command-line. This typically has to do
 with accessing the filesystem.}}
 
-@section{code.jayret.org}
+@section{jayret-lang.github.io/code}
 
-The website @url["https://code.jayret.org"] lets you run Jayret code directly in
+The website @url["https://jayret-lang.github.io/code"] lets you run Jayret code directly in
 your browser, and connect to Google Drive to save and share programs you write.
 
 @section{VScode Extension}
@@ -35,7 +35,7 @@ your browser, and connect to Google Drive to save and share programs you write.
 The
 @link["https://marketplace.visualstudio.com/items?itemName=PyretProgrammingLanguage.pyret-parley"
 "Jayret VScode Extension"] provides a way to run Jayret code within Visual Studio
-Code in an interface similar to code.jayret.org, with a definitions and interactions area.
+Code in an interface similar to jayret-lang.github.io/code, with a definitions and interactions area.
 
 @subsection{Installing the VScode Extension}
 
