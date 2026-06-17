@@ -159,15 +159,13 @@ that characters that are identified by a Unicode code point greater than
 
 Returns @pyret{true} if the two strings are equal.
   
-@examples{
-check:
-  string-equal("abc", "abc") is true
-  "abc" is%(string-equal) "abc"
-  "abc" == "abc" is true
-  string-equal("ab", "abc") is false
-  string-equal("abc     ", "abc") is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-equal("abc", "abc"), true);
+    assertEquals("abc", "abc");
+    assertEquals("abc" == "abc", true);
+    assertEquals(string-equal("ab", "abc"), false);
+    assertEquals(string-equal("abc     ", "abc"), false);
+}}
 
   @function["string-contains" #:contract (a-arrow S S B) #:return B]
 
@@ -175,16 +173,14 @@ Returns @pyret{true} if @pyret{string-to-find} is contained in
 @pyret{string-to-search}.  Returns @pyret{true} if an empty string is passed as
 @pyret{string-to-find}.
   
-@examples{
-check:
-  string-contains("Ahoy, world!", "world") is true
-  string-contains("Ahoy, World!", "world") is false
-  string-contains("world", "Ahoy world") is false
-  string-contains("same string", "same string") is true
-  string-contains("", "") is true
-  string-contains("any string", "") is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-contains("Ahoy, world!", "world"), true);
+    assertEquals(string-contains("Ahoy, World!", "world"), false);
+    assertEquals(string-contains("world", "Ahoy world"), false);
+    assertEquals(string-contains("same string", "same string"), true);
+    assertEquals(string-contains("", ""), true);
+    assertEquals(string-contains("any string", ""), true);
+}}
 
   @function["string-find" #:contract (a-arrow S S) #:return N]
 
@@ -193,13 +189,11 @@ Return the left-most index (starting from @pyret{0}) where the second argument i
 If the string is not found, this raises an exception. Therefore, use this function only when you expect the second argument to be found in the first one.
 If you aren't sure, use @pyret{string-find-opt}.
   
-@examples{
-check:
-  string-find("Hello", "ello") is 1
-  string-find("Hello", "H") is 0
-  string-find("Hello", "World") raises ""
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-find("Hello", "ello"), 1);
+    assertEquals(string-find("Hello", "H"), 0);
+    assertRaises(() -> { string-find("Hello", "World") }, "");
+}}
 
   @function["string-find-opt" #:contract (a-arrow S S) #:return N]
 
@@ -208,28 +202,24 @@ Return the left-most index (starting from @pyret{0}) where the second argument i
 This always returns an @pyret{Option} value. Therefore, this is useful when you aren't sure whether the second argument will be found in the first or not.
 If you are confident it will be present, consider using @pyret{string-find}, which returns the number that you can directly use.
 
-@examples{
-check:
-  string-find("Hello", "ello") is some(1)
-  string-find("Hello", "H") is some(0)
-  string-find("Hello", "World") is none
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-find("Hello", "ello"), some(1));
+    assertEquals(string-find("Hello", "H"), some(0));
+    assertEquals(string-find("Hello", "World"), none);
+}}
 
   @function["string-append" #:contract (a-arrow S S S) #:return S]
 
 Returns a @pyret{String} where @pyret{back} is added to the right of
 @pyret{front}.
   
-@examples{
-check:
-  string-append("a", "b") is "ab"
-  string-append("same", "same") is "samesame"
-  string-append("", "") is ""
-  string-append("", "a") is "a"
-  string-append("a", "") is "a"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-append("a", "b"), "ab");
+    assertEquals(string-append("same", "same"), "samesame");
+    assertEquals(string-append("", ""), "");
+    assertEquals(string-append("", "a"), "a");
+    assertEquals(string-append("a", ""), "a");
+}}
 
 @form["+ (concatenation)" "front + back"]
 
@@ -243,14 +233,12 @@ Returns the number of characters in the string.
 @margin-note{@pyret{string-length} reports a count of @pyret{2}
 for code points over 65535.}
 
-@examples{
-check:
-  string-length("") is 0
-  string-length("    ") is 4
-  string-length("four") is 4
-  string-length("🏏") is 2
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-length(""), 0);
+    assertEquals(string-length("    "), 4);
+    assertEquals(string-length("four"), 4);
+    assertEquals(string-length("🏏"), 2);
+}}
 
   @function["string-to-number" #:contract (a-arrow S N) #:return (O-of N)]
 
@@ -261,27 +249,23 @@ if it is not a valid numeric string, and @pyret-id["some" "option"] number if it
 the same numbers that Pyret itself does: no surrounding whitespace, extra
 punctuation, or trailing characters are allowed.
 
-@examples{
-check:
-  string-to-number("100") is some(100)
-  string-to-number("not-a-number") is none
-  string-to-number(" 100") is none
-  string-to-number("100abc") is none
-  string-to-number("1,000") is none
-  string-to-number("1-800-555-1212") is none
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-to-number("100"), some(100));
+    assertEquals(string-to-number("not-a-number"), none);
+    assertEquals(string-to-number(" 100"), none);
+    assertEquals(string-to-number("100abc"), none);
+    assertEquals(string-to-number("1,000"), none);
+    assertEquals(string-to-number("1-800-555-1212"), none);
+}}
 
   @function["string-repeat" #:contract (a-arrow S N S) #:return S]
 
-@examples{
-check:
-  string-repeat("a", 5) is "aaaaa"
-  string-repeat("", 1000000) is ""
-  string-repeat("word ", 3) is "word word word "
-  string-repeat("long string", 0) is ""
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-repeat("a", 5), "aaaaa");
+    assertEquals(string-repeat("", 1000000), "");
+    assertEquals(string-repeat("word ", 3), "word word word ");
+    assertEquals(string-repeat("long string", 0), "");
+}}
 
   @function["string-substring" #:contract (a-arrow S N N S) #:return S]
 
@@ -295,20 +279,17 @@ The returned string always has length @pyret{end-index} - @pyret{start-index}.
 @margin-note{@pyret{String} indexes are counted starting from zero for the
 first character.}
 
-@examples{
-check:
-  string-substring("just the first", 0, 1) is "j"
-  string-substring("same index", 4, 4) is ""
-  
-  tws = "length is 12"
-  string-substring(tws, 4, 6) is "th"
-  string-substring(tws, string-length(tws) - 1, string-length(tws)) is "2"
-  string-substring(tws, 6, 4) raises "index"
-  string-substring(tws, 6, 13) raises "index"
-  string-substring(tws, 13, 6) raises "index"
-  string-substring(tws, -1, 10) raises "index"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-substring("just the first", 0, 1), "j");
+    assertEquals(string-substring("same index", 4, 4), "");
+    tws = "length is 12";
+    assertEquals(string-substring(tws, 4, 6), "th");
+    assertEquals(string-substring(tws, string-length(tws) - 1, string-length(tws)), "2");
+    assertRaises(() -> { string-substring(tws, 6, 4) }, "index");
+    assertRaises(() -> { string-substring(tws, 6, 13) }, "index");
+    assertRaises(() -> { string-substring(tws, 13, 6) }, "index");
+    assertRaises(() -> { string-substring(tws, -1, 10) }, "index");
+}}
 
   @function["string-index-of" #:contract (a-arrow S S N) #:return N]
 
@@ -316,13 +297,11 @@ end
   @pyret{string-to-find} @emph{first} appears, or @pyret{-1} if the string
   isn't found.
 
-@examples{
-check:
-  string-index-of("Pyret", "P") is 0
-  string-index-of("012🤑45", "🤑") is 3
-  string-index-of("🤔🤔🤔", "🤒") is -1
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-index-of("Pyret", "P"), 0);
+    assertEquals(string-index-of("012🤑45", "🤑"), 3);
+    assertEquals(string-index-of("🤔🤔🤔", "🤒"), -1);
+}}
   
   @function["string-replace" #:contract (a-arrow S S S S) #:return S]
 
@@ -333,17 +312,15 @@ If the string to find is empty @pyret{""}, the @pyret{replacement-string}
 will be added between characters but not at the beginning or end of the
 string.
   
-@examples{
-check:
-  string-replace("spaces to hyphens", " ", "-") is "spaces-to-hyphens"
-  string-replace("remove: the: colons", ":", "") is "remove the colons"
-  string-replace("😊😊🤕😊", "🤕", "😊") is "😊😊😊😊"
-  string-replace("rinky dinky", "inky", "azzle") is "razzle dazzle"
-  string-replace("a string", "not found", "not replaced") is "a string"
-  string-replace("", "", "c") is ""
-  string-replace("aaa", "", "b") is "ababa"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-replace("spaces to hyphens", " ", "-"), "spaces-to-hyphens");
+    assertEquals(string-replace("remove: the: colons", ":", ""), "remove the colons");
+    assertEquals(string-replace("😊😊🤕😊", "🤕", "😊"), "😊😊😊😊");
+    assertEquals(string-replace("rinky dinky", "inky", "azzle"), "razzle dazzle");
+    assertEquals(string-replace("a string", "not found", "not replaced"), "a string");
+    assertEquals(string-replace("", "", "c"), "");
+    assertEquals(string-replace("aaa", "", "b"), "ababa");
+}}
 
   @function["string-split" #:contract (a-arrow S S (L-of S)) #:return (L-of S)]
 
@@ -360,14 +337,12 @@ end
   For splitting beyond the first occurence of the string, see
   @pyret-id["string-split-all"].
 
-@examples{
-check:
-  string-split("string", "not found") is [list: "string"]
-  string-split("string", "g") is [list: "strin", ""]
-  string-split("string", "") is [list: "", "string"]
-  string-split("a-b-c", "-") is [list: "a", "b-c"]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-split("string", "not found"), ["string"]);
+    assertEquals(string-split("string", "g"), ["strin", ""]);
+    assertEquals(string-split("string", ""), ["", "string"]);
+    assertEquals(string-split("a-b-c", "-"), ["a", "b-c"]);
+}}
 
   @function["string-split-all" #:contract (a-arrow S S) #:return (L-of S)]
 
@@ -381,16 +356,14 @@ end
   an empty string to the beginning or end of the list, respectively.  The empty
   string matches in between every pair of characters.
 
-@examples{
-check:
-  string-split-all("string", "not found") is [list: "string"]
-  string-split-all("a-b-c", "-") is [list: "a", "b", "c"]
-  string-split-all("split on spaces", " ") is [list: "split", "on", "spaces"]
-  string-split-all("explode", "") is [list: "e", "x", "p", "l", "o", "d", "e"]
-  string-split-all("bananarama", "na") is [list: "ba", "", "rama"]
-  string-split-all("bananarama", "a") is [list: "b", "n", "n", "r", "m", ""]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-split-all("string", "not found"), ["string"]);
+    assertEquals(string-split-all("a-b-c", "-"), ["a", "b", "c"]);
+    assertEquals(string-split-all("split on spaces", " "), ["split", "on", "spaces"]);
+    assertEquals(string-split-all("explode", ""), ["e", "x", "p", "l", "o", "d", "e"]);
+    assertEquals(string-split-all("bananarama", "na"), ["ba", "", "rama"]);
+    assertEquals(string-split-all("bananarama", "a"), ["b", "n", "n", "r", "m", ""]);
+}}
   @function["string-explode" #:contract (a-arrow S (L-of S)) #:return (L-of S)]
 
   A shorthand for @pyret{string-split-all(s, "")}.
@@ -400,12 +373,10 @@ end
 Returns a @pyret{String} containing the character at the string index @pyret{n}
 from @pyret{String} @pyret{n}.
 
-@examples{
-check:
-  string-char-at("abc", 1) is "b"
-  string-char-at("a", 0) is "a"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-char-at("abc", 1), "b");
+    assertEquals(string-char-at("a", 0), "a");
+}}
 
   @function["string-toupper" #:contract (a-arrow S S) #:return S]
 
@@ -420,26 +391,22 @@ without an uppercase equivalent are left alone.  Note that because of
 characters like @pyret{ß}, the length of the input is not guaranteed to
 match the length of the output.
 
-@examples{
-check:
-  string-to-upper("a") is "A"
-  string-to-upper("I'm not yelling!") is "I'M NOT YELLING!"
-  string-to-upper("ß") is "SS"
-  string-to-upper("λαμβδα") is "ΛΑΜΒΔΑ"
-  string-to-upper("😊") is "😊"
-  string-to-upper(" ﷵ‎") is " ﷵ‎"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-to-upper("a"), "A");
+    assertEquals(string-to-upper("I'm not yelling!"), "I'M NOT YELLING!");
+    assertEquals(string-to-upper("ß"), "SS");
+    assertEquals(string-to-upper("λαμβδα"), "ΛΑΜΒΔΑ");
+    assertEquals(string-to-upper("😊"), "😊");
+    assertEquals(string-to-upper(" ﷵ‎"), " ﷵ‎");
+}}
 
 When performing case-insensitive comparisons, it can be useful to convert both
 strings to uppercase first:
 
 
-@examples{
-check:
-  string-to-upper("E.E. Cummings") is string-to-upper("e.e. cummings")
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-to-upper("E.E. Cummings"), string-to-upper("e.e. cummings"));
+}}
 
 
   @function["string-tolower" #:contract (a-arrow S S) #:return S]
@@ -450,14 +417,12 @@ end
 
 Converts a @pyret{String} to all lower case.
   
-@examples{
-check:
-  string-to-lower("A") is "a"
-  string-to-lower("I'M NOT YELLING!") is "i'm not yelling!"
-  string-to-lower("SS") is "ss"
-  string-to-lower("ΛΑΜΒΔΑ") is "λαμβδα"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-to-lower("A"), "a");
+    assertEquals(string-to-lower("I'M NOT YELLING!"), "i'm not yelling!");
+    assertEquals(string-to-lower("SS"), "ss");
+    assertEquals(string-to-lower("ΛΑΜΒΔΑ"), "λαμβδα");
+}}
 
   @function["string-to-code-point" #:contract (a-arrow S N) #:return N]
 
@@ -472,13 +437,12 @@ end
   (@url["http://en.wikipedia.org/wiki/Code_point"]).
   
 
-  @examples{
-check:
-  string-to-code-point("a") is 97
-  string-to-code-point("\n") is 10
-  string-to-code-point("λ") is 955
-end
-  }
+  @examples{@"@"Check void test() {
+    assertEquals(string-to-code-point("a"), 97);
+    assertEquals(string-to-code-point("
+"), 10);
+    assertEquals(string-to-code-point("λ"), 955);
+}}
 
   @function["string-to-code-points" #:contract (a-arrow S (L-of N)) #:return (L-of N)]
 
@@ -486,14 +450,12 @@ end
   strings are encoded in such a way that some characters correspond to two code
   points (see the note in @pyret-id{string-to-code-point}).
 
-@examples{
-check:
-  string-to-code-points("") is [list:]
-  string-to-code-points("abc") is [list: 97, 98, 99]
-  string-to-code-points("😊") is [list: 55357, 56842]
-  string-to-code-points("𝄞") is [list: 55348, 56606] 
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-to-code-points(""), []);
+    assertEquals(string-to-code-points("abc"), [97, 98, 99]);
+    assertEquals(string-to-code-points("😊"), [55357, 56842]);
+    assertEquals(string-to-code-points("𝄞"), [55348, 56606]);
+}}
 
   @function["string-from-code-point" #:contract (a-arrow N S) #:return S]
 
@@ -504,24 +466,21 @@ end
 
   Converts the code point @pyret{code} to a Pyret string.
 
-@examples{
-check:
-  string-from-code-point(97) is "a"
-  string-from-code-point(10) is "\n"
-  string-from-code-point(955) is "λ"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-from-code-point(97), "a");
+    assertEquals(string-from-code-point(10), "
+");
+    assertEquals(string-from-code-point(955), "λ");
+}}
 
   @function["string-from-code-points" #:contract (a-arrow (L-of N) S) #:return S]
 
   Converts from a list of code points to a Pyret string.
 
-@examples{
-check:
-  string-from-code-points([list:]) is ""
-  string-from-code-points([list: 97, 98, 99]) is "abc"
-  string-from-code-points([list: 55348, 56606]) is "𝄞"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(string-from-code-points([]), "");
+    assertEquals(string-from-code-points([97, 98, 99]), "abc");
+    assertEquals(string-from-code-points([55348, 56606]), "𝄞");
+}}
 
 }

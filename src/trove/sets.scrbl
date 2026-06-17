@@ -182,9 +182,7 @@ below.
 Some methods, like @pyret-method["Set" "union"], combine multiple sets.  The
 kind of set on the left-hand side determines the kind of resulting set.  For example, in
 
-@pyret-block{
-  [list-set: 1, 2].union([tree-set: 3, 4])
-}
+@pyret-block{[list-set: 1, 2].union([tree-set: 3, 4]);}
 
 the result will be a @pyret{list-set}.
 }
@@ -196,14 +194,11 @@ provided for other data. Therefore, using the @pyret{include}
 form is likely to cause name-clashes. It is wiser to import sets using a prefix name and
 use the names below through that prefix.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
-
-check:
-  S.list-to-list-set([L.list: 1, 2, 1, 2]) is [S.list-set: 2, 1]
-end
-}
+@"@"Check void test() {
+    assertEquals(S.list-to-list-set([L.list: 1, 2, 1, 2]), [S.list-set: 2, 1]);
+}}
 
 @section{Constructing Sets}
 
@@ -212,17 +207,13 @@ end
 Constructs a set out of the @pyret{elt}s, representing them as a list. Raises an exception
 if the elements don't support equality.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
-
-check:
-  [S.list-set: 1, 2, 3] is [S.list-set: 1, 2, 3]
-  [S.list-set: 1, 2, 2] is [S.list-set: 1, 2]
-  [S.list-set: [L.list: 1], [L.list: 1], [L.list: 2]] is
-    [S.list-set: [L.list: 2], [L.list: 1]]
-end
-}
+@"@"Check void test() {
+    assertEquals([S.list-set: 1, 2, 3], [S.list-set: 1, 2, 3]);
+    assertEquals([S.list-set: 1, 2, 2], [S.list-set: 1, 2]);
+    assertEquals([S.list-set: [L.list: 1], [L.list: 1], [L.list: 2]], [S.list-set: [L.list: 2], [L.list: 1]]);
+}}
 
 @singleton-doc["Set" "empty-list-set" (S-of "a")]
 
@@ -233,16 +224,13 @@ An empty set, represented as a list.
 Constructs a set out of the @pyret{elt}s, representing them as a tree. Raises an exception
 if the elements don't support the @pyret{<} operator via @pyret{_lessthan}.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
-
-check:
-  [S.tree-set: 1, 2, 3] is [S.tree-set: 1, 2, 3]
-  [S.tree-set: 1, 2, 2] is [S.tree-set: 1, 2]
-  [S.tree-set: [L.list: 1], [L.list: 1], [L.list: 2]] raises "binop-error"
-end
-}
+@"@"Check void test() {
+    assertEquals([S.tree-set: 1, 2, 3], [S.tree-set: 1, 2, 3]);
+    assertEquals([S.tree-set: 1, 2, 2], [S.tree-set: 1, 2]);
+    assertRaises(() -> { [S.tree-set: [L.list: 1], [L.list: 1], [L.list: 2]] }, "binop-error");
+}}
 
 @singleton-doc["Set" "empty-tree-set" (S-of "a")]
 
@@ -260,15 +248,12 @@ Another name for @pyret-id{list-set}.
 
 Constructs a list-set out of the elements in the list.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
-
-check:
-  s1 = S.list-to-list-set([L.list: 1, 2, 3, 3, 3])
-  s1 is [S.list-set: 1, 2, 3]
-end
-}
+@"@"Check void test() {
+    s1 = S.list-to-list-set([L.list: 1, 2, 3, 3, 3]);
+    assertEquals(s1, [S.list-set: 1, 2, 3]);
+}}
 
 
 @function["list-to-tree-set"
@@ -279,15 +264,12 @@ end
 
 Constructs a tree-set out of the elements in the list.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
-
-check:
-  s1 = S.list-to-tree-set([L.list: 1, 2, 3, 3, 3])
-  s1 is [S.tree-set: 1, 2, 3]
-end
-}
+@"@"Check void test() {
+    s1 = S.list-to-tree-set([L.list: 1, 2, 3, 3, 3]);
+    assertEquals(s1, [S.tree-set: 1, 2, 3]);
+}}
 
 
 @function["list-to-set"
@@ -304,69 +286,57 @@ Another name for @pyret-id["list-to-list-set"].
 
 Constructs a new set containing the added element if it was not already present.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  s1 = [S.set: 1, 2, 3]
-  s2 = s1.add(4)
-  s3 = s1.add(1)
-  s2 is-not s1
-  s3 is s1
-  s1.size() is 3
-  s2.size() is 4
-  s3.size() is 3
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    s1 = [S.set: 1, 2, 3];
+    s2 = s1.add(4);
+    s3 = s1.add(1);
+    assertNotEquals(s2, s1);
+    assertEquals(s3, s1);
+    assertEquals(s1.size(), 3);
+    assertEquals(s2.size(), 4);
+    assertEquals(s3.size(), 3);
+}}
 
 @set-method["remove"]
 
 Constructs a new set removing the element if it was present. It is @emph{not} an error to
 remove an element that is not in the set; it simply leaves the set unchanged.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  s1 = [S.set: 1, 2, 3]
-  s2 = s1.remove(3)
-  s3 = s1.remove(4)
-  s2 is-not s1
-  s3 is s1
-  s1.size() is 3
-  s2.size() is 2
-  s3.size() is 3
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    s1 = [S.set: 1, 2, 3];
+    s2 = s1.remove(3);
+    s3 = s1.remove(4);
+    assertNotEquals(s2, s1);
+    assertEquals(s3, s1);
+    assertEquals(s1.size(), 3);
+    assertEquals(s2.size(), 2);
+    assertEquals(s3.size(), 3);
+}}
 
 @set-method["size" #:alt-docstrings "" #:contract (a-arrow (S-of "a") N) #:return N]
 
 Computes the number of elements in the set.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  [S.set: 1, 2, 3].size() is 3
-  [S.tree-set: 1, 2, 3].size() is 3
-  [S.list-set: 1, 2, 3].size() is 3
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    assertEquals([S.set: 1, 2, 3].size(), 3);
+    assertEquals([S.tree-set: 1, 2, 3].size(), 3);
+    assertEquals([S.list-set: 1, 2, 3].size(), 3);
+}}
 
 @set-method["member"]
 
 Checks if @pyret{elt} is contained within this set (checking membership with
 @pyret-id["equal-always" "equality"]).
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  s1 = [S.set: 1, 2, 3]
-  s1.member(1) is true
-  s1.member(4) is false
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    s1 = [S.set: 1, 2, 3];
+    assertEquals(s1.member(1), true);
+    assertEquals(s1.member(4), false);
+}}
 
 @set-method["pick" #:alt-docstrings "" #:contract (a-arrow (S-of "a") (P-of "a" (S-of "a"))) #:return (P-of "a" (S-of "a"))]
 
@@ -378,135 +348,97 @@ Otherwise it returns a @pyret-id["pick-some" "pick"],
 whose @pyret{elt} field stores the picked value and
 whose @pyret{rest} field stores the rest of the set.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import pick as P
-
-check:
-  fun sum-of-set(s :: S.Set):
-    cases(P.Pick) s.pick():
-      | pick-none => 0
-      | pick-some(elt, rest) => elt + sum-of-set(rest)
-    end
-  end
-
-  sum-of-set([S.set: 1, 2, 3, 4]) is 10
-  sum-of-set([S.tree-set: 1, 2, 3, 4]) is 10
-
-  [S.set:].pick() is P.pick-none
-  [S.set: 1].pick() is P.pick-some(1, S.empty-list-set)
-end
-}
+@"@"Check void test() {
+    Object sum-of-set(Object s) {
+        return switch (s.pick()) {
+            case Pick-none: yield 0;
+            case Pick-some(elt, rest): yield elt + sum-of-set(rest);
+        }
+    }
+    assertEquals(sum-of-set([S.set: 1, 2, 3, 4]), 10);
+    assertEquals(sum-of-set([S.tree-set: 1, 2, 3, 4]), 10);
+    assertEquals([S.set: ].pick(), P.pick-none);
+    assertEquals([S.set: 1].pick(), P.pick-some(1, S.empty-list-set));
+}}
 
 It is very important to note that
 the order of elements returned from @pyret-method["Set" "pick"] is
 non-deterministic, so multiple calls to @pyret-method["Set" "pick"] may not
 produce the same result for the same set! Thus, in the following program:
 
-@pyret-block[#:show-try-it #t]{
-import sets as S
+@pyret-block[#:show-try-it #t]{import sets as S
 import pick as P
-
-check:
-  [S.set: 1, 2].pick() is P.pick-some(1, [S.set: 2])
-  [S.set: 1, 2].pick() is P.pick-some(2, [S.set: 1])
-end
-}
+@"@"Check void test() {
+    assertEquals([S.set: 1, 2].pick(), P.pick-some(1, [S.set: 2]));
+    assertEquals([S.set: 1, 2].pick(), P.pick-some(2, [S.set: 1]));
+}}
 
 Sometimes both tests will pass, sometimes one will pass and the other
 fail, and sometimes both tests will fail! We can, however, write the
 following tests that will @emph{always} pass:
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
 import pick as P
-
-check:
-  fun one-of(e, l): l.member(e) end
-
-  [S.set: 1, 2].pick().elt is%(one-of) [L.list: 1, 2]
-  [S.set: 1, 2].pick().rest is%(one-of)
-  [L.list: [S.set: 1], [S.set: 2]]
-end
-}
+@"@"Check void test() {
+    Object one-of(e, l) {
+        return l.member(e);
+    }
+    assertEquals([S.set: 1, 2].pick().elt, [L.list: 1, 2]);
+    assertEquals([S.set: 1, 2].pick().rest, [L.list: [S.set: 1], [S.set: 2]]);
+}}
 
 @set-method["union"]
 
 Computes the union of two sets.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  [S.list-set: 1, 2, 3].union([S.tree-set: 2, 3, 4])
-    is [S.list-set: 1, 2, 3, 4]
-
-  S.empty-tree-set.union([S.list-set: 3, 4, 4])
-    is [S.tree-set: 3, 4]
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    assertEquals([S.list-set: 1, 2, 3].union([S.tree-set: 2, 3, 4]), [S.list-set: 1, 2, 3, 4]);
+    assertEquals(S.empty-tree-set.union([S.list-set: 3, 4, 4]), [S.tree-set: 3, 4]);
+}}
 
 @set-method["intersect"]
 
 Computes the intersection of two sets.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  [S.list-set: 1, 2, 3].intersect([S.tree-set: 2, 3, 4])
-    is [S.list-set: 2, 3]
-
-  S.empty-tree-set.intersect([S.list-set: 3, 4, 4])
-    is [S.tree-set: ]
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    assertEquals([S.list-set: 1, 2, 3].intersect([S.tree-set: 2, 3, 4]), [S.list-set: 2, 3]);
+    assertEquals(S.empty-tree-set.intersect([S.list-set: 3, 4, 4]), [S.tree-set: ]);
+}}
 
 @set-method["difference"]
 
 Computes the difference of two sets.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  [S.list-set: 1, 2, 3].difference([S.tree-set: 2, 3, 4])
-    is [S.list-set: 1]
-
-  S.empty-tree-set.difference([S.list-set: 3, 4, 4])
-    is [S.tree-set: ]
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    assertEquals([S.list-set: 1, 2, 3].difference([S.tree-set: 2, 3, 4]), [S.list-set: 1]);
+    assertEquals(S.empty-tree-set.difference([S.list-set: 3, 4, 4]), [S.tree-set: ]);
+}}
 
 @set-method["symmetric-difference"]
 
 Computes the symmetric difference of two sets.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  [S.list-set: 1, 2, 3].symmetric-difference([S.tree-set: 2, 3, 4])
-    is [S.list-set: 1, 4]
-
-  S.empty-tree-set.symmetric-difference([S.list-set: 3, 4, 4])
-    is [S.tree-set: 3, 4]
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    assertEquals([S.list-set: 1, 2, 3].symmetric-difference([S.tree-set: 2, 3, 4]), [S.list-set: 1, 4]);
+    assertEquals(S.empty-tree-set.symmetric-difference([S.list-set: 3, 4, 4]), [S.tree-set: 3, 4]);
+}}
 
 @set-method["to-list"]
 
 Converts the set into a list. There is no guarantee about the order of elements in the list.
 
-@examples[#:show-try-it #t]{
-import sets as S
-
-check:
-  [S.list-set: 3, 1, 4, 1, 5, 9, 2].to-list().length() is 6
-  [S.tree-set: 8, 6, 7, 5, 3, 0, 9].to-list().length() is 7
-end
-}
+@examples[#:show-try-it #t]{import sets as S
+@"@"Check void test() {
+    assertEquals([S.list-set: 3, 1, 4, 1, 5, 9, 2].to-list().length(), 6);
+    assertEquals([S.tree-set: 8, 6, 7, 5, 3, 0, 9].to-list().length(), 7);
+}}
 
 @set-method["fold"]
 
@@ -514,18 +446,15 @@ Applies @pyret{f} to each element of the set along with the accumulator
 (starting with @pyret{base}) to produce a new value.  Traverses elements in an
 unspecified order.
 
-@examples[#:show-try-it #t]{
-import sets as S
+@examples[#:show-try-it #t]{import sets as S
 import lists as L
-
-check:
-  fun one-of(e, l): l.member(e) end
-
-  s = [S.tree-set: "1", "2", "3"]
-  result = s.fold(string-append, "")
-
-  result is%(one-of) [L.list: "123", "132", "213", "231", "312", "321"]
-end
-}
+@"@"Check void test() {
+    Object one-of(e, l) {
+        return l.member(e);
+    }
+    s = [S.tree-set: "1", "2", "3"];
+    result = s.fold(string-append, "");
+    assertEquals(result, [L.list: "123", "132", "213", "231", "312", "321"]);
+}}
 
 }

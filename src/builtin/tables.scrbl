@@ -103,13 +103,7 @@ columns, with optional annotations, and then any number of rows.  For example,
 this expression creates a table with three columns, @pyret{name}, @pyret{age},
 and @pyret{favorite-color}, and three rows:
 
-  @examples{
-my-table = table: name :: String, age :: Number, favorite-color :: String
-  row: "Bob", 12, "blue"
-  row: "Alice", 17, "green"
-  row: "Eve", 13, "red"
-end
-  }
+  @examples{my-table = table: name :: String ,age :: Number ,favorite-color :: String row: "Bob" ,12 ,"blue" row: "Alice" ,17 ,"green" row: "Eve" ,13 ,"red";}
 
 @margin-note{Indeed, @pyret{my-table} is used as a running example in much of
 the following.}
@@ -172,23 +166,16 @@ sharing, and copy the URL to get the Google ID as above.}
 
 Now you can load the spreadsheet into your Pyret program:
 
-@examples{
-import gdrive-sheets as GS
+@examples{import gdrive-sheets as GS
+imported-my-table = GS.load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI");}
 
-imported-my-table = 
-  GS.load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI")
-}
-
-You can use @pyret{include} instead of @pyret{import as...} to cut down on
+You can use @pyret{include} instead of @; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{import as...} to cut down on
 some typing by omitting the @tt{GS.} before the @pyret{tables} module
 functions.
 
-@examples{
-include gdrive-sheets
-
-imported-my-table = 
-  load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI")
-}
+@examples{import gdrive-sheets
+imported-my-table = load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI");}
 @margin-note{We'll use
 @pyret{import} and the prefix @tt{GS.} in the following examples.  If you
 use @pyret{include}, omit @tt{GS.} where used below.}
@@ -229,20 +216,10 @@ one sheet, called @tt{3-rows},
 and there is a header row that should be ignored by the importer, so the
 @pyret{source:} expression would be written as illustrated below.
 
-@examples{
-import gdrive-sheets as GS
+@examples{import gdrive-sheets as GS
 import data-source as DS
-
-imported-my-table = 
-  GS.load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI")
-
-my-table = load-table: name :: String, age :: Number, favorite-color :: String
-  source: imported-my-table.sheet-by-name("3-rows", true)
-  sanitize name using DS.string-sanitizer
-  sanitize age using DS.strict-num-sanitizer
-  sanitize favorite-color using DS.string-sanitizer
-end
-}
+imported-my-table = GS.load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI");
+my-table = load-table name :: String ,age :: Number ,favorite-color :: String source: imported-my-table.sheet-by-name("3-rows", true) sanitize name using DS.string-sanitizer sanitize age using DS.strict-num-sanitizer sanitize favorite-color using DS.string-sanitizer;}
 
 In general, it is @italic{safest} to sanitize @italic{every} input column, since it
 is the only way to guarantee that the data source will not guess the column's
@@ -269,16 +246,10 @@ The @pyret{select} expression can be used to create a new table from a subset
 of the columns of an existing one.  For example, we can get just the names
 and ages from @pyret{my-table} above:
 
-@examples{
-names-and-ages = select name, age from my-table end
-check:
-  names-and-ages is table: name, age
-    row: "Bob", 12
-    row: "Alice", 17
-    row: "Eve", 13
-  end
-end
-}
+@examples{names-and-ages = select name ,age from my-table;
+@"@"Check void test() {
+    assertEquals(names-and-ages, table: name ,age row: "Bob" ,12 row: "Alice" ,17 row: "Eve" ,13);
+}}
 
   @section{Filtering Tables}
 
@@ -289,28 +260,18 @@ used in the body of the @pyret{sieve} expression.
 For instance, we can find the individuals in @pyret{my-table} who are old
 enough to drive in the United States.
 
-@pyret-block[#:style "good-ex"]{
-can-drive = sieve my-table using age:
-  age >= 16
-end
-check:
-  can-drive is table: name, age, favorite-color
-    row: "Alice", 17, "green"
-  end
-end
-}
+@pyret-block[#:style "good-ex"]{can-drive = sieve my-table using age age >= 16;
+@"@"Check void test() {
+    assertEquals(can-drive, table: name ,age ,favorite-color row: "Alice" ,17 ,"green");
+}}
 
 Note that the @pyret{sieve} block must explicitly list the columns used to
 filter out values with @pyret{using}.  The following would signal an undefined
 name error for @pyret{age}, because names being used in the expression body
 must be listed:
 
-@pyret-block[#:style "bad-ex"]{
-can-drive = sieve my-table using name:
-  # age is not visible inside of this expression
-  age >= 16
-end
-}
+@pyret-block[#:style "bad-ex"]{can-drive = sieve my-table using name // age is not visible inside of this expression
+age >= 16;}
 
   @section{Ordering Tables}
 
@@ -318,30 +279,16 @@ To arrange the rows of a table in some particular order, use an @pyret{order}
 expression.  This can be done with any column whose
 type supports the use of @pyret{<} and @pyret{>}, including @g-id{String}s. 
 
-@examples{
-name-ordered = order my-table:
-  name ascending
-end
-check:
-  name-ordered is table: name, age, favorite-color
-    row: "Alice", 17, "green"
-    row: "Bob", 12, "blue"
-    row: "Eve", 13, "red"
-  end
-end
-}
+@examples{name-ordered = order my-table name ascending;
+@"@"Check void test() {
+    assertEquals(name-ordered, table: name ,age ,favorite-color row: "Alice" ,17 ,"green" row: "Bob" ,12 ,"blue" row: "Eve" ,13 ,"red");
+}}
 
 Tables can be sorted by multiple columns.  In general you may select as many
 columns as desired, and can mix and match @pyret{ascending} and
 @pyret{descending} sorts.  No column can be mentioned more than once.
 
-@pyret-block{
-order some-table:
-  column1 ascending,
-  column3 descending,
-  column2 ascending
-end
-}
+@pyret-block{order some-table column1 ascending ,column3 descending ,column2 ascending;}
 
 This example will first sort the data in increasing order on @tt{column1}.  If there
 are any duplicate values in @tt{column1}, each such group of rows will be sorted in
@@ -357,18 +304,10 @@ instead return a new one).
 
 Suppose we find out that @pyret{my-table} is wrong and everyone is actually
 a year older than it says they are. We can fix our data as follows:
-@pyret-block{
-age-fixed = transform my-table using age:
-  age: age + 1
-end
-check:
-  age-fixed is table: name, age, favorite-color
-    row: "Bob", 13, "blue"
-    row: "Alice", 18, "green"
-    row: "Eve", 14, "red"
-  end
-end
-}
+@pyret-block{age-fixed = transform my-table using age age age + 1;
+@"@"Check void test() {
+    assertEquals(age-fixed, table: name ,age ,favorite-color row: "Bob" ,13 ,"blue" row: "Alice" ,18 ,"green" row: "Eve" ,14 ,"red");
+}}
 
 
 @section{Extracting Columns from Tables}
@@ -381,12 +320,10 @@ Pyret functions.
 
 Suppose, for example, we wanted just the names of each person in
 @pyret{my-table}. We could pull those names out as follows:
-@pyret-block{
-name-list = extract name from my-table end
-check:
-  name-list is [list: "Bob", "Alice", "Eve"]
-end
-}
+@pyret-block{name-list = extract name from my-table;
+@"@"Check void test() {
+    assertEquals(name-list, ["Bob", "Alice", "Eve"]);
+}}
 
 @section{Extending Tables}
 
@@ -408,38 +345,17 @@ One example of this is a column which tells
 whether the @pyret{age} field of a given row in @pyret{my-table} indicates
 that the person in that row is old enough drive in the United States or not,
 that is, whether that person is at least 16:
-@examples{
-can-drive-col = extend my-table using age:
-  can-drive: age >= 16
-end
-check:
-  can-drive-col is table: name, age, can-drive
-    row: "Bob", 12, false
-    row: "Alice", 17, true
-    row: "Eve", 13, false
-  end
-end
-}
+@examples{can-drive-col = extend my-table using age can-drive age >= 16;
+@"@"Check void test() {
+    assertEquals(can-drive-col, table: name ,age ,can-drive row: "Bob" ,12 ,false row: "Alice" ,17 ,true row: "Eve" ,13 ,false);
+}}
 
 Another example creates a new table including baseball players'
 calculated batting average and slugging percentage in extended
 columns:
 
-@examples{
-batting = table: batter :: String, 
-  at-bats :: Number, singles :: Number, doubles :: Number, 
-  triples :: Number, home-runs :: Number
-  row: "Julia", 20, 4, 2, 0, 0
-  row: "Vivian", 25, 6, 1, 1, 1
-  row: "Eddie", 28, 5, 2, 0, 2
-end
-batting-avg-and-slugging = extend batting 
-  using at-bats, singles, doubles, triples, home-runs:
-  batting-average: (singles + doubles + triples + home-runs) / at-bats,
-  slugging-percentage: (singles + (doubles * 2) + 
-    (triples * 3) + (home-runs * 4)) / at-bats
-end
-}
+@examples{batting = table: batter :: String ,at-bats :: Number ,singles :: Number ,doubles :: Number ,triples :: Number ,home-runs :: Number row: "Julia" ,20 ,4 ,2 ,0 ,0 row: "Vivian" ,25 ,6 ,1 ,1 ,1 row: "Eddie" ,28 ,5 ,2 ,0 ,2;
+batting-avg-and-slugging = extend batting using at-bats ,singles ,doubles ,triples ,home-runs batting-average (singles + doubles + triples + home-runs) / at-bats ,slugging-percentage (singles + (doubles * 2) + (triples * 3) + (home-runs * 4)) / at-bats;}
 
 @(image "src/builtin/baseball.png")
 
@@ -470,22 +386,10 @@ the running sum will be the added
 value of the cell in the selected column plus all the cells
 @italic{above} the cell in the same column.
 
-@examples{
-import tables as T
-dem-primary-delegates = table: state :: String, clinton :: Number, 
-  sanders :: Number
-  row: "Iowa", 29, 21
-  row: "New Hampshire", 15, 16
-  row: "Nevada", 27, 16
-  row: "South Carolina", 44, 14
-end
-running-total-delegates = extend dem-primary-delegates 
-  using clinton, sanders:
-  total-clinton: T.running-sum of clinton,
-  total-sanders: T.running-sum of sanders
-end
-print(running-total-delegates)
-}
+@examples{import tables as T
+dem-primary-delegates = table: state :: String ,clinton :: Number ,sanders :: Number row: "Iowa" ,29 ,21 row: "New Hampshire" ,15 ,16 row: "Nevada" ,27 ,16 row: "South Carolina" ,44 ,14;
+running-total-delegates = extend dem-primary-delegates using clinton ,sanders total-clinton T.running-sum of clinton ,total-sanders T.running-sum of sanders;
+print(running-total-delegates);}
 
 @(image "src/builtin/primaries.png")
 
@@ -501,20 +405,9 @@ Since there's no value before the first row, Pyret behaves as if it were zero.
 @italic{not} calculate a running difference, only the difference between
 the selected row and the single row above.}
 
-@examples{
-import tables as T
-test-scores = table: year :: Number, 
-  math-score :: Number, reading-score :: Number
-  row: 2014, 87, 89
-  row: 2015, 98, 93
-  row: 2016, 79, 83
-  row: 2017, 85, 90
-end
-changes-by-year = extend test-scores using math-score, reading-score:
-  math-change-from-previous: T.difference of math-score,
-  reading-change-from-previous: T.difference of reading-score
-end
-}
+@examples{import tables as T
+test-scores = table: year :: Number ,math-score :: Number ,reading-score :: Number row: 2014 ,87 ,89 row: 2015 ,98 ,93 row: 2016 ,79 ,83 row: 2017 ,85 ,90;
+changes-by-year = extend test-scores using math-score ,reading-score math-change-from-previous T.difference of math-score ,reading-change-from-previous T.difference of reading-score;}
 @(image "src/builtin/difference-table.png")                           
 }
 
@@ -526,28 +419,12 @@ end
 Like @pyret-id{difference}, except the starting value is specified, instead
 of defaulting to 0.
 
-@examples{
-# calculates velocity of a dropping ball
-ball-info = table: pos-y
-  row: 25
-  row: 24
-  row: 21
-  row: 16
-  row: 0
-end
-with-velocity = extend ball-info using pos-y:
-  vel-y: T.difference-from(25) of pos-y
-end
-check:
-  with-velocity is table: pos-y, vel-y
-    row: 25, 0
-    row: 24, -1
-    row: 21, -3
-    row: 16, -5
-    row: 0, -16
-  end
-end
-}
+@examples{// calculates velocity of a dropping ball
+ball-info = table: pos-y row: 25 row: 24 row: 21 row: 16 row: 0;
+with-velocity = extend ball-info using pos-y vel-y T.difference-from(25) of pos-y;
+@"@"Check void test() {
+    assertEquals(with-velocity, table: pos-y ,vel-y row: 25 ,0 row: 24 ,-1 row: 21 ,-3 row: 16 ,-5 row: 0 ,-16);
+}}
 
 }
 
@@ -558,27 +435,12 @@ value in each row is equal to the
 mean of @italic{all} values in the designated column in the current row and
 above.
 
-@examples{
-import tables as T
-my-grades = table: score :: Number
-  row: 87
-  row: 91
-  row: 98
-  row: 82 
-end
-with-running-mean = extend my-grades
-  using score:
-  mean: T.running-mean of score
-end
-check:
-  with-running-mean is table: score, mean
-    row: 87, 87
-    row: 91, 89
-    row: 98, 92
-    row: 82, 89.5
-  end
-end
-}
+@examples{import tables as T
+my-grades = table: score :: Number row: 87 row: 91 row: 98 row: 82;
+with-running-mean = extend my-grades using score mean T.running-mean of score;
+@"@"Check void test() {
+    assertEquals(with-running-mean, table: score ,mean row: 87 ,87 row: 91 ,89 row: 98 ,92 row: 82 ,89.5);
+}}
 
 @value["running-max" (Red-of N N N)]
 @value["running-min" (Red-of N N N)]
@@ -587,28 +449,11 @@ Creates a new column that contains the maximum
 or minimum value in the selected column in the current row or
 above.
 
-@examples{
-some-numbers = table: n :: Number
-  row: 4
-  row: 9
-  row: 3
-  row: 1
-  row: 10
-end
-with-min-max = extend some-numbers using n:
-  max: T.running-max of n,
-  min: T.running-min of n
-end
-check:
-  with-min-max is table: n, max, min
-    row: 4, 4, 4
-    row: 9, 9, 4
-    row: 3, 9, 3
-    row: 1, 9, 1
-    row: 10, 10, 1
-  end
-end
-}
+@examples{some-numbers = table: n :: Number row: 4 row: 9 row: 3 row: 1 row: 10;
+with-min-max = extend some-numbers using n max T.running-max of n ,min T.running-min of n;
+@"@"Check void test() {
+    assertEquals(with-min-max, table: n ,max ,min row: 4 ,4 ,4 row: 9 ,9 ,4 row: 3 ,9 ,3 row: 1 ,9 ,1 row: 10 ,10 ,1);
+}}
 
 
 @function["running-fold"
@@ -629,48 +474,22 @@ values in the selected column in the current row and above.
 The difference between @pyret{running-fold} and @pyret{running-reduce} is
 that @pyret{running-fold} requires an explicit @tt{start-value}.
                                             
-@examples{
-import tables as T
-count-if-driver = T.running-fold(0,
-  lam(sum, col): if col >= 16: 1 + sum else: sum end end)
-t = table: name, age
-  row: "Bob", 17
-  row: "Mary", 22
-  row: "Jane", 6
-  row: "Jim", 15
-  row: "Barbara", 30
-end
-with-driver-count = extend t using age:
-  total-drivers: count-if-driver of age
-end
-check:
-  with-driver-count is table: name, age, total-drivers
-    row: "Bob", 17, 1
-    row: "Mary", 22, 2
-    row: "Jane", 6, 2
-    row: "Jim", 15, 2
-    row: "Barbara", 30, 3
-  end
-end
-
-checks = table: check-number :: Number, withdrawal :: Number
-  row: 001, 50
-  row: 002, 100
-  row: 003, 500
-end
-with-checking-balance = extend checks using withdrawal:
-  current-balance: T.running-fold(1000,
-    lam(total, col): total - col end) of withdrawal
-end
-check:
-  with-checking-balance is table: check-number, withdrawal, current-balance
-    row: 001, 50, 950 
-    row: 002, 100, 850
-    row: 003, 500, 350
-  end
-end
-
+@examples{import tables as T
+count-if-driver = T.running-fold(0, (sum, col) -> if (col >= 16) {
+    return 1 + sum;
+} else {
+    return sum;
+});
+t = table: name ,age row: "Bob" ,17 row: "Mary" ,22 row: "Jane" ,6 row: "Jim" ,15 row: "Barbara" ,30;
+with-driver-count = extend t using age total-drivers count-if-driver of age;
+@"@"Check void test() {
+    assertEquals(with-driver-count, table: name ,age ,total-drivers row: "Bob" ,17 ,1 row: "Mary" ,22 ,2 row: "Jane" ,6 ,2 row: "Jim" ,15 ,2 row: "Barbara" ,30 ,3);
 }
+checks = table: check-number :: Number ,withdrawal :: Number row: 001 ,50 row: 002 ,100 row: 003 ,500;
+with-checking-balance = extend checks using withdrawal current-balance T.running-fold(1000, (total, col) -> total - col) of withdrawal;
+@"@"Check void test() {
+    assertEquals(with-checking-balance, table: check-number ,withdrawal ,current-balance row: 001 ,50 ,950 row: 002 ,100 ,850 row: 003 ,500 ,350);
+}}
 
 While the reducers found in the @tt{tables} module should cover most all
 use cases, there may be times when one would like to create a reducer of their
@@ -700,15 +519,8 @@ previous row.
 
 To illustrate, a @pyret{running-mean} reducer which is equivalent to the
 one provided by the @tt{tables} module could be implemented as follows:
-@examples{
-import tables as T
-running-mean :: T.Reducer<{Number; Number}, Number, Number> = {
-  one: lam(n): {{n; 1}; n} end,
-  reduce: lam({sum; count}, n):
-    { {sum + n; count + 1}; (sum + n) / (count + 1) }
-  end
-}
-}
+@examples{import tables as T
+running-mean = {one (n) -> /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {n ;1} ;n}, reduce (/* tuple-binding (deferred) */, n) -> /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {sum + n ;count + 1} ;(sum + n) / (count + 1)}}}
 }
 
 
@@ -728,6 +540,7 @@ over them.
 To see why this is a significant restriction, consider this (non-working)
 example:
 
+@; TODO(pyret2jayret): Unexpected token '`', "```Return "... is not valid JSON
 @examples{
 fun sieve-by-large-number(t :: Table, colname :: String) -> Table:
   doc: ```Return a new table containing the rows of t whose column
@@ -784,12 +597,10 @@ columns.
 
 Produces a list of strings containing the names of the columns in the row.
 
-@examples{
-check:
-  r = [raw-row: {"city"; "NYC"}, {"pop"; 8500000}]
-  r.get-column-names() is [list: "city", "pop"]
-end
-}
+@examples{@"@"Check void test() {
+    r = [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"city" ;"NYC"}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"pop" ;8500000}];
+    assertEquals(r.get-column-names(), ["city", "pop"]);
+}}
 
 @row-method["get-value"
   #:contract (a-arrow Row S "Col")
@@ -801,13 +612,11 @@ an error if the value isn't found. Square-bracket (@tt{[]}) accessor syntax
 uses @tt{get-value}, which is often more pleasant to write than writing out
 @tt{get-value} fully.
 
-@examples{
-check:
-  r = [raw-row: {"city"; "NYC"}, {"pop"; 8500000}]
-  r.get-value("pop") is 8500000
-  r["pop"] is 850000
-end
-}
+@examples{@"@"Check void test() {
+    r = [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"city" ;"NYC"}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"pop" ;8500000}];
+    assertEquals(r.get-value("pop"), 8500000);
+    assertEquals(r["pop"], 850000);
+}}
 
 @row-method["get"
   #:contract (a-arrow Row S (O-of "Col"))
@@ -827,18 +636,12 @@ The type of all tables.
 
 A collection constructor that creates tables from @pyret-id["Row"] values.
 
-@examples{
-check:
-  t = [table-from-rows:
-    [raw-row: {"A"; 5}, {"B"; 7}, {"C"; 8}],
-    [raw-row: {"A"; 1}, {"B"; 2}, {"C"; 3}]
-  ]
-
-  t.length() is 2
-  t.column("A") is [list: 5, 1]
-  t.row-n(0) is [raw-row: {"A"; 5}, {"B"; 7}, {"C"; 8}]
-end
-}
+@examples{@"@"Check void test() {
+    t = [table-from-rows: [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"A" ;5}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"B" ;7}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"C" ;8}], [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"A" ;1}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"B" ;2}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"C" ;3}]];
+    assertEquals(t.length(), 2);
+    assertEquals(t.column("A"), [5, 1]);
+    assertEquals(t.row-n(0), [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"A" ;5}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"B" ;7}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"C" ;8}]);
+}}
 
 @collection-doc["table-from-columns" #:contract `(a-arrow ("elt" ,(a-tuple "String" (L-of "A"))) ,Table)]
 
@@ -846,18 +649,12 @@ A collection constructor that creates tables from columns, where each column is
 specified as a tuple of its name (as a @pyret-id["String" "<global>"]) and a
 @pyret-id["List" "lists"] of its values.
 
-@examples{
-check:
-  t = [table-from-columns:
-    {"a"; [list: 100, 200, 300]},
-    {"b"; [list: true, false, true]}
-  ]
-
-  t.length() is 3
-  t.column("a") is [list: 100, 200, 300]
-  t.row-n(2) is [raw-row: {"a"; 300}, {"b"; true}]
-end
-}
+@examples{@"@"Check void test() {
+    t = [table-from-columns: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"a" ;[100, 200, 300]}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"b" ;[true, false, true]}];
+    assertEquals(t.length(), 3);
+    assertEquals(t.column("a"), [100, 200, 300]);
+    assertEquals(t.row-n(2), [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"a" ;300}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"b" ;true}]);
+}}
 
 @function["table-from-column"
     #:contract (a-arrow S (L-of "A") Table)
@@ -867,16 +664,14 @@ end
 A function that creates a table of a single column from a column name, given as
 a @pyret-id["String" "<global>"] and a @pyret-id["List" "lists"] of values.
 
-@examples{
-check:
-  col = range(0, 100)
-  tfc = table-from-column("a", col)
-  tfc.length() is 100
-  tfc.column-names() is [list: "a"]
-  cs = tfc.all-columns()
-  cs.get(0) is col
-end
-}
+@examples{@"@"Check void test() {
+    col = range(0, 100);
+    tfc = table-from-column("a", col);
+    assertEquals(tfc.length(), 100);
+    assertEquals(tfc.column-names(), ["a"]);
+    cs = tfc.all-columns();
+    assertEquals(cs.get(0), col);
+}}
 
     }
 
@@ -897,16 +692,11 @@ Consumes one value for each column in the table, and produces a
 @pyret-id["Row"] value where each provided value is associated with the
 appropriate column.
 
-@examples{
-check:
-  t = table: city, pop
-    row: "NYC", 8.5 * 1000000
-    row: "SD", 1.4 * 1000000
-  end
-  r = t.row("Houston", 2.3 * 1000000)
-  r is [raw-row: {"city"; "Houston"}, {"pop"; 2.3 * 1000000}]
-end
-}
+@examples{@"@"Check void test() {
+    t = table: city ,pop row: "NYC" ,8.5 * 1000000 row: "SD" ,1.4 * 1000000;
+    r = t.row("Houston", 2.3 * 1000000);
+    assertEquals(r, [raw-row: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"city" ;"Houston"}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"pop" ;2.3 * 1000000}]);
+}}
 
 
 @table-method["build-column"
@@ -921,46 +711,24 @@ table containing an additional column with the given @tt{colname}, using
 Here, @tt{Col} is the type of the new column, determined by the type of value
 the @tt{compute-new-val} function returns.
 
-@examples{
-check:
-  foods = table: name, grams, calories
-    row: "Fries", 200, 500
-    row: "Milkshake", 400, 600
-  end
-  foods-with-cpg = table: name, grams, calories, cal-per-gram
-    row: "Fries", 200, 500, 500/200
-    row: "Milkshake", 400, 600, 600/400
-  end
+@examples{@"@"Check void test() {
+    foods = table: name ,grams ,calories row: "Fries" ,200 ,500 row: "Milkshake" ,400 ,600;
+    foods-with-cpg = table: name ,grams ,calories ,cal-per-gram row: "Fries" ,200 ,500 ,500/200 row: "Milkshake" ,400 ,600 ,600/400;
+    int add-cpg(Row r) {
+        return r["calories"] / r["grams"];
+    }
+    assertEquals(foods.build-column("cal-per-gram", add-cpg), foods-with-cpg);
+}}
 
-  fun add-cpg(r :: Row) -> Number:
-    r["calories"] / r["grams"]
-  end
-
-  foods.build-column("cal-per-gram", add-cpg) is foods-with-cpg
-end
-}
-
-@examples{
-fun add-index(t):
-  var ix = -1
-  t.build-column("index", lam(_) block:
-    ix := ix + 1
-    ix
-  end)
-where:
-  before = table: name
-      row: "Joe"
-      row: "Shriram"
-      row: "Kathi"
-    end
-  after = table: name, index
-      row: "Joe", 0
-      row: "Shriram", 1
-      row: "Kathi", 2
-    end
-  add-index(before) is after
-end
-}
+@examples{Object add-index(t) {
+    var ix = -1;
+    return t.build-column("index", (_) -> {
+        ix = ix + 1;
+        return ix;
+    });
+} where {
+    
+}}
 
 @table-method["add-column"
   #:contract (a-arrow Table S (L-of "Col") Table)
@@ -1126,12 +894,10 @@ been renamed to the new name.  The new name must not already be present in the
 table's columns.
 
 This operation is essentially the following:
-@pyret-block{
-fun rename-column(t :: Table, old-colname :: String, new-colname :: String):
-  new-t = t.build-column(new-colname, lam(r): r["old-colname"] end)
-  new-t.drop("old-colname")
-end
-}
+@pyret-block{Object rename-column(Table t, String old-colname, String new-colname) {
+    new-t = t.build-column(new-colname, (r) -> r["old-colname"]);
+    return new-t.drop("old-colname");
+}}
 except that in this code, the renamed column will appear as the rightmost column of
 the result, whereas using @pyret-method["Table" "table" "rename-column"], the renamed
 column will stay in its original place.
@@ -1145,27 +911,13 @@ Returns a new table containing all the rows of this table, followed by all the
 rows of the @pyret{bot-table}.  The column names must all match, but the order
 is not required to match.
 
-@examples{
-check:
-  t1 = table: city, pop
-    row: "Houston", 2400000
-    row: "NYC", 8400000
-  end
-  t2 = table: pop, city # deliberately reversed column order for this example
-    row: 1400000, "San Diego"
-  end
-  t1.stack(t2) is table: city, pop
-    row: "Houston", 2400000
-    row: "NYC", 8400000
-    row: "San Diego", 1400000
-  end
-  t2.stack(t1) is table: pop, city
-    row: 1400000, "San Diego"
-    row: 2400000, "Houston"
-    row: 8400000, "NYC"
-  end
-end
-}
+@examples{@"@"Check void test() {
+    t1 = table: city ,pop row: "Houston" ,2400000 row: "NYC" ,8400000;
+    t2 = table: pop ,city // deliberately reversed column order for this example
+    row: 1400000 ,"San Diego";
+    assertEquals(t1.stack(t2), table: city ,pop row: "Houston" ,2400000 row: "NYC" ,8400000 row: "San Diego" ,1400000);
+    assertEquals(t2.stack(t1), table: pop ,city row: 1400000 ,"San Diego" row: 2400000 ,"Houston" row: 8400000 ,"NYC");
+}}
     
 @table-method["empty"
   #:contract (a-arrow Table Table)
@@ -1175,15 +927,10 @@ end
 Returns a new table with the same columns as this table, but with all rows
 removed.
 
-@examples{
-check:
-  t1 = table: city, pop
-    row: "Houston", 2400000
-    row: "NYC", 8400000
-  end
-  t1.empty() is table: city, pop end
-end
-}
+@examples{@"@"Check void test() {
+    t1 = table: city ,pop row: "Houston" ,2400000 row: "NYC" ,8400000;
+    assertEquals(t1.empty(), table: city ,pop );
+}}
 
 @table-method["drop"
   #:contract (a-arrow Table S Table)
@@ -1193,22 +940,11 @@ end
 Returns a new table that contains all the data from this table except the
 specified column.
 
-@examples{
-check:
-  t1 = table: city, pop
-    row: "Houston", 2400000
-    row: "NYC", 8400000
-  end
-  t1.drop("city") is table: pop
-    row: 2400000
-    row: 8400000
-  end
-  t1.drop("pop") is table: city
-    row: "Houston"
-    row: "NYC"
-  end
-end
-}
+@examples{@"@"Check void test() {
+    t1 = table: city ,pop row: "Houston" ,2400000 row: "NYC" ,8400000;
+    assertEquals(t1.drop("city"), table: pop row: 2400000 row: 8400000);
+    assertEquals(t1.drop("pop"), table: city row: "Houston" row: "NYC");
+}}
 
 
 @;{
@@ -1221,25 +957,12 @@ Creates a new table containing all the rows from the tables where the column
 @tt{col1} in @tt{t1} is equal to the column @tt{col2} in @tt{t2}. If the column 
 
 
-@examples{
-check:
-  t1 = table: city, pop
-    row: "Houston", 2400000
-    row: "NYC", 8400000
-  end
-  t2 = table: city-name, latitude
-    row: "Houston", 29.7604
-    row: "NYC", 40.7128
-  end
-
-  result = table: city, pop, city-name, latitude
-    row: "Houston", 240000, "Houston", 29.7604
-    row: "NYC", 240000, "NYC", 40.7128
-  end
-
-  t1.join("city", t2, "city-name")  is result
-end
-}
+@examples{@"@"Check void test() {
+    t1 = table: city ,pop row: "Houston" ,2400000 row: "NYC" ,8400000;
+    t2 = table: city-name ,latitude row: "Houston" ,29.7604 row: "NYC" ,40.7128;
+    result = table: city ,pop ,city-name ,latitude row: "Houston" ,240000 ,"Houston" ,29.7604 row: "NYC" ,240000 ,"NYC" ,40.7128;
+    assertEquals(t1.join("city", t2, "city-name"), result);
+}}
 }
 
 }

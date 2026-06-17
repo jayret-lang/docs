@@ -140,14 +140,12 @@ value surrounded by quotes.
 
 Functions are simply represented as @tt{"<function>"}.
 
-@examples{
-check:
-  to-repr([list: 3, 5, 9]) is "[list: 3, 5, 9]"
-  torepr("Hello, world.") is "\"Hello, world.\""
-  to-repr("Hi.") == "Hi." is false
-  to-repr((lam(i): i + 1 end)) is "<function>"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(to-repr([3, 5, 9]), "[list: 3, 5, 9]");
+    assertEquals(torepr("Hello, world."), ""Hello, world."");
+    assertEquals(to-repr("Hi.") == "Hi.", false);
+    assertEquals(to-repr(((i) -> i + 1)), "<function>");
+}}
 
 @function["tostring" #:contract (a-arrow A S) #:alt-docstrings ""]
 @function["to-string" #:contract (a-arrow A S) #:alt-docstrings ""]
@@ -156,13 +154,11 @@ Creates a string representation of the value for display that is
 value-dependent in some cases, such as error messages.  For built-in types
 the output is identical to @pyret-id["torepr"], except for @pyret{String}s.
 
-@examples{
-check:
-  # tostring does not wrap strings in quotes
-  tostring("Hello, world.") is "Hello, world."
-  to-string("Hi.") == "Hi." is true
-end
-}
+@examples{@"@"Check void test() {
+    // tostring does not wrap strings in quotes
+    assertEquals(tostring("Hello, world."), "Hello, world.");
+    assertEquals(to-string("Hi.") == "Hi.", true);
+}}
 
 @function["raise" #:contract (a-arrow A No) #:alt-docstrings ""]
 
@@ -211,11 +207,9 @@ The type of the special value @pyret{nothing}, used in contexts where the
 program evaluates but has no meaningful answer by design (see, for example
 @pyret-id["each" "lists"]).  Note that @pyret{nothing} is still a value.
 
-@examples{
-check:
-  [list: nothing, nothing, nothing].length() is 3
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([nothing, nothing, nothing].length(), 3);
+}}
 }
 
 @type-spec["Function" (list)]{
@@ -245,13 +239,11 @@ particular value is.
 Returns @pyret{true} if the provided argument is a @pyret{Boolean},
  @pyret{false} if not.
 
-@examples{
-check:
-  is-boolean(true) is true
-  is-boolean(false) is true
-  is-boolean(0) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-boolean(true), true);
+    assertEquals(is-boolean(false), true);
+    assertEquals(is-boolean(0), false);
+}}
 
 @function["is-number" #:contract (a-arrow "Any" (a-id "Boolean" (xref "<global>" "Boolean")))]
 
@@ -265,14 +257,12 @@ Returns @pyret{true} if the provided argument is a @pyret{Number},
      @item{Complex numbers, e.g. @tt{1+2i}, where the real and imaginary components may be integers, rationals or inexact numbers}
   ]
 
-@examples{
-check:
-  is-number(-42) is true
-  is-number(~6.022e+23) is true
-  is-number(num-sqrt(2)) is true
-  is-number("4") is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-number(-42), true);
+    assertEquals(is-number(~6.022e+23), true);
+    assertEquals(is-number(num-sqrt(2)), true);
+    assertEquals(is-number("4"), false);
+}}
   
 @function["is-string" #:contract (a-arrow "Any" (a-id "Boolean" (xref "<global>" "Boolean")))]
 
@@ -290,68 +280,61 @@ Returns @pyret{true} if the provided argument is a @pyret{String},
   are valid as for single-line strings.  Leading and trailing whitespace of the string are
   trimmed.}
 
-@examples{
-check:
-  is-string("Hello, world!") is true
-  is-string(```Multi
+@examples{@"@"Check void test() {
+    assertEquals(is-string("Hello, world!"), true);
+    assertEquals(is-string(```Multi
             line
-            string```) is true
-end
-}
+            string```), true);
+}}
   
 @function["is-raw-array" #:contract (a-arrow "Any" (a-id "Boolean" (xref "<global>" "Boolean")))]
 
 Returns @pyret{true} if the provided argument is a @pyret{RawArray},
  @pyret{false} if not.
 
-@examples{
-check:
-  is-raw-array([raw-array: 3, "Jones", false]) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-raw-array([raw-array: 3, "Jones", false]), true);
+}}
 
 @function["is-nothing" #:contract (a-arrow "Any" (a-id "Boolean" (xref "<global>" "Boolean")))]
 
 Returns @pyret{true} if the provided argument is a @pyret{Nothing},
  @pyret{false} if not.
 
-@examples{
-check:
-  is-nothing(nothing) is true
-  is-nothing(0) is false
-  is-nothing(empty) is false
-  is-nothing("") is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-nothing(nothing), true);
+    assertEquals(is-nothing(0), false);
+    assertEquals(is-nothing(empty), false);
+    assertEquals(is-nothing(""), false);
+}}
 
 @function["is-function" #:contract (a-arrow "Any" (a-id "Function" (xref "<global>" "Boolean")))]
 
 Returns @pyret{true} if the provided argument is a @pyret{Function},
  @pyret{false} if not.
 
-@examples{
-fun inc(x): x + 1 end
-check:
-  is-function(inc) is true
-  is-function((lam(i): i + 1 end)) is true
-  is-function({(y :: Number) -> Number: y + 1}) is true
-  is-function(method(self): self + 1 end) is false
-end
+@examples{Object inc(x) {
+    return x + 1;
 }
+@"@"Check void test() {
+    assertEquals(is-function(inc), true);
+    assertEquals(is-function(((i) -> i + 1)), true);
+    assertEquals(is-function((int y) -> y + 1), true);
+    assertEquals(is-function(method (self ) self + 1;), false);
+}}
 
 @function["is-object" #:contract (a-arrow "Any" (a-id "Boolean" (xref "<global>" "Boolean")))]
 
 Returns @pyret{true} if the provided argument is a @pyret{Object},
  @pyret{false} if not.
 
-@examples{
-data Point: pt(x, y) end
-check:
-  is-object(pt(3, 4)) is true
-  is-object({x : 12, y : 7}) is true
-  is-object({(y :: Number) -> Number: y + 1}) is false
-end
+@examples{data Point {
 }
+@"@"Check void test() {
+    assertEquals(is-object(pt(3, 4)), true);
+    assertEquals(is-object({x 12, y 7}), true);
+    assertEquals(is-object((int y) -> y + 1), false);
+}}
 
 
 

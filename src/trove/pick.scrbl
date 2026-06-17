@@ -60,33 +60,20 @@ See the documentation of @pyret-method["Set" #f "pick" "sets"].
 However, nothing precludes other datatypes from also implementing the
 @pyret{Pick} interface. For instance, here's a simple queue definition that
 provides a @pyret{pick} method:
-@pyret-block{
-import pick as P
-
-data Queue<T>:
-  | queue(elts :: List<T>) with:
-    method pick(self):
-      cases (List) self.elts:
-        | empty => P.pick-none
-        | link(f, r) => P.pick-some(f, queue(r))
-      end
-    end
-end
-}
+@pyret-block{import pick as P
+data Queue {
+    Queue(List<Object> elts); /* TODO: with: methods */
+}}
 We can then write a function that uses that method to traverse the queue:
-@pyret-block{
-fun sum-queue(q :: Queue) -> Number:
-  cases (P.Pick) q.pick():
-    | pick-none => 0
-    | pick-some(e, r) => e + sum-queue(r)
-  end
-end
-}
+@pyret-block{int sum-queue(Queue q) {
+    return switch (q.pick()) {
+        case Pick-none: yield 0;
+        case Pick-some(e, r): yield e + sum-queue(r);
+    }
+}}
 with the expected behavior:
-@examples{
-check:
-  q = queue([list: 1, 2, 3])
-  sum-queue(q) is 6
-end
-}
+@examples{@"@"Check void test() {
+    q = queue([1, 2, 3]);
+    assertEquals(sum-queue(q), 6);
+}}
   }

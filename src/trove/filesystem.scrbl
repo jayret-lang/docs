@@ -43,16 +43,14 @@ directory is @pyret{/}.
   #:args '(("path" ""))
   ]
 
-@examples[#:show-try-it #t]{
-import filesystem as FS
-check:
-  FS.read-file-string("hello.txt") is "Hello, world!"
-  words = FS.read-file-string("data/words")
-  string-split-all(words, "\n") is [list: "apple", "banana", "cherry"]
-
-  FS.read-file-string("does-not-exist") raises "No such file or directory"
-end
-}
+@examples[#:show-try-it #t]{import filesystem as FS
+@"@"Check void test() {
+    assertEquals(FS.read-file-string("hello.txt"), "Hello, world!");
+    words = FS.read-file-string("data/words");
+    assertEquals(string-split-all(words, "
+"), ["apple", "banana", "cherry"]);
+    assertRaises(() -> { FS.read-file-string("does-not-exist") }, "No such file or directory");
+}}
 
 Reads the file at the given @pyret{path} and returns its contents as a
 @pyret{String}. Always assumes UTF-8 encoding.
@@ -71,16 +69,14 @@ not exist, it is created.
 Reports an error if the path refers to a non-existent directory, or if the file
 is present but not writable.
 
-@examples[#:show-try-it #t]{
-import filesystem as FS
-check:
-  FS.read-file-string("goodbye.txt") raises "No such file or directory"
-  FS.write-file-string("goodbye.txt", "Until next time!")
-  FS.read-file-string("goodbye.txt") is "Until next time!"
-  FS.write-file-string("goodbye.txt", "See ya!")
-  FS.read-file-string("goodbye.txt") is "See ya!"
-end
-}
+@examples[#:show-try-it #t]{import filesystem as FS
+@"@"Check void test() {
+    assertRaises(() -> { FS.read-file-string("goodbye.txt") }, "No such file or directory");
+    FS.write-file-string("goodbye.txt", "Until next time!");
+    assertEquals(FS.read-file-string("goodbye.txt"), "Until next time!");
+    FS.write-file-string("goodbye.txt", "See ya!");
+    assertEquals(FS.read-file-string("goodbye.txt"), "See ya!");
+}}
 
 @function["stat"
   #:contract (a-arrow S (a-record `((mtime ,N) (ctime ,N) (size ,N))))
@@ -94,23 +90,18 @@ Returns an object with statistics about the file: its modified time
 (@pyret{mtime}), its creation time (@pyret{ctime}), and its size in bytes
 (@pyret{size}).
 
-@examples[#:show-try-it #t]{
-import filesystem as FS
-check:
-  test-start-time = time-now() # gives the current time in milliseconds
-  FS.write-file-string("fresh-file.txt", "Brand new!")
-  stats = FS.stat("fresh-file.txt")
-
-  spy: stats end
-
-  stats.size is string-length("Brand new!")
-
-  # these tests are just indicating that the file was created and modified after
-  # the test started
-  stats.mtime is%(_ >= _) test-start-time
-  stats.ctime is%(_ >= _) test-start-time
-end
-
-}
+@examples[#:show-try-it #t]{import filesystem as FS
+@"@"Check void test() {
+    test-start-time = time-now();
+    // gives the current time in milliseconds
+    FS.write-file-string("fresh-file.txt", "Brand new!");
+    stats = FS.stat("fresh-file.txt");
+    spy(stats);
+    assertEquals(stats.size, string-length("Brand new!"));
+    // these tests are just indicating that the file was created and modified after
+    // the test started
+    assertEquals(stats.mtime, test-start-time);
+    assertEquals(stats.ctime, test-start-time);
+}}
 
 }

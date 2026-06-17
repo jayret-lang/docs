@@ -364,11 +364,9 @@ overflow or some more specific problem.
 Several specific type annotations are provided for numbers to allow more precise
 value requirements to be specified.
 
-@examples{
-fun round-distance(d :: NumNonNegative) -> Exactnum:
-  num-round(d)
-end
-}
+@examples{Exactnum round-distance(NumNonNegative d) {
+    return num-round(d);
+}}
 
 @type-spec["Number" (list)]{
 The type of number values.}
@@ -395,18 +393,23 @@ The type of number values that are equal to or greater than zero.}
 with a solidus, or decimals, with an optional exponent. In the following,
 the numerals on the same line all denote the same Pyret number.
 
-@examples{
-42 +42
--42
-22/7
--22/7
-2.718281828 +2.718281828
--2.718281828
-1/2 0.5
-6.022e23 +6.022e23 6.022e+23 +6.022e+23
--6.022e23 -6.022e+23
--6.022e-23
-}
+@examples{42;
++42;
+-42;
+22/7;
+-22/7;
+2.718281828;
++2.718281828;
+-2.718281828;
+1/2;
+0.5;
+6.022e23;
++6.022e23;
+6.022e+23;
++6.022e+23;
+-6.022e23;
+-6.022e+23;
+-6.022e-23;}
 
 @pyret{Exactnum}s are of arbitrary precision.
 
@@ -415,15 +418,19 @@ the tilde as representing a person waving his or her hands vaguely.
 
 They are integers, fractions or decimals, with an optional exponent.
 
-@examples{
-~42 ~+42
-~-42
-~2.718281828 ~+2.718281828
-~-2.718281828
-~6.022e23 ~+6.022e23 ~6.022e+23 ~+6.022e+23
-~-6.022e23 ~-6.022e+23
-~-6.022e-23
-}
+@examples{~42;
+~+42;
+~-42;
+~2.718281828;
+~+2.718281828;
+~-2.718281828;
+~6.022e23;
+~+6.022e23;
+~6.022e+23;
+~+6.022e+23;
+~-6.022e23;
+~-6.022e+23;
+~-6.022e-23;}
 
 @pyret{Roughnum}s cannot be made arbitrarily precise. The absolute value
 ranges between 0 and 1.7976931348623157e+308 (JavaScript’s Number.MAX_VALUE) with a
@@ -444,39 +451,33 @@ The mathematical constant π, approximated as a @pyret-id["Roughnum"], or
   When @pyret{left} and @pyret{right} evaluate to numbers, adds them and returns
   the result.
 
-@examples[#:show-try-it #t]{
-check:
-  2 + 2 is 4
-  4/3 + 1/3 is 5/3
-  0.1 + 0.2 is 0.3
-end
-}
+@examples[#:show-try-it #t]{@"@"Check void test() {
+    assertEquals(2 + 2, 4);
+    assertEquals(4/3 + 1/3, 5/3);
+    assertEquals(0.1 + 0.2, 0.3);
+}}
 }
 
 @form["- (subtraction operator)" "left - right"]{
   When @pyret{left} and @pyret{right} evaluate to numbers, subtracts
   @pyret{right} from @pyret{left} and returns the result.
 
-@examples[#:show-try-it #t]{
-check:
-  6 - 2 is 4
-  4/3 - 1/3 is 1
-  0.3 - 0.2 is 0.1
-end
-}
+@examples[#:show-try-it #t]{@"@"Check void test() {
+    assertEquals(6 - 2, 4);
+    assertEquals(4/3 - 1/3, 1);
+    assertEquals(0.3 - 0.2, 0.1);
+}}
 }
 
 @form["* (multiplication operator)" "left * right"]{
   When @pyret{left} and @pyret{right} evaluate to numbers, multiplies
   them and returns the result.
 
-@examples[#:show-try-it #t]{
-check:
-  2 * 2 is 4
-  2 * 1/3 is 2/3
-  0.3 * 0.2 is 0.06
-end
-}
+@examples[#:show-try-it #t]{@"@"Check void test() {
+    assertEquals(2 * 2, 4);
+    assertEquals(2 * 1/3, 2/3);
+    assertEquals(0.3 * 0.2, 0.06);
+}}
 }
 
 @form["/ (division operator)" "left / right"]{
@@ -488,13 +489,11 @@ end
   When @pyret{left} and @pyret{right} evaluate to numbers, divides @pyret{left}
   by @pyret{right} and returns the result.
 
-@examples[#:show-try-it #t]{
-check:
-  8 / 2 is 4
-  8/3 / 2 is 4/3
-  0.3 / 10 is 0.03
-end
-}
+@examples[#:show-try-it #t]{@"@"Check void test() {
+    assertEquals(8 / 2, 4);
+    assertEquals(8/3 / 2, 4/3);
+    assertEquals(0.3 / 10, 0.03);
+}}
 }
 
 @form["< (less)" "left < right"]
@@ -512,59 +511,50 @@ Comparison operators. See @seclink["inequalities"].
 If both arguments are @pyret{Exactnum}s, returns a @pyret{Boolean}.
 If either argument is @pyret{Roughnum}, raises an error.
 
-@examples{
-check:
-  num-equal(2, 2) is true
-  num-equal(2, 3) is false
-  num-equal(1/2, 0.5) is true
-  num-equal(1 / 2, 0.5) is true
-  num-equal(1/3, 0.33) is false
-  num-equal(1/3, ~0.33)
-    raises "roughnums cannot be compared for equality"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-equal(2, 2), true);
+    assertEquals(num-equal(2, 3), false);
+    assertEquals(num-equal(1/2, 0.5), true);
+    assertEquals(num-equal(1 / 2, 0.5), true);
+    assertEquals(num-equal(1/3, 0.33), false);
+    assertRaises(() -> { num-equal(1/3, ~0.33) }, "roughnums cannot be compared for equality");
+}}
 
   }
   @function["num-max" #:contract (a-arrow N N N) #:return N]{
 Returns the greater of the two arguments.
 
-@examples{
-check:
-  num-max(1, 2) is 2
-  num-max(2, ~3) is-roughly ~3
-  num-max(4, ~4) is 4
-  num-max(~4, 4) is-roughly ~4
-  num-max(-1.1, 0) is 0
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-max(1, 2), 2);
+    assertRoughlyEquals(num-max(2, ~3), ~3);
+    assertEquals(num-max(4, ~4), 4);
+    assertRoughlyEquals(num-max(~4, 4), ~4);
+    assertEquals(num-max(-1.1, 0), 0);
+}}
 
   }
   @function["num-min" #:contract (a-arrow N N N) #:return N]{
 Returns the lesser of the two arguments.
 
-@examples{
-check:
-  num-min(1, 2) is 1
-  num-min(2, ~3) is 2
-  num-min(4, ~4) is 4
-  num-min(~4, 4) is-roughly ~4
-  num-min(-1.1, 0) is -1.1
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-min(1, 2), 1);
+    assertEquals(num-min(2, ~3), 2);
+    assertEquals(num-min(4, ~4), 4);
+    assertRoughlyEquals(num-min(~4, 4), ~4);
+    assertEquals(num-min(-1.1, 0), -1.1);
+}}
 
   }
   @function["num-abs" #:contract (a-arrow N N) #:return N]{
 Returns the absolute value of the argument. The result is an
   @pyret{Exactnum} only if the argument is.
 
-@examples{
-check:
-  num-abs(2) is 2
-  num-abs(-2.1) is 2.1
-  num-abs(~2) is-roughly ~2
-  num-abs(~-2.1) is-roughly ~2.1
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-abs(2), 2);
+    assertEquals(num-abs(-2.1), 2.1);
+    assertRoughlyEquals(num-abs(~2), ~2);
+    assertRoughlyEquals(num-abs(~-2.1), ~2.1);
+}}
 
   }
   @function["num-sin" #:contract (a-arrow N N) #:return N]{
@@ -572,35 +562,29 @@ end
 Returns the sine of the argument (an angle in radians), usually as a @pyret{Roughnum}.
   If the argument is @pyret{Exactnum} 0, the result is @pyret{Exactnum} 0 too.
 
-@examples{
-check:
-  num-sin(0) is 0
-  num-sin(1) is%(within-abs(0.01)) 0.84
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-sin(0), 0);
+    assertEquals(num-sin(1), 0.84);
+}}
   }
   @function["num-cos" #:contract (a-arrow N N) #:return N]{
 
 Returns the cosine of the argument (an angle in radians), usually as a @pyret{Roughnum}. If
 the argument is @pyret{Exactnum} 0, the result is @pyret{Exactnum} 1.
 
-@examples{
-check:
-  num-cos(0) is 1
-  num-cos(1) is%(within-abs(0.01)) 0.54
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-cos(0), 1);
+    assertEquals(num-cos(1), 0.54);
+}}
   }
   @function["num-tan" #:contract (a-arrow N N) #:return N]{
 Returns the tangent of the argument (an angle in radians), usually as a @pyret{Roughnum}. If
 the argument is @pyret{Exactnum} 0, the result is @pyret{Exactnum} 1.
 
-@examples{
-check:
-  num-tan(0) is 0
-  num-tan(1) is%(within-abs(0.01)) 1.56
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-tan(0), 0);
+    assertEquals(num-tan(1), 1.56);
+}}
 
   }
   @function["num-asin" #:contract (a-arrow N N) #:return N]{
@@ -609,12 +593,10 @@ Returns the arcsine of the argument as an angle in radians in the range [-π/2,
 π/2], usually as a @pyret{Roughnum}. If the argument is @pyret{Exactnum} 0, the
 result is @pyret{Exactnum} 0.
 
-@examples{
-check:
-  num-asin(0) is 0
-  num-asin(0.84) is%(within-abs(0.01)) 1
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-asin(0), 0);
+    assertEquals(num-asin(0.84), 1);
+}}
 
   }
   @function["num-acos" #:contract (a-arrow N N) #:return N]{
@@ -623,12 +605,10 @@ Returns the arccosine of the argument as an angle in radians in the range [0,
 π], usually as a @pyret{Roughnum}. However, if the argument is
 @pyret{Exactnum} 1, the result is @pyret{Exactnum} 0.
 
-@examples{
-check:
-  num-acos(1) is 0
-  num-acos(0.54) is%(within-abs(0.01)) 1
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-acos(1), 0);
+    assertEquals(num-acos(0.54), 1);
+}}
   }
   @function["num-atan" #:contract (a-arrow N N) #:return N]{
 
@@ -636,15 +616,17 @@ Returns the arctangent of the argument as an angle in radians in the range
 (-π/2, π/2), usually as a @pyret{Roughnum}. However, if the argument is
 @pyret{Exactnum} 0, the result is @pyret{Exactnum} 0.
 
-@examples{
-check:
-  num-atan(0) is 0
-  num-atan(1) is-roughly (3.141592 * 1/4) # 45 degrees = π/4 radians
-  num-atan(-1) is-roughly (-3.141592 * 1/4) # 315 degrees = -π/4 radians
-  num-atan(100000000000) is-roughly (3.141592 / 2) # 90 degrees = π/2 radians
-  num-atan(-100000000000) is-roughly (-3.141592 / 2) # 270 degrees = -π/2 radians
-end
+@examples{@"@"Check void test() {
+    assertEquals(num-atan(0), 0);
+    assertRoughlyEquals(num-atan(1), (3.141592 * 1/4));
+    // 45 degrees = π/4 radians
+    assertRoughlyEquals(num-atan(-1), (-3.141592 * 1/4));
+    // 315 degrees = -π/4 radians
+    assertRoughlyEquals(num-atan(100000000000), (3.141592 / 2));
+    // 90 degrees = π/2 radians
+    assertRoughlyEquals(num-atan(-100000000000), (-3.141592 / 2));
 }
+// 270 degrees = -π/2 radians}
   }
 
   @function["num-atan2" #:contract (a-arrow N N N) #:return N]{
@@ -668,45 +650,44 @@ following table:
   (list @pyret{dy < 0}  "Quadrant III"  "Quadrant IV"))
   ]
 
-@examples{
-check:
-  num-atan2(0, 1) is 0
-  num-atan2(1, 1) is-roughly (3.141592 * 1/4) # 45 degrees
-  num-atan2(1, -1) is-roughly (3.141592 * 3/4) # 135 degrees 
-  num-atan2(-1, -1) is-roughly (3.141592 * 5/4) # 225 degrees
-  num-atan2(-1, 1) is-roughly (3.141592 * 7/4) # 315 degrees
-  num-atan2(1, 0) is-roughly (3.141592 * 1/2) # 90 degrees
-  num-atan2(-1, 0) is-roughly (3.141592 * 3/2) # 270 degrees
-end
+@examples{@"@"Check void test() {
+    assertEquals(num-atan2(0, 1), 0);
+    assertRoughlyEquals(num-atan2(1, 1), (3.141592 * 1/4));
+    // 45 degrees
+    assertRoughlyEquals(num-atan2(1, -1), (3.141592 * 3/4));
+    // 135 degrees 
+    assertRoughlyEquals(num-atan2(-1, -1), (3.141592 * 5/4));
+    // 225 degrees
+    assertRoughlyEquals(num-atan2(-1, 1), (3.141592 * 7/4));
+    // 315 degrees
+    assertRoughlyEquals(num-atan2(1, 0), (3.141592 * 1/2));
+    // 90 degrees
+    assertRoughlyEquals(num-atan2(-1, 0), (3.141592 * 3/2));
 }
+// 270 degrees}
   }
 
   @function["num-modulo" #:contract (a-arrow N N N) #:return N]{
 Returns the modulus of the first argument with respect to the
 second, i.e. the remainder when dividing the first number by the second.
 
-@examples{
-check:
-  num-modulo(5, 2) is 1
-  num-modulo(-5, 2) is 1
-  num-modulo(-5, -2) is -1
-  num-modulo(7, 3) is 1
-  num-modulo(0, 5) is 0
-  num-modulo(-7, 3) is 2
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-modulo(5, 2), 1);
+    assertEquals(num-modulo(-5, 2), 1);
+    assertEquals(num-modulo(-5, -2), -1);
+    assertEquals(num-modulo(7, 3), 1);
+    assertEquals(num-modulo(0, 5), 0);
+    assertEquals(num-modulo(-7, 3), 2);
+}}
 
 It is useful for calculating if one number is a multiple of
 another, by checking for a zero remainder.
 
-@examples{
-fun is-even(n :: Number) -> Boolean:
-  num-modulo(n, 2) == 0
-where:
-  is-even(6) is true
-  is-even(3) is false
-end
-}
+@examples{boolean is-even(int n) {
+    return num-modulo(n, 2) == 0;
+} where {
+    
+}}
 
   }
   @function["num-truncate" #:contract (a-arrow N N) #:return N]{
@@ -714,14 +695,12 @@ end
 Returns the integer part of its argument by cutting off any
 decimal part. Does not do any rounding.
 
-@examples{
-check:
-  num-truncate(3.14) is 3
-  num-truncate(-3.14) is -3
-  num-truncate(~3.14) is-roughly ~3
-  num-truncate(~-3.14) is-roughly ~-3
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-truncate(3.14), 3);
+    assertEquals(num-truncate(-3.14), -3);
+    assertRoughlyEquals(num-truncate(~3.14), ~3);
+    assertRoughlyEquals(num-truncate(~-3.14), ~-3);
+}}
 
   }
   @function["num-sqrt" #:contract (a-arrow N N) #:return N]{
@@ -729,30 +708,26 @@ end
 Returns the square root of the given argument.  If the argument is an @pyret{Exactnum} and a perfect
 square, the result is an @pyret{Exactnum}, otherwise, it is a @pyret{Roughnum}.
 
-@examples{
-check:
-  num-sqrt(4) is 2
-  num-sqrt(5) is%(within-abs(0.001)) ~2.236
-  num-sqrt(~4) is%(within-abs(0.001)) ~2
-  num-sqrt(~5) is%(within-abs(0.001)) ~2.236
-  num-sqrt(0.04) is 1/5
-  num-sqrt(-1) raises "negative argument"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-sqrt(4), 2);
+    assertEquals(num-sqrt(5), ~2.236);
+    assertEquals(num-sqrt(~4), ~2);
+    assertEquals(num-sqrt(~5), ~2.236);
+    assertEquals(num-sqrt(0.04), 1/5);
+    assertRaises(() -> { num-sqrt(-1) }, "negative argument");
+}}
   }
   @function["num-sqr" #:contract (a-arrow N N) #:return N]{
 
 Returns the square of the given argument.
 
-@examples{
-check:
-  num-sqr(4) is 16
-  num-sqr(5) is 25
-  num-sqr(-4) is 16
-  num-sqr(~4) is-roughly ~16
-  num-sqr(0.04) is 1/625
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-sqr(4), 16);
+    assertEquals(num-sqr(5), 25);
+    assertEquals(num-sqr(-4), 16);
+    assertRoughlyEquals(num-sqr(~4), ~16);
+    assertEquals(num-sqr(0.04), 1/625);
+}}
 
   }
   @function["num-ceiling" #:contract (a-arrow N EN) #:return EN]{
@@ -760,47 +735,39 @@ end
 Returns the smallest integer @pyret{Exactnum} greater than or equal to the
 argument.
 
-@examples{
-check:
-  num-ceiling(4.2) is 5
-  num-ceiling(-4.2) is -4
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-ceiling(4.2), 5);
+    assertEquals(num-ceiling(-4.2), -4);
+}}
 
   }
   @function["num-floor" #:contract (a-arrow N EN) #:return EN]{
 
 Returns the largest integer @pyret{Exactnum} less than or equal to the argument.
 
-@examples{
-check:
-  num-floor(4.2) is 4
-  num-floor(-4.2) is -5
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-floor(4.2), 4);
+    assertEquals(num-floor(-4.2), -5);
+}}
   }
   @function["num-round" #:contract (a-arrow N EN) #:return EN]{
 
 Returns the closest integer @pyret{Exactnum} to the argument. 
 
-@examples{
-check:
-  num-round(4.2) is 4
-  num-round(4.8) is 5
-  num-round(-4.2) is -4
-  num-round(-4.8) is -5
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-round(4.2), 4);
+    assertEquals(num-round(4.8), 5);
+    assertEquals(num-round(-4.2), -4);
+    assertEquals(num-round(-4.8), -5);
+}}
 
 If the argument is midway between integers, returns the integer further
 away from zero.
 
-@examples{
-check:
-  num-round(3.5) is 4
-  num-round(2.5) is 3
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-round(3.5), 4);
+    assertEquals(num-round(2.5), 3);
+}}
 
   }
   @function["num-round-even" #:contract (a-arrow N EN) #:return EN]{
@@ -808,12 +775,10 @@ end
 Similar to @pyret{num-round}, except that if the argument is
 midway between integers, returns the even integer @pyret{Exactnum}.
 
-@examples{
-check:
-  num-round-even(3.5) is 4
-  num-round-even(2.5) is 2
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-round-even(3.5), 4);
+    assertEquals(num-round-even(2.5), 2);
+}}
 
   }  @function["num-log" #:contract (a-arrow N N) #:return N]{
 
@@ -822,15 +787,13 @@ If the argument is @pyret{Exactnum} 1, the
 result is @pyret{Exactnum} 0. If the argument is non-positive, an error is
 thrown.
 
-@examples{
-check:
-  num-log(1) is 0
-  num-log(0) raises "non-positive argument"
-  num-log(-1) raises "non-positive argument"
-  num-log(2.718281828) is%(within-abs(0.01)) 1
-  num-log(10) is%(within-abs(0.1)) 2.3
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-log(1), 0);
+    assertRaises(() -> { num-log(0) }, "non-positive argument");
+    assertRaises(() -> { num-log(-1) }, "non-positive argument");
+    assertEquals(num-log(2.718281828), 1);
+    assertEquals(num-log(10), 2.3);
+}}
 
   }
   @function["num-exp" #:contract (a-arrow N N) #:return N]{
@@ -839,15 +802,13 @@ Returns e raised to the argument, usually as a @pyret{Roughnum}.  However, if th
 argument is @pyret{Exactnum} 0, the result is
 @pyret{Exactnum} 1.
 
-@examples{
-check:
-  num-exp(-1) is%(within-abs(0.0001)) (1 / num-exp(1))
-  num-exp(0) is 1
-  num-exp(1) is%(within-abs(0.0001)) 2.718281828
-  num-exp(3) is%(within-abs(0.0001)) num-expt(2.718281828, 3)
-  num-exp(710) raises "exp: argument too large: 710"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-exp(-1), (1 / num-exp(1)));
+    assertEquals(num-exp(0), 1);
+    assertEquals(num-exp(1), 2.718281828);
+    assertEquals(num-exp(3), num-expt(2.718281828, 3));
+    assertRaises(() -> { num-exp(710) }, "exp: argument too large: 710");
+}}
 
   }
   @function["num-expt" #:contract (a-arrow N N N) #:return N]{
@@ -858,17 +819,15 @@ If the first argument is @pyret{Exactnum} 0 or 1,
 or the second argument is @pyret{Exactnum} 0, then the result is an
 @pyret{Exactnum} even if the other argument is a @pyret{Roughnum}.
 
-@examples{
-check:
-  num-expt(3, 0) is 1
-  num-expt(1, 3) is 1
-  num-expt(0, 0) is 1
-  num-expt(0, 3) is 0
-  num-expt(0, -3) raises "division by zero"
-  num-expt(2, 3) is 8
-  num-expt(2, -3) is 1/8
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-expt(3, 0), 1);
+    assertEquals(num-expt(1, 3), 1);
+    assertEquals(num-expt(0, 0), 1);
+    assertEquals(num-expt(0, 3), 0);
+    assertRaises(() -> { num-expt(0, -3) }, "division by zero");
+    assertEquals(num-expt(2, 3), 8);
+    assertEquals(num-expt(2, -3), 1/8);
+}}
 
   }
 
@@ -877,125 +836,107 @@ end
 
 Given a number, returns the @pyret{Roughnum} version.
 
-@examples{
-check:
-  num-is-roughnum(num-to-roughnum(3.14)) is true
-  num-is-roughnum(num-to-roughnum(~3.14)) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-roughnum(num-to-roughnum(3.14)), true);
+    assertEquals(num-is-roughnum(num-to-roughnum(~3.14)), true);
+}}
   }
   @function["num-is-integer" #:contract (a-arrow N B) #:return B]{
 Returns @pyret{true} if argument is an @pyret{Exactnum} integer.
 
-@examples{
-check:
-  num-is-integer(2) is true
-  num-is-integer(1/2) is false
-  num-is-integer(1.609) is false
-  num-is-integer(~2) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-integer(2), true);
+    assertEquals(num-is-integer(1/2), false);
+    assertEquals(num-is-integer(1.609), false);
+    assertEquals(num-is-integer(~2), false);
+}}
 
   }
   @function["num-is-rational" #:contract (a-arrow N B) #:return B]{
 
 Returns @pyret{true} if argument is an @pyret{Exactnum} rational.
 
-@examples{
-check:
-  num-is-rational(2) is true
-  num-is-rational(1/2) is true
-  num-is-rational(1.609) is true
-  num-is-rational(~2) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-rational(2), true);
+    assertEquals(num-is-rational(1/2), true);
+    assertEquals(num-is-rational(1.609), true);
+    assertEquals(num-is-rational(~2), false);
+}}
 
   }
   @function["num-is-roughnum" #:contract (a-arrow N B) #:return B]{
 Returns @pyret{true} if argument is a @pyret{Roughnum}.
-@examples{
-check:
-  num-is-roughnum(2) is false
-  num-is-roughnum(1/2) is false
-  num-is-roughnum(1.609) is false
-  num-is-roughnum(~2) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-roughnum(2), false);
+    assertEquals(num-is-roughnum(1/2), false);
+    assertEquals(num-is-roughnum(1.609), false);
+    assertEquals(num-is-roughnum(~2), true);
+}}
 
   }
   @function["num-is-positive" #:contract (a-arrow N B) #:return B]{
 
 Returns @pyret{true} if argument is greater than zero.
 
-@examples{
-check:
-  num-is-positive(~-2) is false
-  num-is-positive(-2) is false
-  num-is-positive(0) is false
-  num-is-positive(-0) is false
-  num-is-positive(2) is true
-  num-is-positive(~2) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-positive(~-2), false);
+    assertEquals(num-is-positive(-2), false);
+    assertEquals(num-is-positive(0), false);
+    assertEquals(num-is-positive(-0), false);
+    assertEquals(num-is-positive(2), true);
+    assertEquals(num-is-positive(~2), true);
+}}
   }
   @function["num-is-negative" #:contract (a-arrow N B) #:return B]{
 
 Returns @pyret{true} if argument is less than zero.
 
-@examples{
-check:
-  num-is-negative(~-2) is true
-  num-is-negative(-2) is true
-  num-is-negative(0) is false
-  num-is-negative(-0) is false
-  num-is-negative(2) is false
-  num-is-negative(~2) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-negative(~-2), true);
+    assertEquals(num-is-negative(-2), true);
+    assertEquals(num-is-negative(0), false);
+    assertEquals(num-is-negative(-0), false);
+    assertEquals(num-is-negative(2), false);
+    assertEquals(num-is-negative(~2), false);
+}}
 
   }
   @function["num-is-non-positive" #:contract (a-arrow N B) #:return B]{
 
 Returns @pyret{true} if argument is less than or equal to zero.
-@examples{
-check:
-  num-is-non-positive(~-2) is true
-  num-is-non-positive(-2) is true
-  num-is-non-positive(0) is true
-  num-is-non-positive(-0) is true
-  num-is-non-positive(2) is false
-  num-is-non-positive(~2) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-non-positive(~-2), true);
+    assertEquals(num-is-non-positive(-2), true);
+    assertEquals(num-is-non-positive(0), true);
+    assertEquals(num-is-non-positive(-0), true);
+    assertEquals(num-is-non-positive(2), false);
+    assertEquals(num-is-non-positive(~2), false);
+}}
 
   }
   @function["num-is-non-negative" #:contract (a-arrow N B) #:return B]{
 
 Returns @pyret{true} if argument is greater than or equal to zero.
 
-@examples{
-check:
-  num-is-non-negative(~-2) is false
-  num-is-non-negative(-2) is false
-  num-is-non-negative(0) is true
-  num-is-non-negative(-0) is true
-  num-is-non-negative(2) is true
-  num-is-non-negative(~2) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-non-negative(~-2), false);
+    assertEquals(num-is-non-negative(-2), false);
+    assertEquals(num-is-non-negative(0), true);
+    assertEquals(num-is-non-negative(-0), true);
+    assertEquals(num-is-non-negative(2), true);
+    assertEquals(num-is-non-negative(~2), true);
+}}
   }
   @function["num-to-string" #:contract (a-arrow N S) #:return S]{
 Returns a @pyret{String} representing a literal form of the number.
 
-@examples{
-check:
-  num-to-string(2.5) is "5/2"
-  num-to-string(2) is "2"
-  num-to-string(2/3) is "2/3"
-  num-to-string(~2.718) is "~2.718"
-  num-to-string(~6.022e23) is "~6.022e+23"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-to-string(2.5), "5/2");
+    assertEquals(num-to-string(2), "2");
+    assertEquals(num-to-string(2/3), "2/3");
+    assertEquals(num-to-string(~2.718), "~2.718");
+    assertEquals(num-to-string(~6.022e23), "~6.022e+23");
+}}
   }
   @function["num-to-string-digits" #:contract (a-arrow N N S) #:return S]{
 
@@ -1010,35 +951,30 @@ output's apparent precision may be unrelated to the actual precision of the
 input number, which may have been an approximation, or unrepresentable in
 decimal.
 
-@examples{
-check:
-  num-to-string-digits(2/3, 3) is "0.667"
-  num-to-string-digits(-2/3, 3) is "-0.667"
-  num-to-string-digits(5, 2) is "5.00"
-  num-to-string-digits(5, 0) is "5"
-  num-to-string-digits(555, -2) is "600"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-to-string-digits(2/3, 3), "0.667");
+    assertEquals(num-to-string-digits(-2/3, 3), "-0.667");
+    assertEquals(num-to-string-digits(5, 2), "5.00");
+    assertEquals(num-to-string-digits(5, 0), "5");
+    assertEquals(num-to-string-digits(555, -2), "600");
+}}
   }
   @function["num-within-abs" #:contract (a-arrow N (a-arrow N N B))]{
 
 Returns a predicate that checks if the difference of its two
 arguments is less than @pyret{tol}.
 
-@examples{
-check:
-   1  is%(num-within-abs(0.1))       1
-   1  is%(num-within-abs(0.1))      ~1
-  ~3  is%(num-within-abs(0.1))      ~3
-  ~2  is-not%(num-within-abs(0.1))  ~3
-  ~2  is%(num-within-abs(1.1))      ~3
-  ~2  is%(num-within-abs(~1))       ~3
-   2  is%(num-within-abs(1))        ~3
-   5  is%(num-within-abs(4))         3
-
-   num-within-abs(-0.1)(1, 1.05) raises "negative tolerance"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(1, 1);
+    assertEquals(1, ~1);
+    assertEquals(~3, ~3);
+    assertNotEquals(~2, ~3);
+    assertEquals(~2, ~3);
+    assertEquals(~2, ~3);
+    assertEquals(2, ~3);
+    assertEquals(5, 3);
+    assertRaises(() -> { num-within-abs(-0.1)(1, 1.05) }, "negative tolerance");
+}}
 
   }
   @function["num-within-rel" #:contract (a-arrow N (a-arrow N N B))]{
@@ -1048,12 +984,10 @@ is no more than the fraction @pyret{tol} off from its second
 argument.
 
 
-@examples{
-check:
-  100000 is%(num-within-rel(0.1)) 95000
-  100000 is-not%(num-within-rel(0.1)) 85000
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(100000, 95000);
+    assertNotEquals(100000, 85000);
+}}
   }
 
   @function["num-within" #:contract (a-arrow N (a-arrow N N B))]{
@@ -1085,20 +1019,16 @@ An alias for @pyret-id["num-within-rel" "numbers"], much as @pyret-id["within"
 
   Returns a pseudo-random integer from @pyret{0} to @pyret{max - 1}.
 
-@examples{
-check:
-  fun between(min, max):
-    lam(v): (v >= min) and (v <= max) end
-  end
-  for each(i from range(0, 100)):
-    block:
-      n = num-random(10)
-      print(n)
-      n satisfies between(0, 10 - 1)
-    end
-  end
-end
-}
+@examples{@"@"Check void test() {
+    Object between(min, max) {
+        return (v) -> (v >= min) && (v <= max);
+    }
+    for (i : range(0, 100)) {
+        block: n = num-random(10);
+        print(n);
+        assertSatisfies(n, between(0, 10 - 1));
+    }
+}}
 
   }
   @function["num-random-seed" #:contract (a-arrow N No) #:return No]{
@@ -1107,35 +1037,28 @@ end
   future uses of random produce the same sequence of numbers.  Useful for
   testing and debugging functions that have random behavior.
 
-  @examples{
-check:
-  num-random-seed(0)
-  n = num-random(1000)
-  n2 = num-random(1000)
-
-  n is-not n2
-
-  num-random-seed(0)
-  n3 = num-random(1000)
-  n3 is n
-  n4 = num-random(1000)
-  n4 is n2
-end
-}
+  @examples{@"@"Check void test() {
+    num-random-seed(0);
+    n = num-random(1000);
+    n2 = num-random(1000);
+    assertNotEquals(n, n2);
+    num-random-seed(0);
+    n3 = num-random(1000);
+    assertEquals(n3, n);
+    n4 = num-random(1000);
+    assertEquals(n4, n2);
+}}
   }
 
 The random seed is set globally.  If it is set in tests in a game or another
 program that should not run the same way every time, add an identifier you can
 set as a flag indicating if you are running the code in testing or production.
 
-@examples{
-
-IS-TESTING = true  # change as needed
-
-when IS-TESTING:
-  num-random-seed(...)
-end
-}
+@examples{IS-TESTING = true;
+// change as needed
+when (IS-TESTING) {
+    num-random-seed(...);
+}}
   
 @section{Other Number Functions}
 
@@ -1148,15 +1071,13 @@ Returns @pyret{true} if the argument is represented directly as a
 primitive
 JavaScript number (i.e., JavaScript double).
 
-@examples{
-check:
-  num-is-fixnum(10) is true
-  num-is-fixnum(~10) is false
-  num-is-fixnum(1000000000000000) is true
-  num-is-fixnum(10000000000000000) is false
-  num-is-fixnum(1.5) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-is-fixnum(10), true);
+    assertEquals(num-is-fixnum(~10), false);
+    assertEquals(num-is-fixnum(1000000000000000), true);
+    assertEquals(num-is-fixnum(10000000000000000), false);
+    assertEquals(num-is-fixnum(1.5), false);
+}}
 
 @margin-note{Pyret represents @pyret{Exactnums} that are non-integers as tuples, 
 and hence even small rationals such as 1.5 are considered non-@tt{fixnum},
@@ -1174,13 +1095,11 @@ an @pyret{Exactnum} num, returns it directly.
  @pyret{Roughnum}s to @pyret{Exactnum}s to make comparison easier.
  Use @pyret{within()} or @pyret{is-roughly}.}
 
-@examples{
-check:
-  num-sqrt(2) is%(within-abs(0.000001)) ~1.4142135623730951
-  num-exact(num-sqrt(2)) is 1.4142135623730951
-  num-to-rational(num-sqrt(2)) is 1.4142135623730951
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-sqrt(2), ~1.4142135623730951);
+    assertEquals(num-exact(num-sqrt(2)), 1.4142135623730951);
+    assertEquals(num-to-rational(num-sqrt(2)), 1.4142135623730951);
+}}
 
   }
 

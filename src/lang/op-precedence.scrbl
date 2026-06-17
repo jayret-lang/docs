@@ -12,14 +12,12 @@ always proceeds from left to right.
 
 Therefore, the following expressions are @bold{not} allowed:
 
-@pyret-block[#:style "bad-ex"]{
-1 + 1 - 1
-1 + 1 > 1
-1 + 1 == 2
-(3 * 4 / 2)
-(3 * 4) / 1 + 1
-3 * (4 / 2) + 1
-}
+@pyret-block[#:style "bad-ex"]{1 + 1 - 1;
+1 + 1 > 1;
+1 + 1 == 2;
+(3 * 4 / 2);
+(3 * 4) / 1 + 1;
+3 * (4 / 2) + 1;}
 
 And will raise an error like: 
 
@@ -30,17 +28,15 @@ precedence using parentheses.  Conversely, any number of identical operators
 can be grouped without pairwise parentheses.  These expressions are all valid
 in Pyret:
 
-@pyret-block[#:style "good-ex"]{
-1 + (1 - 1)
-(1 + 1) > 1
-1 + 1 + 1
-1 - 1 - 1
-(1 + 1) == 2
-3 * (4 / 2)
-(3 * (4 / 2))
-(3 * 4) / (1 + 1)
-(3 * (4 / 2)) + 1
-}
+@pyret-block[#:style "good-ex"]{1 + (1 - 1);
+(1 + 1) > 1;
+1 + 1 + 1;
+1 - 1 - 1;
+(1 + 1) == 2;
+3 * (4 / 2);
+(3 * (4 / 2));
+(3 * 4) / (1 + 1);
+(3 * (4 / 2)) + 1;}
                                                                         
 
 @section{But why not use precedence?}
@@ -74,12 +70,10 @@ it may be confusing for subtraction: after all, @pyret{1 - (2 - 3)} produces a
 different result than @pyret{(1 - 2) - 3}, because subtraction is not
 associative.  Even this is more subtle than it may seem at first:
 @emph{roughnums} are not associative even for addition!
-@pyret-block{
-check:
-  (~100000000000000 + ~-100000000000000) + ~0.0001 is-roughly ~0.0001
-  ~100000000000000 + (~-100000000000000 + ~0.0001) is-roughly ~0
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertRoughlyEquals((~100000000000000 + ~-100000000000000) + ~0.0001, ~0.0001);
+    assertRoughlyEquals(~100000000000000 + (~-100000000000000 + ~0.0001), ~0);
+}}
 
 A similarly nuanced problem occurs with comparison operators: writing
 @pyret{1 < 2 < 3} is @emph{legal}, but will produce an error at runtime,

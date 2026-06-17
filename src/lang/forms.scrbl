@@ -48,22 +48,21 @@ underscore, followed by any number of alphanumeric characters mixed with
 underscores and hyphens, ending in a non-hyphen.  So, for example, the
 following are valid names (though not necessarily good style):
 
-@pyret-block[#:style "good-ex"]{
-a
-a1
-a-1
-abc
-ABC
-a----------b
-a-_-_-_-__--b
-a--_
-_a
-__
-}
+@pyret-block[#:style "good-ex"]{a;
+a1;
+a-1;
+abc;
+ABC;
+a----------b;
+a-_-_-_-__--b;
+a--_;
+_a;
+__;}
 
 
 The following are not valid names:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 _-
 -_
@@ -88,23 +87,20 @@ string-expr: STRING
 Strings in Pyret come in several forms.  First, they can be enclosed in double
 quotes:
 
-@pyret-block[#:style "good-ex"]{
-"a string"
-"a string\" with escapes"
-"'single quotes' are allowed unescaped or \' escaped"
-}
+@pyret-block[#:style "good-ex"]{"a string";
+"a string" with escapes";
+"'single quotes' are allowed unescaped or ' escaped";}
 
 They can also be enclosed in single quotes:
 
-@pyret-block[#:style "good-ex"]{
-'a string'
-'a string\' with escapes'
-'"double quotes" are allowed unescaped or \" escaped'
-}
+@pyret-block[#:style "good-ex"]{'a string';
+'a string' with escapes';
+'"double quotes" are allowed unescaped or " escaped';}
 
 String literals with single or double quotes must terminate by the end of the
 line:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 "multi-line
 strings not
@@ -114,13 +110,11 @@ allowed with double quotes"
 Finally, multi-line string literals can be created by starting and ending them
 with three backticks (@pyret{```}).  For example:
 
-@pyret-block[#:style "good-ex"]{
-```
+@pyret-block[#:style "good-ex"]{```
 This string
 spans
 multiple lines
-```
-}
+```;}
 
 Multi-line string literals strip all whitespace before the first non-whitespace
 character and after the last non-whitespace character.  All whitespace at the
@@ -143,22 +137,21 @@ That is, an optional sign, then some number of digits, optionally followed by a
 decimal point and more digits, optionally followed by an exponent.  These are
 valid number literals:
 
-@pyret-block[#:style "good-ex"]{
-0.1
-1
-1e100
-1.1e100
-+1.1e100
--1.1e-100
-1.1230e-0
-10
-19
-19.0
-}
+@pyret-block[#:style "good-ex"]{0.1;
+1;
+1e100;
+1.1e100;
++1.1e100;
+-1.1e-100;
+1.1230e-0;
+10;
+19;
+19.0;}
 
 Note that a number literal cannot start with a decimal point; some leading
 digits are required.  These are not number literals:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 .1
 1.1.1
@@ -171,21 +164,20 @@ This first kind of number literal represents an @emph{exact} number, or
 tilde, to indicate that the number is an approximation, or a
 @pyret-id["Roughnum" "numbers"].  So these are all valid rough number literals:
 
-@pyret-block[#:style "good-ex"]{
-~0.1
-~1
-~1e100
-~1.1e100
-~+1.1e100
-~-1.1e-100
-~1.1230e-0
-~10
-~19
-~19.0
-}
+@pyret-block[#:style "good-ex"]{~0.1;
+~1;
+~1e100;
+~1.1e100;
+~+1.1e100;
+~-1.1e-100;
+~1.1230e-0;
+~10;
+~19;
+~19.0;}
 
 And these are not valid:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 ~.1
 ~1.1.1
@@ -202,18 +194,17 @@ Finally, numbers can be written as exact ratios of whole numbers:
 These numbers are interpreted as @pyret-id["Exactnum" "numbers"]s.  These are
 valid rational literals:
 
-@pyret-block[#:style "good-ex"]{
-1/2
--1/2
-+1/4
-1234/9
-0/1234
-}
+@pyret-block[#:style "good-ex"]{1/2;
+-1/2;
++1/4;
+1234/9;
+0/1234;}
 
 It is a syntax error to use zero as the denominator in a fraction literal.
 These are not valid rational literals:
 
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 1+1/2
 -1/0
@@ -233,77 +224,63 @@ Boolean literals are the lowercase words @pyret{true} and @pyret{false}.
 Pyret supports two forms of comments:
 @itemlist[
 
-@item{@emph{Single-line comments} begin with a @pyret{#} symbol and extend to
+@item{@emph{Single-line comments} begin with a @pyret{//} symbol and extend to
 the end of the line:
 
-@pyret-block{
-# This is an example of a single-line, standalone comment
-fun example(n):
-  1 + n # This single-line comment starts after some code
-end
+@pyret-block{// This is an example of a single-line, standalone comment
+Object example(n) {
+    return 1 + n;
 }
-}
-
-@item{@emph{Block comments} begin with a @pyret{#|} symbol and end with a
-matching @pyret[#:style "force-comment"]{|#}.
-
-@pyret-block{
-fun example(n):
-  #|
-     This comment can extend
-     over multiple lines
-  |#
-  1 + n
-end
+// This single-line comment starts after some code}
 }
 
-While the text of a comment block contains everything between the @pyret{#|}
-and @pyret[#:style "force-comment"]{|#} symbols, it is preferred to put them on
+@item{@emph{Block comments} begin with a @pyret{/*} symbol and end with a
+matching @pyret[#:style "force-comment"]{*/}.
+
+@pyret-block{Object example(n) {
+    return /* This comment can extend
+     over multiple lines */
+    1 + n;
+}}
+
+While the text of a comment block contains everything between the @pyret{/*}
+and @pyret[#:style "force-comment"]{*/} symbols, it is preferred to put them on
 their own lines, so they are visually distinctive and can easily be added or
 removed:
 
-@pyret-block[#:style "good-ex"]{
-#|
-  prefer this
-  style
-|#
+@pyret-block[#:style "good-ex"]{/* prefer this
+  style */
 }
 
-@pyret-block[#:style "ok-ex"]{
-#| instead of
-   this style |#
+@pyret-block[#:style "ok-ex"]{/* instead of
+   this style */
 }
 
 The one exception is when block comments are being used to comment out sections
 of a single line of code:
 
-@pyret-block[#:style "good-ex"]{
-rectangle(30 #|width|#, 40 #|height|#, "solid", "red")
-}
+@pyret-block[#:style "good-ex"]{rectangle(30, 40, "solid", "red");
+/* width */
+/* height */}
 
 They can be nested within each other, so long as the delimiters are matched:
 
-@pyret-block{
-fun example(n):
-  #| this is in a comment
+@pyret-block{Object example(n) {
+    return /* this is in a comment
      #| so is this
         and this
      |#
-     and this
-  |#
-  1 + n
-end
-}
+     and this */
+    1 + n;
+}}
 
 Within a block comment, single-line comments are ignored:
-@pyret-block[#:style "ok-ex"]{
-fun example(n):
-  #| This is a block comment.
+@pyret-block[#:style "ok-ex"]{Object example(n) {
+    return /* This is a block comment.
      Even though the next line starts a single-line comment
-     # the block-comment ends here |#
-  1 + n
-end
-}
+     # the block-comment ends here */
+    1 + n;
+}}
 
 (Naturally, this style isn't preferred, as it is easy to ignore the
 end-of-comment marker when reading quickly!)
@@ -348,13 +325,11 @@ built-in libraries of Pyret, and it is an error if there is no such library.
 
 Example:
 
-@pyret-block{
-  import equality as EQ
-  check:
-    f = lam(): "" end
-    equal-always3(f, f) is EQ.Unknown
-  end
-}
+@pyret-block{import equality as EQ
+@"@"Check void test() {
+    f = () -> "";
+    assertEquals(equal-always3(f, f), EQ.Unknown);
+}}
 
 @section{Provide Statements}
 
@@ -392,13 +367,7 @@ resulting value is provided.  This is usually done via an object literal, where
 the key represents the binding passed to the external program and
 the value after the colon is the local identifier.
 
-@examples{
-provide {
-  x : x,
-  draw-character : draw-character,
-  external-funct-name : internal-funct-name
-}
-end
+@examples{// [Jayret] explicit `provide`: 
 }
 
 Types can only be @pyret{provide}d by @pyret{provide-types} statements.  If
@@ -412,9 +381,8 @@ defined in the file.
 
 To share all bindings and declarations in a file:
 
-@examples{
-provide *
-provide-types *
+@examples{// [Jayret] explicit `provide`: 
+// [Jayret] explicit `provide`: 
 }
 
 @margin-note{While the wildcard form is somewhat simpler, specifying
@@ -462,27 +430,23 @@ AS: "as"
 @subsection{Name bindings}
 The simplest form of binding is a @py-prod{name-binding}.  This form
 simply associates a name with a given value:
-@pyret-block[#:style "good-ex"]{
-PI = ~3.141592
-five = num-sqrt((3 * 3) + (4 * 4))
-hw = string-append("Hello", " world")
-}
+@pyret-block[#:style "good-ex"]{PI = ~3.141592;
+five = num-sqrt((3 * 3) + (4 * 4));
+hw = string-append("Hello", " world");}
 
 @subsection[#:tag "s:annotated-binding"]{Annotated bindings}
 Slightly more complicated, a name binding may also specify an
 @seclink["s:annotations"]{annotation}, that will ensure that the
 value being bound has the correct type:
-@pyret-block[#:style "good-ex"]{
-PI :: Number = ~3.141592
-hw :: String = string-append("Hello", "world")
-
-this-will-fail :: Boolean = 5
-}
+@pyret-block[#:style "good-ex"]{PI = ~3.141592;
+hw = string-append("Hello", "world");
+this-will-fail = 5;}
 That last line will fail at runtime with an annotation error.
 
 Note that the annotation always comes after the name, not the value; this is
 not allowed, for instance:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 PI = ~3.14 :: Number
 }
@@ -493,30 +457,31 @@ Pyret does not permit a program to implicitly bind the same name
 multiple times in the same scope, as this can be confusing or
 ambiguous: which name was meant?
 
-@pyret-block[#:style "bad-ex"]{
-ans = 3 + 4
-ans = true # did you mean to use a different name here?
-
-ans # which one was meant?
-}
+@pyret-block[#:style "bad-ex"]{ans = 3 + 4;
+ans = true;
+// did you mean to use a different name here?
+ans;
+// which one was meant?}
 
 Pyret will signal an error on the second binding of @pyret{ans} above, saying
 that it @emph{shadows} the earlier definition.  The same rule applies to names
 defined in nested scopes, like functions.  This program is disallowed by the
 shadowing rule, as well:
 
-@pyret-block[#:style "bad-ex"]{
-ans = 3 + 4
-
-fun oops(x):
-  ans = x * 2  # Shadows the outer ans
-  ans
-end
-
-fun another-oops(ans): # Also shadows the outer ans
-  if ans: 3 else: 4 end
-end
+@pyret-block[#:style "bad-ex"]{ans = 3 + 4;
+Object oops(x) {
+    ans = x * 2;
+    return // Shadows the outer ans
+    ans;
 }
+Object another-oops(ans) {
+    return // Also shadows the outer ans
+    if (ans) {
+        return 3;
+    } else {
+        return 4;
+    }
+}}
 
 The general rule for shadowing is to look "upward and leftward",
 i.e. looking outward from the current scope to any enclosing scopes,
@@ -546,43 +511,35 @@ give all the components names.  We do this with a
 @py-prod{tuple-binding}, which binds each component of a tuple to its
 own name. The number of bindings must match the length of the given tuple:
 
-@examples{
-check:
-  {x; y} = {1; 2}
-  x is 1
-  y is 2
-
-  fun sum-two({k; v}, {a; b; c}):
-    k + v + a + b + c
-  end
-
-  sum-two({10; 12}, {1; 4; 5}) is 32
-
-  fun sum-vals(elts) block:
-    var sum = 0
-    for each({k; v} from elts):
-      sum := sum + v
-    end
-    sum
-  end
-
-  elts = [list: {"a"; 5}, {"b"; 6}, {"c"; 7}]
-  sum-vals(elts) is 18 
-end
-}
+@examples{@"@"Check void test() {
+    /* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {1 ;2}
+    assertEquals(x, 1);
+    assertEquals(y, 2);
+    Object sum-two(/* tuple-binding (deferred) */, /* tuple-binding (deferred) */) {
+        return k + v + a + b + c;
+    }
+    assertEquals(sum-two(/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {10 ;12}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {1 ;4 ;5}), 32);
+    Object sum-vals(elts) {
+        var sum = 0;
+        for (/* tuple-binding (deferred) */ : elts) {
+            sum = sum + v;
+        }
+        return sum;
+    }
+    elts = [/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"a" ;5}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"b" ;6}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"c" ;7}];
+    assertEquals(sum-vals(elts), 18);
+}}
 
 It is also possible to @emph{nest} tuple bindings, if the tuple being
 bound has tuples nested inside it:
 
-@examples{
-check:
-  {{w; x}; {y; z}} = {{~5; true}; {"hello"; 4}}
-  w is-roughly ~5
-  x is true
-  y is "hello"
-  z is 4
-end
-}
+@examples{@"@"Check void test() {
+    /* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {~5 ;true} ;/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"hello" ;4}}
+    assertRoughlyEquals(w, ~5);
+    assertEquals(x, true);
+    assertEquals(y, "hello");
+    assertEquals(z, 4);
+}}
 
 Nested bindings likewise must match the number of components in the
 tuple being bound, and follow the same rules of shadowing as normal
@@ -592,43 +549,37 @@ With nested tuples, it is sometimes also useful to not only decompose
 the nested tuples into their components, but to give a name to the
 nested tuple itself:
 
-@examples{
-check:
-  {{w; x} as wx; {y; z} as yz} as wxyz = {{~5; true}; {"hello"; 4}}
-  w is-roughly ~5
-  x is true
-  y is "hello"
-  z is 4
-  wx is-roughly {~5; true}
-  yz is {"hello"; 4}
-  wxyz is {wx; yz}
-end
-}
+@examples{@"@"Check void test() {
+    /* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {~5 ;true} ;/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"hello" ;4}}
+    assertRoughlyEquals(w, ~5);
+    assertEquals(x, true);
+    assertEquals(y, "hello");
+    assertEquals(z, 4);
+    assertRoughlyEquals(wx, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {~5 ;true});
+    assertEquals(yz, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"hello" ;4});
+    assertEquals(wxyz, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {wx ;yz});
+}}
 
 As with any other name bindings, you can provide annotations on any of these
 components.  The rule of annotations adjacent to names applies – the tuple
 components and the @pyret{as} name can have annotations.  We demonstrate both
 permitted styles of annotation below:
 
-@pyret-block[#:style "good-ex"]{
-check:
-  {
-    {w :: Number; x :: Boolean} as wx;
-    {y; z} as yz :: {String; Number}
-  } as wxyz = {{~5; true}; {"hello"; 4}}
-  w is-roughly ~5
-  x is true
-  y is "hello"
-  z is 4
-  wx is-roughly {~5; true}
-  yz is {"hello"; 4}
-  wxyz is {wx; yz}
-end
-}
+@pyret-block[#:style "good-ex"]{@"@"Check void test() {
+    /* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {~5 ;true} ;/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"hello" ;4}}
+    assertRoughlyEquals(w, ~5);
+    assertEquals(x, true);
+    assertEquals(y, "hello");
+    assertEquals(z, 4);
+    assertRoughlyEquals(wx, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {~5 ;true});
+    assertEquals(yz, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"hello" ;4});
+    assertEquals(wxyz, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {wx ;yz});
+}}
 
-But this is not allowed, because the @pyret{{Number; Boolean}} annotation is
+But this is not allowed, because the @pyret{/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {Number ;Boolean}} annotation is
 not adjacent to a name:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 check:
   {{w; x} :: {Number; Boolean} as wx; yz} = {{~5; true}; {"hello"; 4}}
@@ -667,14 +618,13 @@ The @py-prod{user-block-expr} form @emph{additionally}
 creates a scope for any names bound inside it.  That is, definitions
 within such a block are visible only within that block:
 
-@pyret-block{
-x = 10
-ans = block:
-  y = 5 + x # x is visible here
-  42 # value result of the block
-end
-z = y + ans # error: y is not in scope here
-}
+@pyret-block{x = 10;
+ans = block: y = 5 + x;
+// x is visible here
+42;
+// value result of the block
+z = y + ans;
+// error: y is not in scope here}
 
 @subsection[#:tag "s:blocky-blocks"]{Block Shorthand}
 
@@ -682,21 +632,10 @@ Many expressions in Pyret include one or more blocks within them.  For
 example, the body of a function is defined as a block.  Technically,
 this means the following program is legal:
 
-@pyret-block[#:style "bad-ex"]{
-fun weather-reaction(forecast, temp):
-  ask:
-    | forecast == "sunny" then: "sunglasses"
-    | forecast == "rainy" then: "umbrella"
-    | otherwise: ""
-  end
-  ask:
-    | temp > 85 then: "shorts"
-    | temp > 50 then: "jeans"
-    | temp > 0 then: "parka"
-    | otherwise: "stay inside!"
-  end
-end
-}
+@pyret-block[#:style "bad-ex"]{Object weather-reaction(forecast, temp) {
+    ask forecast == "sunny" then: "sunglasses";forecast == "rainy" then: "umbrella";otherwise: "";
+    return ask temp > 85 then: "shorts";temp > 50 then: "jeans";temp > 0 then: "parka";otherwise: "stay inside!";
+}}
 
 However, the program probably won't behave as expected: rather than
 returning some combination of "sunglasses" and "shorts" for a warm,
@@ -711,30 +650,26 @@ to revise the code to comprise a single expression --- say, by
 concatenating the two results above.  Sometimes, though, multiple
 expressions are deliberate:
 
-@pyret-block[#:style "bad-ex"]{
-if some-condition():
-  temp = some-complicated-expression()
-  print(temp) # make sure we got it right!
-  do-something-with(temp)
-else:
-  do-something-else()
-end
-}
+@pyret-block[#:style "bad-ex"]{if (some-condition()) {
+    temp = some-complicated-expression();
+    print(temp);
+    return // make sure we got it right!
+    do-something-with(temp);
+} else {
+    return do-something-else();
+}}
 
 To tell Pyret that these multiple statements are intentional, we could
 write an explicit @tt{block} form:
 
-@pyret-block[#:style "ok-ex"]{
-if some-condition():
-  block:
-    temp = some-complicated-expression()
-    print(temp) # make sure we got it right!
-    do-something-with(temp)
-  end
-else:
-  do-something-else()
-end
-}
+@pyret-block[#:style "ok-ex"]{if (some-condition()) {
+    return block: temp = some-complicated-expression();
+    print(temp);
+    // make sure we got it right!
+    do-something-with(temp);
+} else {
+    return do-something-else();
+}}
 
 ...but that is syntactically annoying for a straightforward situation!
 Instead, Pyret allows for block @emph{shorthands}: writing @tt{block}
@@ -742,15 +677,9 @@ before the opening colon of a blocky expression signals that the
 expression is deliberate.
 
 
-@pyret-block[#:style "good-ex"]{
-if some-condition() block:
-  temp = some-complicated-expression()
-  print(temp) # make sure we got it right!
-  do-something-with(temp)
-else:
-  do-something-else()
-end
+@pyret-block[#:style "good-ex"]{if (some-condition()) {
 }
+// make sure we got it right!}
 
 The leading @tt{block} allows for multiple statements in @emph{all} of
 the blocks of this expression.  Analogous markers exist for
@@ -759,14 +688,8 @@ the blocks of this expression.  Analogous markers exist for
 However, even this marker is sometimes too much.  Suppose we
 eliminated the @tt{print} call in the example above:
 
-@pyret-block{
-if some-condition() block:
-  temp = some-complicated-expression()
-  do-something-with(temp)
-else:
-  do-something-else()
-end
-}
+@pyret-block{if (some-condition()) {
+}}
 
 Why should this expression be penalized, but the equivalent one, where
 we inline the definition of @tt{temp}, not be?  After all, this one is
@@ -811,19 +734,13 @@ evaluating the @tt{binop-expr}.  The resulting binding cannot be changed via an
 @py-prod{assign-stmt}, and cannot be shadowed by other bindings within the same or
 nested scopes:
 
-@pyret-block{
-x = 5
-x := 10
-# Error: x is not assignable
+@pyret-block{x = 5;
+x = 10;
+// Error: x is not assignable}
 
-}
-
-@pyret-block{
-x = 5
-x = 10
-# Error: x defined twice
-
-}
+@pyret-block{x = 5;
+x = 10;
+// Error: x defined twice}
 
 @pyret-block{
 x = 5
@@ -835,32 +752,24 @@ end
 
 }
 
-@pyret-block{
-fun f():
-  x = 10
-  x
-end
-fun g():
-  x = 22
-  x
-end
-# Not an error: x is used in two scopes that are not nested
+@pyret-block{Object f() {
+    x = 10;
+    return x;
 }
+Object g() {
+    x = 22;
+    return x;
+}
+// Not an error: x is used in two scopes that are not nested}
 
 A binding also has a case with tuples, where several names can be given in a binding which can then be assigned to values in a tuple.
 
-@pyret-block{
-{x;y;z} = {"he" + "llo"; true; 42}
-x = "hi"
-#Error: x defined twice
+@pyret-block{/* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"he" + "llo" ;true ;42}
+x = "hi";
+// Error: x defined twice}
 
-}
-
-@pyret-block{
-{x;y;z} = {10; 12}
-#Error: The number of names must match the length of the tuple
-
-}
+@pyret-block{/* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {10 ;12}
+// Error: The number of names must match the length of the tuple}
 
 @subsection[#:tag "s:rec-decl"]{Recursive Let Declarations}
 @bnf['Pyret]{
@@ -873,24 +782,21 @@ A recursive let-binding is just like a normal let-binding, except that the name
 being defined is in scope in the definition itself, rather than only after it.
 That is:
 
-@pyret-block[#:style "bad-ex"]{
-countdown-bad = lam(n):
-  if n == 0: true
-  else: countdown-bad(n - 1) # countdown-bad is not in scope
-  end
-end
-# countdown-bad is in scope here
+@pyret-block[#:style "bad-ex"]{countdown-bad = (n) -> if (n == 0) {
+    return true;
+} else {
+    return countdown-bad(n - 1);
 }
-@pyret-block[#:style "good-ex"]{
-rec countdown-good =
-  # countdown-good is in scope here, because of the 'rec'
-  lam(n):
-    if n == 0: true
-    else: countdown-good(n - 1) # so this call is fine
-    end
-  end
-# countdown-good is in scope here
+// countdown-bad is not in scope
+// countdown-bad is in scope here}
+@pyret-block[#:style "good-ex"]{rec countdown-good = // countdown-good is in scope here, because of the 'rec'
+(n) -> if (n == 0) {
+    return true;
+} else {
+    return countdown-good(n - 1);
 }
+// so this call is fine
+// countdown-good is in scope here}
 @subsection[#:tag "s:fun-decl"]{Function Declaration Expressions}
 
 Function declarations have a number of pieces:
@@ -924,26 +830,23 @@ Function declarations are statements used to define functions with a given
 name, parameters and signature, optional documentation, body, and optional tests.
 For example, the following code:
 
-@pyret-block{
-fun is-even(n):
-  num-modulo(n, 2) == 0
-end
-}
+@pyret-block{Object is-even(n) {
+    return num-modulo(n, 2) == 0;
+}}
 
 defines a minimal function, with just its name, parameter names, and body.  A
 more complete example:
 
-@pyret-block{
-fun fact(n :: NumNonNegative) -> Number:
-  doc: "Returns n! = 1 * 2 * 3 ... * n"
-  if n == 0: 1
-  else:      n * fact(n - 1)
-  end
-where:
-  fact(1) is 1
-  fact(5) is 120
-end
-}
+@pyret-block{int fact(NumNonNegative n) {
+    // Returns n! = 1 * 2 * 3 ... * n
+    return if (n == 0) {
+        return 1;
+    } else {
+        return n * fact(n - 1);
+    }
+} where {
+    
+}}
 
 defines a recursive function with a fully-annotated signature (the types of its
 parameter and return value are specified), documents the purpose of the
@@ -959,25 +862,23 @@ Once defined, the name of the function is visible for the remainder of the
 scope in which it is defined.  Additionall, the function is in scope within its
 own body, to enable recursive functions like @pyret{fact} above:
 
-@pyret-block{
-fun outer-function(a, b, c):
-  ...
-  # outer-function is in scope here
-  # as are parameters a, b, and c
-  ...
-  fun inner-helper(d, e, f):
-    ...
-    # inner-helper is in scope here,
-    # as are parameters d, e, and f
-    # and also outer-helper, a, b and c
-    ...
-  end
-  ...
-  # outer-function, a, b, and c are in scope here,
-  # and so is inner-helper, but *not* d, e or f
-  ...
-end
-}
+@pyret-block{Object outer-function(a, b, c) {
+    ...;
+    // outer-function is in scope here
+    // as are parameters a, b, and c
+    ...;
+    Object inner-helper(d, e, f) {
+        ...;
+        return // inner-helper is in scope here,
+        // as are parameters d, e, and f
+        // and also outer-helper, a, b and c
+        ...;
+    }
+    ...;
+    return // outer-function, a, b, and c are in scope here,
+    // and so is inner-helper, but *not* d, e or f
+    ...;
+}}
 
 As with all Pyret identifiers, these function and parameter names cannot be
 mutated, and they cannot be redefined while in scope unless they are explicitly
@@ -1002,11 +903,14 @@ Function declarations are not a primitive concept in the language.  Instead,
 they can be thought of as an idiomatic declaration of a recursively-scoped let
 binding to a lambda expression.  That is, the following two definitions are
 equivalent: 
-@pyret-block{
-fun fact(n):
-  if n == 1: 1 else: n * fact(n - 1) end
-end
-}
+@pyret-block{Object fact(n) {
+    return if (n == 1) {
+        return 1;
+    } else {
+        return n * fact(n - 1);
+    }
+}}
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 rec fact = lam(n):
   if n == 1: 1 else n * fact(n - 1) end
@@ -1059,22 +963,18 @@ the data definition}
 
 For example, in this data definition:
 
-@pyret-block{
-data BTree:
-  | node(value :: Number, left :: BTree, right :: BTree)
-  | leaf(value :: Number)
-end
-}
+@pyret-block{data BTree {
+    Node(int value, BTree left, BTree right);
+    Leaf(int value);
+}}
 
 These names are defined, with the given types:
 
-@pyret-block{
-is-BTree :: (Any -> Bool)
-node :: (Number, BTree, BTree -> BTree)
-is-node :: (Any -> Bool)
-leaf :: (Number -> BTree)
-is-leaf :: (Any -> Bool)
-}
+@pyret-block{/* contract: is-BTree :: Object */;
+/* contract: node :: Object */;
+/* contract: is-node :: Object */;
+/* contract: leaf :: Object */;
+/* contract: is-leaf :: Object */;}
 
 We call @tt{node} and @tt{leaf} the @emph{constructors} of @tt{BTree}, and they
 construct values with the named fields.  They will refuse to create the value
@@ -1096,31 +996,12 @@ for values created by calling @tt{node}, and @tt{is-leaf} correspondingly for
 Here is a longer example of the behavior of detectors, field access, and
 constructors:
 
-@pyret-block{
-data BTree:
-  | node(value :: Number, left :: BTree, right :: BTree)
-  | leaf(value :: Number)
-where:
-  a-btree = node(1, leaf(2), node(3, leaf(4), leaf(5)))
-
-  is-BTree(a-btree) is true
-  is-BTree("not-a-tree") is false
-  is-BTree(leaf(5)) is true
-  is-leaf(leaf(5)) is true
-  is-leaf(a-btree) is false
-  is-leaf("not-a-tree") is false
-  is-node(leaf(5)) is false
-  is-node(a-btree) is true
-  is-node("not-a-tree") is false
-
-  a-btree.value is 1
-  a-btree.left.value is 2
-  a-btree.right.value is 3
-  a-btree.right.left.value is 4
-  a-btree.right.right.value is 5
-
-end
-}
+@pyret-block{data BTree {
+    Node(int value, BTree left, BTree right);
+    Leaf(int value);
+} where {
+    
+}}
 
 A data definition can also define, for each instance as well as for the data
 definition as a whole, a set of methods.  This is done with the keywords
@@ -1129,42 +1010,26 @@ only be defined for instances of that variant, while methods defined on the
 union of all the variants with @tt{sharing:} are defined on all instances.  For
 example:
 
-@pyret-block{
-data BTree:
-  | node(value :: Number, left :: BTree, right :: BTree) with:
-    method size(self): 1 + self.left.size() + self.right.size() end
-  | leaf(value :: Number) with:
-    method size(self): 1 end,
-    method increment(self): leaf(self.value + 1) end
-sharing:
-  method values-equal(self, other):
-    self.value == other.value
-  end
-where:
-  a-btree = node(1, leaf(2), node(3, leaf(4), leaf(2)))
-  a-btree.values-equal(leaf(1)) is true
-  leaf(1).values-equal(a-btree) is true
-  a-btree.size() is 5
-  leaf(0).size() is 1
-  leaf(1).increment() is leaf(2)
-  a-btree.increment() # raises error: field increment not found.
-end
+@pyret-block{data BTree {
+    Node(int value, BTree left, BTree right); /* TODO: with: methods */
+    Leaf(int value); /* TODO: with: methods */
+    /* TODO(pyret2jayret): sharing: block deferred in Jayret v0.1 */
+} where {
+    
 }
+// raises error: field increment not found.}
 
 When you have a single kind of datum in a data definition, instead of
 writing:
 
-@pyret-block{
-data Point:
-  | pt(x, y)
-end
-}
+@pyret-block{data Point {
+    Pt(x, y);
+}}
 
 You can drop the | and simply write:
 
-@pyret-block{
-data Point: pt(x, y) end
-}
+@pyret-block{data Point {
+}}
 
 @subsection[#:tag "s:var-decl"]{Variable Declarations}
 
@@ -1203,15 +1068,14 @@ type-decl: NAME ty-params EQUALS ann
 A @py-prod{type-stmt} declares an alias to an existing type.  This allows for
 creating convenient names for types, especially when type parameters are
 involved.
-@examples{
-type Predicate<a> = (a -> Boolean)
-# Now we can use this alias to make the signatures for other functions more readable:
-fun filter<a>(pred :: Predicate<a>, elts :: List<a>) -> List<a>: ... end
-
-# We can specialize types, too:
-type NumList = List<Number>
-type StrPred = Predicate<String>
+@examples{type Predicate < a > = (a -> Boolean );
+// Now we can use this alias to make the signatures for other functions more readable:
+List<Object> filter(Predicate<Object> pred, List<Object> elts) {
+    return ...;
 }
+// We can specialize types, too:
+type NumList = List < Number >;
+type StrPred = Predicate < String >;}
 
 
 @subsection[#:tag "s:newtype-decl"]{Newtype Declarations}
@@ -1228,9 +1092,7 @@ newtype-stmt: newtype-decl
 newtype-decl: NEWTYPE NAME AS NAME
 }
 When we write
-@examples{
-newtype MytypeBrander as MyType
-}
+@examples{newtype MytypeBrander as MyType;}
 we define both of these components.  See @secref{brands} for more information
 about branders.
 
@@ -1243,18 +1105,16 @@ The general grammar for standalone contracts is:
 
 For example,
 
-@pyret-block[#:style "good-ex"]{
-the-answer :: Number
-the-answer = 42
-
-double :: String -> String
-fun double(s): s + s end
-
-vals-to-string :: <T, S> (S, T -> String)
-fun vals-to-string(val1, val2):
-  to-string(val1) + ", " + to-string(val2)
-end
+@pyret-block[#:style "good-ex"]{/* contract: the-answer :: Object */;
+the-answer = 42;
+/* contract: double :: Object */;
+Object double(s) {
+    return s + s;
 }
+/* contract: vals-to-string :: Object */;
+Object vals-to-string(val1, val2) {
+    return to-string(val1) + ", " + to-string(val2);
+}}
 
 In all of these cases, the definition itself (of @pyret{the-answer},
 @pyret{double}, and @pyret{vals-to-string}) is preceded by a @emph{contract}
@@ -1262,15 +1122,13 @@ statement, asserting the signature of the definition to follow.  Pyret treats
 these contracts specially, and weaves them in to the definitions: the previous
 examples are equivalent to
 
-@pyret-block[#:style "good-ex"]{
-the-answer :: Number = 42
-
-fun double(s :: String) -> String: s + s end
-
-fun vals-to-string<T,S>(val1 :: T, val2 :: S) -> String:
-  to-string(val1) + ", " + to-string(val2)
-end
+@pyret-block[#:style "good-ex"]{the-answer = 42;
+String double(String s) {
+    return s + s;
 }
+String vals-to-string(T val1, S val2) {
+    return to-string(val1) + ", " + to-string(val2);
+}}
 
 The grammar for these contracts looks nearly identical to that of
 @py-prod{name-binding}s.  Function annotations are given a slightly more
@@ -1296,73 +1154,103 @@ function definition, or must immediately precede an
 immediately precedes the function definition.  (Whitespace or comments are not
 important; extraneous definitions are.)
 
-@pyret-block[#:style "good-ex"]{
-is-even :: Number -> Boolean
-
-check:
-  is-even(2) is true
-end
-
-fun is-even(n): num-modulo(n, 2) == 0 end
+@pyret-block[#:style "good-ex"]{/* contract: is-even :: Object */;
+@"@"Check void test() {
+    assertEquals(is-even(2), true);
 }
-@pyret-block[#:style "bad-ex"]{
-is-even :: Number -> Boolean
-
-something-irrelevant = 12345
-
-fun is-even(n): num-modulo(n, 2) == 0 end
-}
+Object is-even(n) {
+    return num-modulo(n, 2) == 0;
+}}
+@pyret-block[#:style "bad-ex"]{/* contract: is-even :: Object */;
+something-irrelevant = 12345;
+Object is-even(n) {
+    return num-modulo(n, 2) == 0;
+}}
 }
 @item{For mutually recursive functions, the contracts must be adjacent to the
 functions, and must precede them.
-@pyret-block[#:style "good-ex"]{
-# Contracts
-is-even :: Number -> Boolean
-is-odd :: Number -> Boolean
-# Implementations
-fun is-even(n): if n == 0: true else: is-odd(n - 1) end end
-fun is-odd(n): if n == 0: false else: is-even(n - 1) end end
+@pyret-block[#:style "good-ex"]{// Contracts
+/* contract: is-even :: Object */;
+/* contract: is-odd :: Object */;
+// Implementations
+Object is-even(n) {
+    return if (n == 0) {
+        return true;
+    } else {
+        return is-odd(n - 1);
+    }
 }
-@pyret-block[#:style "good-ex"]{
-# Is even?
-is-even :: Number -> Boolean
-fun is-even(n): if n == 0: true else: is-odd(n - 1) end end
-# Is odd?
-is-odd :: Number -> Boolean
-fun is-odd(n): if n == 0: false else: is-even(n - 1) end end
+Object is-odd(n) {
+    return if (n == 0) {
+        return false;
+    } else {
+        return is-even(n - 1);
+    }
+}}
+@pyret-block[#:style "good-ex"]{// Is even?
+/* contract: is-even :: Object */;
+Object is-even(n) {
+    return if (n == 0) {
+        return true;
+    } else {
+        return is-odd(n - 1);
+    }
 }
-@pyret-block[#:style "bad-ex"]{
-is-odd :: Number -> Boolean
-fun is-even(n): if n == 0: true else: is-odd(n - 1) end end
-is-even :: Number -> Boolean  ## Does not precede definition of is-even
-fun is-odd(n): if n == 0: false else: is-even(n - 1) end end
+// Is odd?
+/* contract: is-odd :: Object */;
+Object is-odd(n) {
+    return if (n == 0) {
+        return false;
+    } else {
+        return is-even(n - 1);
+    }
+}}
+@pyret-block[#:style "bad-ex"]{/* contract: is-odd :: Object */;
+Object is-even(n) {
+    return if (n == 0) {
+        return true;
+    } else {
+        return is-odd(n - 1);
+    }
 }
+/* contract: is-even :: Object */;
+// # Does not precede definition of is-even
+Object is-odd(n) {
+    return if (n == 0) {
+        return false;
+    } else {
+        return is-even(n - 1);
+    }
+}}
 }
 @item{If a contract specifies argument names, then the names must match those
 used by the function.
-@pyret-block[#:style "good-ex"]{
-is-even :: (n :: Number) -> Boolean
-fun is-even(n): num-modulo(n, 2) == 0 end
-}
-@pyret-block[#:style "bad-ex"]{
-is-even :: (x :: Number) -> Boolean # name does not match
-fun is-even(n): ... end
-}
+@pyret-block[#:style "good-ex"]{/* contract: is-even :: Object */;
+Object is-even(n) {
+    return num-modulo(n, 2) == 0;
+}}
+@pyret-block[#:style "bad-ex"]{/* contract: is-even :: Object */;
+// name does not match
+Object is-even(n) {
+    return ...;
+}}
 }
 @item{If a contract is used for a function, then the function must not itself
 be annotated.
-@pyret-block[#:style "good-ex"]{
-is-even :: (n :: Number) -> Boolean
-fun is-even(n): num-modulo(n, 2) == 0 end
-}
-@pyret-block[#:style "bad-ex"]{
-is-even :: (n :: Number) -> Boolean # Redundant argument annotation
-fun is-even(n :: Number): ... end
-}
-@pyret-block[#:style "bad-ex"]{
-is-even :: (n :: Number) -> Boolean # Redundant return annotation
-fun is-even(n) -> Boolean: ... end
-}
+@pyret-block[#:style "good-ex"]{/* contract: is-even :: Object */;
+Object is-even(n) {
+    return num-modulo(n, 2) == 0;
+}}
+@pyret-block[#:style "bad-ex"]{/* contract: is-even :: Object */;
+// Redundant argument annotation
+Object is-even(int n) {
+    return ...;
+}}
+@pyret-block[#:style "bad-ex"]{/* contract: is-even :: Object */;
+// Redundant return annotation
+boolean is-even(n) {
+    return ...;
+}}
 }
 ]
 
@@ -1397,11 +1285,9 @@ when-stmt: WHEN binop-expr [BLOCK] COLON block END
 
 For example:
 
-@pyret-block{
-when x == 42:
-  print("answer")
-end
-}
+@pyret-block{when (x == 42) {
+    print("answer");
+}}
 
 If the test condition is true, the block is evaluated. If the
 test condition is false, nothing is done, and @pyret{nothing} is returned.
@@ -1491,63 +1377,50 @@ A lambda expression creates a function value that can be applied with
 are bound to their arguments as immutable identifiers as in a
 @seclink["s:let-decl" "let expression"].
 
-@examples{
-check:
-  f = lam(x, y): x - y end
-  f(5, 3) is 2
-end
-
-check: 
-  f = lam({x;y}): x - y end
-  f({5;3}) is 2
-end
+@examples{@"@"Check void test() {
+    f = (x, y) -> x - y;
+    assertEquals(f(5, 3), 2);
 }
+@"@"Check void test() {
+    f = (/* tuple-binding (deferred) */) -> x - y;
+    assertEquals(f(/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {5 ;3}), 2);
+}}
 
 These identifiers follow the same rules of no shadowing and no assignment.
 
-@examples{
-x = 12
-f = lam(x): x end  # ERROR: x shadows a previous definition
-g = lam(y):
-  y := 10   # ERROR: y is not a variable and cannot be assigned
-  y + 1
-end
-}
+@examples{x = 12;
+f = (x) -> x;
+// ERROR: x shadows a previous definition
+g = (y) -> {
+    y = 10;
+    return // ERROR: y is not a variable and cannot be assigned
+    y + 1;
+}}
 
 If the arguments have @seclink["s:annotations" "annotations"] associated with
 them, they are checked before the body of the function starts evaluating, in
 order from left to right.  If an annotation fails, an exception is thrown.
 
-@pyret-block{
-add1 = lam(x :: Number):
-  x + 1
-end
-add1("not-a-number")
-# Error: expected a Number and got "not-a-number"
-}
+@pyret-block{add1 = (int x) -> x + 1;
+add1("not-a-number");
+// Error: expected a Number and got "not-a-number"}
 
 A lambda expression can have a @emph{return} annotation as well, which is
 checked before evaluating to the final value:
 
 
-@examples{
-add1 = lam(x) -> Number:
-  tostring(x) + "1"
-end
-add1(5)
-# Error: expected a Number and got "51"
-}
+@examples{add1 = (x) -> tostring(x) + "1";
+add1(5);
+// Error: expected a Number and got "51"}
 
 Lambda expressions remember, or close over, the values of other identifiers
 that are in scope when they are defined.  So, for example:
 
-@examples{
-check:
-  x = 10
-  f = lam(y): y + x end
-  f(5) is 15
-end
-}
+@examples{@"@"Check void test() {
+    x = 10;
+    f = (y) -> y + x;
+    assertEquals(f(5), 15);
+}}
 
 @subsection[#:tag "s:curly-lam-expr"]{Curly-Brace Lambda Shorthand}
 
@@ -1572,13 +1445,11 @@ THINARROW: "->"
 DOC: "doc:"
 }
 
-@examples{
-check:
-  x = 10
-  f = {(y :: Number) -> Number: x + y}
-  f(5) is 15
-end
-}
+@examples{@"@"Check void test() {
+    x = 10;
+    f = (int y) -> x + y;
+    assertEquals(f(5), 15);
+}}
 
 @subsection[#:tag "s:method-expr"]{Anonymous Method Expressions}
 
@@ -1601,25 +1472,21 @@ It is a well-formedness error for a method to have no arguments.
 At runtime, a @py-prod{method-expr} evaluates to a method value.  Method values
 cannot be applied directly:
 
-@examples{
-check:
-  m = method(self): self end
-  m(5) raises "non-function"
-end
-}
+@examples{@"@"Check void test() {
+    m = method (self ) self;
+    assertRaises(() -> { m(5) }, "non-function");
+}}
 
 Instead, methods must be included as object fields, where they can then be
 bound and invoked.  A method value can be used in multiple objects:
 
-@examples{
-check:
-  m = method(self): self.x end
-  o = { a-method-name: m, x: 20 }
-  o2 = { a-method-name: m, x: 30 }
-  o.a-method-name() is 20
-  o2.a-method-name() is 30
-end
-}
+@examples{@"@"Check void test() {
+    m = method (self ) self.x;
+    o = {a-method-name m, x 20}
+    o2 = {a-method-name m, x 30}
+    assertEquals(o.a-method-name(), 20);
+    assertEquals(o2.a-method-name(), 30);
+}}
 
 @subsection[#:tag "s:app-expr"]{Application Expressions}
 
@@ -1645,34 +1512,32 @@ is thrown.
 Note that there is @emph{no space} allowed before the opening parenthesis of
 the application.  If you make a mistake, Pyret will complain:
 
-@pyret-block{
-f(1) # This is the function application expression f(1)
-f (1) # This is the id-expr f, followed by the paren-expr (1)
-# The second form yields a well-formedness error that there
-# are two expressions on the same line
-}
+@pyret-block{f(1);
+// This is the function application expression f(1)
+f;
+(1);
+// This is the id-expr f, followed by the paren-expr (1)
+// The second form yields a well-formedness error that there
+// are two expressions on the same line}
 
 @subsection[#:tag "s:curried-apply-expr"]{Curried Application Expressions}
 
 Suppose a function is defined with multiple arguments:
 
-@pyret-block{
-fun f(v, w, x, y, z): ... end
-}
+@pyret-block{Object f(v, w, x, y, z) {
+    return ...;
+}}
 
 Sometimes, it is particularly convenient to define a new function that
 calls @tt{f} with some arguments pre-specified:
 
-@pyret-block{
-call-f-with-123 = lam(y, z): f(1, 2, 3, y, z) end
-}
+@pyret-block{call-f-with-123 = (y, z) -> f(1, 2, 3, y, z);}
 
 Pyret provides syntactic sugar to make writing such helper functions
 easier:
 
-@pyret-block{
-call-f-with-123 = f(1, 2, 3, _, _) # same as the fun expression above
-}
+@pyret-block{call-f-with-123 = f(1, 2, 3, _, _);
+// same as the fun expression above}
 
 Specifically, when Pyret code contains a function application some of
 whose arguments are underscores, it constructs an lambda expression
@@ -1685,20 +1550,14 @@ This syntactic sugar also works
 with operators.  For example, the following are two ways to sum a list
 of numbers:
 
-@pyret-block{
-[list: 1, 2, 3, 4].foldl(lam(a, b): a + b end, 0)
-
-[list: 1, 2, 3, 4].foldl(_ + _, 0)
-}
+@pyret-block{[1, 2, 3, 4].foldl((a, b) -> a + b, 0);
+[1, 2, 3, 4].foldl(_ + _, 0);}
 
 Likewise, the following are two ways to compare two lists for
 equality:
 
-@pyret-block{
-list.map_2(lam(x, y): x == y end, first-list, second-list)
-
-list.map_2(_ == _, first-list, second-list)
-}
+@pyret-block{list.map_2((x, y) -> x == y, first-list, second-list);
+list.map_2(_ == _, first-list, second-list);}
 
 Note that there are some limitations to this syntactic sugar.  You
 cannot use it with the @tt{is} or @tt{raises} expressions in
@@ -1707,24 +1566,16 @@ outcomes are known when writing tests.  Also, note that the sugar is
 applied only to one function application at a time.  As a result, the
 following code:
 
-@pyret-block{
-_ + _ + _
-}
+@pyret-block{_ + _ + _;}
 
 desugars to
 
-@pyret-block{
-lam(z):
-  (lam(x, y): x + y end) + z
-end
-}
+@pyret-block{(z) -> ((x, y) -> x + y) + z;}
 
 which is probably not what was intended.  You can still write the
 intended expression manually:
 
-@pyret-block{
-lam(x, y, z): x + y + z end
-}
+@pyret-block{(x, y, z) -> x + y + z;}
 
 Pyret just does not provide syntactic sugar to help in this case
 (or other more complicated ones).
@@ -1746,46 +1597,33 @@ say we have a @pyret{Tree} datatype, and we have an @pyret{add} operation on
 it, defined via a function.  To build up a tree with a series of adds, we'd
 write something like:
 
-@pyret-block{
-t = add(add(add(add(empty-tree, 1), 2), 3), 4)
-}
+@pyret-block{t = add(add(add(add(empty-tree, 1), 2), 3), 4);}
 
 Or maybe
 
-@pyret-block{
-t1 = add(empty-tree, 1)
-t2 = add(t1, 2)
-t3 = add(t2, 3)
-t  = add(t3, 4)
-}
+@pyret-block{t1 = add(empty-tree, 1);
+t2 = add(t1, 2);
+t3 = add(t2, 3);
+t = add(t3, 4);}
 
 If @pyret{add} were a method, we could write:
 
-@pyret-block{
-t = empty-tree.add(1).add(2).add(3).add(4)
-}
+@pyret-block{t = empty-tree.add(1).add(2).add(3).add(4);}
 
 which would be more readable, but since @pyret{add} is a function, this doesn't
 work.
 
 In this case, we can write instead:
 
-@pyret-block{
-t = empty-tree ^ add(_, 1) ^ add(_, 2) ^ add(_, 3)
-}
+@pyret-block{t = empty-tree ^ add(_, 1) ^ add(_, 2) ^ add(_, 3);}
 
 This uses @seclink["s:curried-apply-expr" "curried application"] to create a
 single argument function, and chaining application to apply it.  This can be
 more readable across several lines of initialization as well, when compared to
 composing “inside-out” or using several intermediate names:
 
-@pyret-block{
-t = empty-tree
-  ^ add(_, 1)
-  ^ add(_, 2)
-  ^ add(_, 3)
-  # and so on
-}
+@pyret-block{t = empty-tree ^ add(_, 1) ^ add(_, 2) ^ add(_, 3);
+// and so on}
 
 
 
@@ -1805,12 +1643,12 @@ COMMA: ","
 inst-expr: expr LANGLE ann (COMMA ann)* RANGLE
 }
 
-@examples{
-fun is-even(n :: Number) -> Boolean: num-modulo(n, 2) == 0 end
-check:
-  map<Number, Boolean>(is-even, [list: 1, 2, 3]) is [list: false, true, false]
-end
+@examples{boolean is-even(int n) {
+    return num-modulo(n, 2) == 0;
 }
+@"@"Check void test() {
+    assertEquals(map < Number ,Boolean >(is-even, [1, 2, 3]), [false, true, false]);
+}}
 
 
 
@@ -1825,22 +1663,20 @@ binop-expr: expr (BINOP expr)*
 }
 
 Pyret supports the following operations, shown by example:
-@pyret-block{
-examples:
-  1 + 1  is 2
-  1 - 1  is 0
-  2 * 4  is 8
-  6 / 3  is 2
-  1 < 2  is true
-  1 <= 1 is true
-  1 > 1  is false
-  1 >= 1 is true
-  1 == 1 is true
-  true and true is true
-  false or true is true
-  not(false) is true
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertEquals(1 + 1, 2);
+    assertEquals(1 - 1, 0);
+    assertEquals(2 * 4, 8);
+    assertEquals(6 / 3, 2);
+    assertEquals(1 < 2, true);
+    assertEquals(1 <= 1, true);
+    assertEquals(1 > 1, false);
+    assertEquals(1 >= 1, true);
+    assertEquals(1 == 1, true);
+    assertEquals(true && true, true);
+    assertEquals(false || true, true);
+    assertEquals(not(false), true);
+}}
 
 @margin-note{There are additional equality operators in Pyret, which also call methods, but are
 somewhat more complex.  They are documented in detail in @seclink["equality"].}
@@ -1896,18 +1732,17 @@ negative}
 
 For example:
 
-@pyret-block[#:style "good-ex"]{
-check:
-  t = {"a";"b";true}
-  t.{0} is "a"
-  t.{1} is "b"
-  t.{2} is true
-end
-}
+@pyret-block[#:style "good-ex"]{@"@"Check void test() {
+    t = /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"a" ;"b" ;true}
+    assertEquals(t .{0 }, "a");
+    assertEquals(t .{1 }, "b");
+    assertEquals(t .{2 }, true);
+}}
 
 
 Note that the index is restricted @emph{syntactically} to being a number.  So this program is a parse error:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 t = {"a";"b";"c"}
 t.{1 + 1}
@@ -1982,15 +1817,11 @@ of three things:
     If the @tt{NAME} field is a method value, evaluates to a function that is
     the @emph{method binding} of the method value to @tt{val}.  For a method
 
-    @pyret-block{
-      m = method(self, x): body end
-    }
+    @pyret-block{m = method (self ,x ) body;}
 
     The @emph{method binding} of @tt{m} to a value @tt{v} is equivalent to:
 
-    @pyret-block{
-      (lam(self): lam(x): body end end)(v)
-    }
+    @pyret-block{((self) -> (x) -> body)(v);}
 
     What this detail means is that you can look up a method and it
     automatically closes over the value on the left-hand side of the dot.  This
@@ -1998,13 +1829,11 @@ of three things:
 
     For example:
 
-    @pyret-block{
-      o = { method m(self, x): self.y + x end, y: 22 }
-      check:
-        the-m-method-closed-over-o = o.m
-        the-m-method-closed-over-o(5) is 27
-      end
-    }
+    @pyret-block{o = {method m (self ,x ) self.y + x;, y 22}
+@"@"Check void test() {
+    the-m-method-closed-over-o = o.m;
+    assertEquals(the-m-method-closed-over-o(5), 27);
+}}
 
     Note that a method binding is not a itself a method value.
     Creating new objects from method bindings will not behave the same
@@ -2012,17 +1841,18 @@ of three things:
 
     For example:
 
-    @pyret-block{
-      code = method(self, x): self.y + x end
-      p = { y: 10, m: code }
-      q = p.{ y: 15 }
-      r = { y: 20, m: p.m } # m given method binding, not a method
-      check:
-        p.m(5) is 15
-        q.m(5) is 20 # self.y dynamically resolved when code runs
-        r.m(5) is 15 # but this is not 25, because r.m is p.m
-      end
-    }
+    @pyret-block{code = method (self ,x ) self.y + x;
+p = {y 10, m code}
+q = p .{y 15 }
+r = {y 20, m p.m}
+// m given method binding, not a method
+@"@"Check void test() {
+    assertEquals(p.m(5), 15);
+    assertEquals(q.m(5), 20);
+    // self.y dynamically resolved when code runs
+    assertEquals(r.m(5), 15);
+}
+// but this is not 25, because r.m is p.m}
   }
 ]
 
@@ -2044,15 +1874,13 @@ field is present in both, the new field is used.
 
 Examples:
 
-@pyret-block{
-check:
-  o = {x : "original-x", y: "original-y"}
-  o2 = o.{x : "new-x", z : "new-z"}
-  o2.x is "new-x"
-  o2.y is "original-y"
-  o2.z is "new-z"
-end
-}
+@pyret-block{@"@"Check void test() {
+    o = {x "original-x", y "original-y"}
+    o2 = o .{x "new-x" ,z "new-z" }
+    assertEquals(o2.x, "new-x");
+    assertEquals(o2.y, "original-y");
+    assertEquals(o2.z, "new-z");
+}}
 
 @subsection[#:tag "s:if-expr"]{If Expressions}
 
@@ -2071,25 +1899,21 @@ else-if: ELSEIF binop-expr COLON block
 
 For example, this if expression has an "else:"
 
-@pyret-block{
-if x == 0:
-  1
-else if x > 0:
-  x
-else:
-  x * -1
-end
-}
+@pyret-block{if (x == 0) {
+    return 1;
+} else if (x > 0) {
+    return x;
+} else {
+    return x * -1;
+}}
 
 This one does not:
 
-@pyret-block{
-if x == 0:
-  1
-else if x > 0:
-  x
-end
-}
+@pyret-block{if (x == 0) {
+    return 1;
+} else if (x > 0) {
+    return x;
+}}
 
 Both are valid.  The conditions are tried in order, and the block corresponding
 to the first one to return @pyret{true} is evaluated.  If no condition matches,
@@ -2116,25 +1940,17 @@ ask-branch: BAR binop-expr THENCOLON block
 
 This ask expression:
 
-@pyret-block{
-ask:
-  | x == 0 then: 1
-  | x > 0 then: x
-  | otherwise: x * -1
-end
-}
+@pyret-block{ask x == 0 then: 1;x > 0 then: x;otherwise: x * -1;}
 
 is equivalent to
 
-@pyret-block{
-if x == 0:
-  1
-else if x > 0:
-  x
-else:
-  x * -1
-end
-}
+@pyret-block{if (x == 0) {
+    return 1;
+} else if (x > 0) {
+    return x;
+} else {
+    return x * -1;
+}}
 
 Similar to @pyret{if}, if an @pyret{otherwise:} branch isn't specified and no
 branch matches, a runtime error results.
@@ -2177,43 +1993,36 @@ match.  If no @tt{else} clause is provided, a runtime error results.
 
 For example, some cases expression on lists looks like:
 
-@pyret-block{
-check:
-  result = cases(List) [list: 1,2,3]:
-    | empty => "empty"
-    | link(f, r) => "link"
-  end
-  result is "link"
-
-  result2 = cases(List) [list: 1,2,3]:
-    | empty => "empty"
-    | else => "else"
-  end
-  result2 is "else"
-
-  result3 = cases(List) empty:
-    | empty => "empty"
-    | else => "else"
-  end
-  result3 is "empty"
-end
-}
+@pyret-block{@"@"Check void test() {
+    result = switch ([1, 2, 3]) {
+        case Empty: yield "empty";
+        case Link(f, r): yield "link";
+    }
+    assertEquals(result, "link");
+    result2 = switch ([1, 2, 3]) {
+        case Empty: yield "empty";
+        default: yield "else";
+    }
+    assertEquals(result2, "else");
+    result3 = switch (empty) {
+        case Empty: yield "empty";
+        default: yield "else";
+    }
+    assertEquals(result3, "empty");
+}}
 
 If a field of the variant is a tuple, it can also be bound using a tuple binding.
 
 For example, a cases expression on a list with tuples looks like:
 
-@examples{
-check:
-  result4 = cases(List) [list: {"a"; 1}, {"b"; 2}, {"c"; 3}]:
-    | empty => "empty"
-    | link({x;y}, r) => x
-    | else => "else"
-  end
-  
-  result4 is "a"
-end
-}
+@examples{@"@"Check void test() {
+    result4 = switch ([/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"a" ;1}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"b" ;2}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"c" ;3}]) {
+        case Empty: yield "empty";
+        case Link(/* tuple-binding (deferred) */, r): yield x;
+        default: yield "else";
+    }
+    assertEquals(result4, "a");
+}}
 
 @subsection[#:tag "s:for-expr"]{For Expressions}
 
@@ -2239,6 +2048,7 @@ for-bind: binding FROM binop-expr
 The for expression is just syntactic sugar for a
 @seclink["s:lam-expr"]{@tt{lam-expr}} and a @seclink["s:app-expr"]{@tt{app-expr}}.  An expression
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 for fexpr(arg1 :: ann1 from expr1, ...) -> ann-return:
   block
@@ -2247,6 +2057,7 @@ end
 
 is equivalent to:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 fexpr(lam(arg1 :: ann1, ...) -> ann-return: block end, expr1, ...)
 }
@@ -2256,13 +2067,8 @@ iteration functions because it puts the identifier of the function and the
 value it draws from closer to one another.  Use of @tt{for-expr} is a matter of
 style; here is an example that compares @tt{fold} with and without @tt{for}:
 
-@pyret-block{
-for fold(sum from 0, number from [list: 1,2,3,4]):
-  sum + number
-end
-
-fold(lam(sum, number): sum + number end, 0, [list: 1,2,3,4])
-}
+@pyret-block{[for fold(sum : 0, number : [1, 2, 3, 4]) { yield sum + number; }];
+fold((sum, number) -> sum + number, 0, [1, 2, 3, 4]);}
 
 @subsection[#:tag "s:template-expr"]{Template (...) Expressions}
 
@@ -2277,18 +2083,16 @@ It is useful for a placeholder for other expressions in code-in-progress.  When
 it is evaluated, it raises a runtime exception that indicates the expression it
 is standing in for isn't yet implemented:
 
-@examples{
-fun list-sum(l :: List<Number>) -> Number:
-  cases(List<Number>) l:
-    | empty => 0
-    | link(first, rest) => first + ...
-  end
-end
-check:
-  list-sum(empty) is 0
-  list-sum(link(1, empty)) raises "template-not-finished"
-end
+@examples{int list-sum(List<Object> l) {
+    return switch (l) {
+        case Empty: yield 0;
+        case Link(first, rest): yield first + ...;
+    }
 }
+@"@"Check void test() {
+    assertEquals(list-sum(empty), 0);
+    assertRaises(() -> { list-sum(link(1, empty)) }, "template-not-finished");
+}}
 
 This is handy for starting a function (especially one with many cases) with
 some tests written and others to be completed.
@@ -2298,6 +2102,7 @@ The @tt{...} expression can only appear where @emph{expressions} can appear.
 So it is not allowed in binding positions or annotation positions.  These are
 not allowed:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @examples{
 fun f(...): # parse error
   "todo"
@@ -2457,28 +2262,24 @@ fields also works, but does not return the field's value: it returns the
 reference itself, which is a Pyret value that's mostly inert and difficult to
 work with outside the context of its host object.
 
-@examples{
-data MutX:
-  | mut-x(ref x, y)
-end
-
-ex1 = mut-x(1, 2)
-
-check:
-  ex1!x is 1      # this access the value inside the reference
-  ex1.x is-not 1  # this does not
-end
+@examples{data MutX {
+    Mut-x(ref x, y);
 }
+ex1 = mut-x(1, 2);
+@"@"Check void test() {
+    assertEquals(ex1 ! x, 1);
+    // this access the value inside the reference
+    assertNotEquals(ex1.x, 1);
+}
+// this does not}
 
 To update a reference value, we use syntax similar to @py-prod{extend-expr},
 likewise made more emphatic:
 
-@examples{
-ex1!{x: 42}
-check:
-  ex1!x is 42
-end
-}
+@examples{ex1 ! {x 42 }
+@"@"Check void test() {
+    assertEquals(ex1 ! x, 42);
+}}
 
 
 
@@ -2489,16 +2290,12 @@ end
 Individual Pyret data values are syntactically simple to construct: they look
 similar to function calls.  But arbitrarily-sized data is not as obvious.  For
 instance, we could write
-@examples{
-link(1, link(2, link(3, link(4, empty))))
-}
+@examples{link(1, link(2, link(3, link(4, empty))));}
 to construct a 4-element list of numbers, but this gets tiresome quite
 quickly.  Many languages provide built-in syntactic support for constructing
 lists, but in Pyret we want all data types to be treated equally.  Accordingly,
 we can write the above example as
-@examples{
-[list: 1, 2, 3, 4]
-}
+@examples{[1, 2, 3, 4];}
 where @emph{@pyret{list} is not a syntactic keyword} in the language.  Instead,
 this is one example of a @emph{construction expression}, whose syntax is simply
 @bnf['Pyret]{
@@ -2516,41 +2313,21 @@ string-dictionaries all have the same syntax.
 
 The expression before the initial colon is a Pyret object that has a particular
 set of methods available.  Users can define their own constructors as well.
-@pyret-block{
-type Constructor<A> = {
-  make0 :: ( -> A),
-  make1 :: (Any -> A),
-  make2 :: (Any, Any -> A),
-  make3 :: (Any, Any, Any -> A),
-  make4 :: (Any, Any, Any, Any -> A),
-  make5 :: (Any, Any, Any, Any, Any -> A),
-  make  :: (RawArray<Any> -> A),
-}
-}
+@pyret-block{type Constructor < A > = {make0 :: (-> A ) ,make1 :: (Any -> A ) ,make2 :: (Any ,Any -> A ) ,make3 :: (Any ,Any ,Any -> A ) ,make4 :: (Any ,Any ,Any ,Any -> A ) ,make5 :: (Any ,Any ,Any ,Any ,Any -> A ) ,make :: (RawArray < Any > -> A ) ,}}
 When Pyret encounters a construction expression, it will call the
 appropriately-numbered method on the constructor objects, depending on the
 number of arguments it received.
 
-@examples{
-weird :: Constructor<String> = {
-  make0: lam(): "nothing at all" end,
-  make1: lam(a): "just " + tostring(a) end,
-  make2: lam(a, b): tostring(a) + " and " + tostring(b) end,
-  make3: lam(a, b, c): "several things" end,
-  make4: lam(a, b, c, d): "four things" end,
-  make5: lam(a, b, c, d, e): "five things" end,
-  make : lam(args): "too many things" end
-}
-check:
-  [weird: ] is "nothing at all"
-  [weird: true] is "just true"
-  [weird: 5, 6.24] is "5 and 156/25"
-  [weird: true, false, 5] is "several things"
-  [weird: 1, 2, 3, 4] is "four things"
-  [weird: 1, 1, 1, 1, 1] is "five things"
-  [weird: "a", "b", "c", true, false, 5] is "too many things"
-end
-}
+@examples{weird = {make0 () -> "nothing at all", make1 (a) -> "just " + tostring(a), make2 (a, b) -> tostring(a) + " and " + tostring(b), make3 (a, b, c) -> "several things", make4 (a, b, c, d) -> "four things", make5 (a, b, c, d, e) -> "five things", make (args) -> "too many things"}
+@"@"Check void test() {
+    assertEquals([weird: ], "nothing at all");
+    assertEquals([weird: true], "just true");
+    assertEquals([weird: 5, 6.24], "5 and 156/25");
+    assertEquals([weird: true, false, 5], "several things");
+    assertEquals([weird: 1, 2, 3, 4], "four things");
+    assertEquals([weird: 1, 1, 1, 1, 1], "five things");
+    assertEquals([weird: "a", "b", "c", true, false, 5], "too many things");
+}}
 
 
 @subsection[#:tag "s:binding-expressions"]{Expression forms of bindings}
@@ -2640,10 +2417,8 @@ Each of these names represents a particular type of runtime value, and using
 them in annotation position will check each time the identifier is bound that
 the value is of the right type.
 
-@pyret-block{
-x :: Number = "not-a-number"
-# Error: expected Number and got "not-a-number"
-}
+@pyret-block{x = "not-a-number";
+// Error: expected Number and got "not-a-number"}
 
 @tt{Any} is an annotation that allows any value to be used.  It's semantically
 equivalent to not putting an annotation on an identifier, but it allows a
@@ -2651,10 +2426,8 @@ program to clearly signal that no restrictions are intended for the identifier
 it annotates.
 
 Dot-annotations allow for importing types from modules:
-@pyret-block{
-import equality as EQ
-eq-reqult :: EQ.EqualityResult = equal-always3(5, 6)
-}
+@pyret-block{import equality as EQ
+eq-reqult = equal-always3(5, 6);}
 
 @subsection[#:tag "s:app-ann"]{Parametric Annotations}
 @bnf['Pyret]{
@@ -2669,15 +2442,11 @@ comma-anns: ann (COMMA ann)*
 Many data definitions are parametric, meaning they can contain any
 uniform type of data, such as lists of numbers.  Accordingly, while
 the following annotation isn't quite wrong, it is incomplete:
-@pyret-block[#:style "ok-ex"]{
-list-of-nums :: List = [list: 1, 2, 3]
-}
+@pyret-block[#:style "ok-ex"]{list-of-nums = [1, 2, 3];}
 
 To properly express the constraint on the contents, we need to
 specialize the list annotation:
-@pyret-block[#:style "good-ex"]{
-list-of-nums :: List<Number> = [list: 1, 2, 3]
-}
+@pyret-block[#:style "good-ex"]{list-of-nums = [1, 2, 3];}
 
 Note that this annotation will @emph{not dynamically check} that every
 item in the list is in fact a @tt{Number} --- that would be infeasibly
@@ -2718,9 +2487,9 @@ pred-ann: ann PERCENT LPAREN NAME RPAREN
 For example, a function might only work on non-empty lists.  We might
 write this as
 
-@pyret-block[#:style "good-ex"]{
-fun do-something-with<a>(non-empty-list :: List<a>%(is-link)) -> a: ... end
-}
+@pyret-block[#:style "good-ex"]{a do-something-with(Object non-empty-list) {
+    return ...;
+}}
 
 If we want to write customized predicates, we can easily do so.  Those
 predicates must be defined @emph{before} being used in an annotation
@@ -2739,10 +2508,8 @@ tuple-ann: LBRACE ann (SEMI ann)* [SEMI] RBRACE
 Each component is itself an annotation.
 
 For example we could write
-@examples{
-num-bool :: {Number; Boolean} = {3; true}
-num-bool--string-list :: {{Number; Boolean}; {String; List<Any>}} = {{3; true}; {"hi"; empty}}
-}
+@examples{num-bool = /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {3 ;true}
+num-bool--string-list = /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {3 ;true} ;/* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {"hi" ;empty}}}
 
 @subsection[#:tag "s:record-ann"]{Record Annotations}
 Annotating a record is syntactically very similar to writing a record value,
@@ -2759,6 +2526,4 @@ ann-field: NAME COLONCOLON ann
 }
 
 As with object literals, the order of fields does not matter.  For example,
-@examples{
-my-obj :: {n :: Number, s :: String, b :: Boolean} = {s: "Hello", b: true, n: 42}
-}
+@examples{my-obj = {s "Hello", b true, n 42}}

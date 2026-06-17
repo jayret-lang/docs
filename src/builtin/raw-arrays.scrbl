@@ -141,21 +141,16 @@ Usually, the most appropriate comparison is
 Tests should correspondingly use 
 @pyret-id["is=~" "testing"].
 
-@examples{
-check:
-  ra = [raw-array: 1, 2, 3]
-  
-  ra is ra
-  ra is== ra
-  
-  [raw-array: 1, 2, 3] is-not ra
-  [raw-array: 1, 2, 3] is-not [raw-array: 1, 2, 3]
-  [raw-array: 1, 2, 3] is-not== ra
-  
-  [raw-array: 1, 2, 3] is=~ ra
-  [raw-array: 1, 2, 3] is=~ [raw-array: 1, 2, 3]
-end
-}
+@examples{@"@"Check void test() {
+    ra = [raw-array: 1, 2, 3];
+    assertEquals(ra, ra);
+    assertEqualsStrict(ra, ra);
+    assertNotEquals([raw-array: 1, 2, 3], ra);
+    assertNotEquals([raw-array: 1, 2, 3], [raw-array: 1, 2, 3]);
+    /* TODO(pyret2jayret): check-op is-not== */ [raw-array: 1, 2, 3] is-not== ra;
+    assertEqualsRoughly([raw-array: 1, 2, 3], ra);
+    assertEqualsRoughly([raw-array: 1, 2, 3], [raw-array: 1, 2, 3]);
+}}
 
   @function["raw-array-of" #:contract (a-arrow "a" N (RA-of "a"))]
 
@@ -167,26 +162,18 @@ the elements of @pyret{RawArray}s created with @pyret-id{raw-array-of} will alwa
 @pyret-id["identical" "equality"] (with the usual caveats if the @pyret{value}
 was a function or method).
 
-@examples{
-check:
-  arr = raw-array-of(true, 2)
-  arr is=~ [raw-array: true, true]
-  arr is-not [raw-array: true, true]
-  raw-array-get(arr, 0) is<=> raw-array-get(arr, 1)
-  
-  raw-array-set(arr, 1, false)
-  arr is=~ [raw-array: true, false]
-  
-  arr-of-arrs = raw-array-of(arr, 3)
-  arr-of-arrs is=~ [raw-array: [raw-array: true, false], 
-    [raw-array: true, false], [raw-array: true, false]]
-  
-  raw-array-set(arr, 0, false)
-  arr-of-arrs is=~ [raw-array: [raw-array: false, false], 
-    [raw-array: false, false], [raw-array: false, false]] 
-end
-
-}
+@examples{@"@"Check void test() {
+    arr = raw-array-of(true, 2);
+    assertEqualsRoughly(arr, [raw-array: true, true]);
+    assertNotEquals(arr, [raw-array: true, true]);
+    /* TODO(pyret2jayret): check-op is<=> */ raw-array-get(arr, 0) is<=> raw-array-get(arr, 1);
+    raw-array-set(arr, 1, false);
+    assertEqualsRoughly(arr, [raw-array: true, false]);
+    arr-of-arrs = raw-array-of(arr, 3);
+    assertEqualsRoughly(arr-of-arrs, [raw-array: [raw-array: true, false], [raw-array: true, false], [raw-array: true, false]]);
+    raw-array-set(arr, 0, false);
+    assertEqualsRoughly(arr-of-arrs, [raw-array: [raw-array: false, false], [raw-array: false, false], [raw-array: false, false]]);
+}}
 
   @function["raw-array-get" #:contract (a-arrow (RA-of "a") N "a") #:return "a"]
 
@@ -194,14 +181,12 @@ Returns the value at the given @tt{index}.
 
 Using an index too large, negative, or not a whole number raises an error.
   
-@examples{
-check:
-  a = [raw-array: "a", "b", "c"]
-  raw-array-get(a, 0) is "a"
-  raw-array-get(a, 1) is "b"
-  raw-array-get(a, 2) is "c"
-end
-}
+@examples{@"@"Check void test() {
+    a = [raw-array: "a", "b", "c"];
+    assertEquals(raw-array-get(a, 0), "a");
+    assertEquals(raw-array-get(a, 1), "b");
+    assertEquals(raw-array-get(a, 2), "c");
+}}
   
   @function["raw-array-set" #:contract (a-arrow (RA-of "a") N "a" (RA-of "a")) #:return (RA-of "a")]
 
@@ -210,32 +195,26 @@ so all references to the @pyret{RawArray} see the update.
 
 Using an index too large, negative, or not a whole number raises an error.
   
-@examples{
-check:
-  a = [raw-array: "a", "b", "c"]
-  raw-array-get(a, 0) is "a"
-  
-  b = a
-  raw-array-set(a, 0, "d")
-  a is=~ [raw-array: "d", "b", "c"]
-  b is=~ [raw-array: "d", "b", "c"]
-  
-  c = raw-array-set(a, 0, "z")
-  c is=~ [raw-array: "z", "b", "c"]
-end
-}
+@examples{@"@"Check void test() {
+    a = [raw-array: "a", "b", "c"];
+    assertEquals(raw-array-get(a, 0), "a");
+    b = a;
+    raw-array-set(a, 0, "d");
+    assertEqualsRoughly(a, [raw-array: "d", "b", "c"]);
+    assertEqualsRoughly(b, [raw-array: "d", "b", "c"]);
+    c = raw-array-set(a, 0, "z");
+    assertEqualsRoughly(c, [raw-array: "z", "b", "c"]);
+}}
 
           
   @function["raw-array-length" #:contract (a-arrow (RA-of "a") N) #:return N]
 
-@examples{
-check:
-  a = [raw-array: "a", "b"]
-  raw-array-length(a) is 2
-  b = [raw-array:]
-  raw-array-length(b) is 0
-end
-}
+@examples{@"@"Check void test() {
+    a = [raw-array: "a", "b"];
+    assertEquals(raw-array-length(a), 2);
+    b = [raw-array: ];
+    assertEquals(raw-array-length(b), 0);
+}}
   @function["raw-array-to-list" #:contract (a-arrow (RA-of "a") (L-of "a")) #:return (L-of "a")]
 
     Converts a @pyret-id{RawArray} to a @pyret-id["List" "lists"] containing
@@ -244,31 +223,25 @@ end
     Note that it does @emph{not} recursively convert @pyret-id{RawArray}s;
     only the top-level is converted.
 
-    @examples{
-check:
-  a = [raw-array: 1, 2, 3]
-  raw-array-to-list(a) is [list: 1, 2, 3]
-        
-  a2 = raw-array-of([raw-array:], 3)
-  raw-array-to-list(a2) is=~ [list: [raw-array:], [raw-array:], [raw-array:]]
-  raw-array-to-list(a2) is-not=~ [list: [list:], [list:], [list:]]
-end
-    }
+    @examples{@"@"Check void test() {
+    a = [raw-array: 1, 2, 3];
+    assertEquals(raw-array-to-list(a), [1, 2, 3]);
+    a2 = raw-array-of([raw-array: ], 3);
+    assertEqualsRoughly(raw-array-to-list(a2), [[raw-array: ], [raw-array: ], [raw-array: ]]);
+    /* TODO(pyret2jayret): check-op is-not=~ */ raw-array-to-list(a2) is-not=~ [[], [], []];
+}}
 
   @function["raw-array-from-list" #:contract (a-arrow (L-of "a") (RA-of "a")) #:return (RA-of "a")]
 
     Converts a @pyret-id["List" "lists"] to a @pyret-id{RawArray} containing
     the same elements in the same order.
 
-@examples{
-check:
-  raw-array-from-list(empty) is=~ [raw-array: ]
-  raw-array-from-list(empty) is-not [raw-array: ]
-  
-  raw-array-from-list([list: 1, 2, 3]) is=~ [raw-array: 1, 2, 3]
-  raw-array-from-list([list: 1, 2, 3]) is-not [raw-array: 1, 2, 3]
-end
-}
+@examples{@"@"Check void test() {
+    assertEqualsRoughly(raw-array-from-list(empty), [raw-array: ]);
+    assertNotEquals(raw-array-from-list(empty), [raw-array: ]);
+    assertEqualsRoughly(raw-array-from-list([1, 2, 3]), [raw-array: 1, 2, 3]);
+    assertNotEquals(raw-array-from-list([1, 2, 3]), [raw-array: 1, 2, 3]);
+}}
 
 
   @function["raw-array-build" #:contract (a-arrow (a-arrow N "a") N (RA-of "a")) #:return (RA-of "a")]
@@ -276,33 +249,32 @@ end
     Constructs an array of length @pyret{size}, and fills it with the result of
     calling the function @pyret{f} with each index from @pyret{0} to @pyret{size - 1}.
 
-  @examples{
-check:
-  fun sq(x): x * x end
-  raw-array-build(sq, 4) is=~ [raw-array: sq(0), sq(1), sq(2), sq(3)]
-end
-  }
+  @examples{@"@"Check void test() {
+    Object sq(x) {
+        return x * x;
+    }
+    assertEqualsRoughly(raw-array-build(sq, 4), [raw-array: sq(0), sq(1), sq(2), sq(3)]);
+}}
 
 
   @function["raw-array-build-opt" #:contract (a-arrow (a-arrow N (O-of A)) N) #:return (RA-of A)]
   
     Constructs an array based on the results of
-    calling the function @pyret{f} with each index from @pyret{0} to @pyret{size
-    - 1}. For each index, if the result of @pyret{f} is @pyret{some(value)},
+    calling the function @pyret{f} with each index from @pyret{0} to @pyret{size - 1}. For each index, if the result of @pyret{f} is @pyret{some(value)},
     then @pyret{value} is included in the resulting array (it is not included
     for @pyret{none}). The size of the resulting array is equal to the number of
     @pyret{some} results.
     
-    @examples{
-check:
-  fun even(n):
-    if num-modulo(n, 2) == 0: some(n)
-    else: none
-    end
-  end
-  raw-array-build-opt(even, 10) is=~ [raw-array: 0, 2, 4, 6, 8]
-end    
-   } 
+    @examples{@"@"Check void test() {
+    Object even(n) {
+        return if (num-modulo(n, 2) == 0) {
+            return some(n);
+        } else {
+            return none;
+        }
+    }
+    assertEqualsRoughly(raw-array-build-opt(even, 10), [raw-array: 0, 2, 4, 6, 8]);
+}} 
   
   @function["raw-array-map" #:contract (a-arrow (a-arrow "a" "b") (RA-of "a")) #:return (RA-of "b")]
 
@@ -310,15 +282,11 @@ end
   Similar to @pyret-id["map" "lists"]. Has an argument order that works with
   @pyret{for}.
 
-  @examples{
-check:
-  a = [raw-array: "apple", "banana", "plum"]
-  lengths = for raw-array-map(s from a):
-    string-length(s)
-  end
-  lengths is=~ [raw-array: 5, 6, 4]
-end
-  }
+  @examples{@"@"Check void test() {
+    a = [raw-array: "apple", "banana", "plum"];
+    lengths = [for raw-array-map(s : a) { yield string-length(s); }];
+    assertEqualsRoughly(lengths, [raw-array: 5, 6, 4]);
+}}
   
   Note that the test uses @pyret-id["is=~" "testing"], because raw arrays are
   mutable and so the two values in the shown test are not
@@ -333,15 +301,11 @@ end
   Similar to @pyret-id["filter" "lists"]. Has an argument order that works with
   @pyret{for}.
 
-  @examples{
-check:
-  a = [raw-array: "apple", "banana", "plum"]
-  p-words = for raw-array-filter(s from a):
-    string-contains(s, "p")
-  end
-  p-words is=~ [raw-array: "apple", "plum"]
-end
-  }
+  @examples{@"@"Check void test() {
+    a = [raw-array: "apple", "banana", "plum"];
+    p-words = [for raw-array-filter(s : a) { yield string-contains(s, "p"); }];
+    assertEqualsRoughly(p-words, [raw-array: "apple", "plum"]);
+}}
   
   @function["raw-array-sort-nums" #:contract (a-arrow (RA-of N) B) #:return (RA-of N)]
 
@@ -349,18 +313,14 @@ end
   according to the @pyret{asc} parameter. Returns a reference to the
   original array, which will have its contents mutably updated.
 
-  @examples{
-check:
-  a = [raw-array: 3, 1, 4, 1, 5, 9, 2]
-
-  asc = raw-array-sort-nums(a, true)
-  asc is<=> a
-  a is=~ [raw-array: 1, 1, 2, 3, 4, 5, 9]
-
-  raw-array-sort-nums(a, false)
-  a is=~ [raw-array: 9, 5, 4, 3, 2, 1, 1]
-end
-}
+  @examples{@"@"Check void test() {
+    a = [raw-array: 3, 1, 4, 1, 5, 9, 2];
+    asc = raw-array-sort-nums(a, true);
+    /* TODO(pyret2jayret): check-op is<=> */ asc is<=> a;
+    assertEqualsRoughly(a, [raw-array: 1, 1, 2, 3, 4, 5, 9]);
+    raw-array-sort-nums(a, false);
+    assertEqualsRoughly(a, [raw-array: 9, 5, 4, 3, 2, 1, 1]);
+}}
 
   @function["raw-array-sort-by" #:contract (a-arrow (RA-of "a") (a-arrow "a" N) B) #:return (RA-of "a")]
 
@@ -370,20 +330,15 @@ end
   order if @pyret{asc} is @pyret{true}, decreasing if @pyret{false}). Ties are
   broken by the order in which the element is present in the initial array.
   
-  @examples{
-check:
-  a = [raw-array: "let", "us", "go", "then", "you", "and", "i"]
-
-  asc = raw-array-sort-by(a, string-length, true)
-  asc is=~ [raw-array: "i", "us", "go", "let", "you", "and", "then"]
-  asc is-not=~ a
-
-  desc = raw-array-sort-by(a, string-length, false)
-  desc is=~ [raw-array: "then", "let", "you", "and", "us", "go", "i"]
-
-  a is=~ [raw-array: "let", "us", "go", "then", "you", "and", "i"]
-end
-}
+  @examples{@"@"Check void test() {
+    a = [raw-array: "let", "us", "go", "then", "you", "and", "i"];
+    asc = raw-array-sort-by(a, string-length, true);
+    assertEqualsRoughly(asc, [raw-array: "i", "us", "go", "let", "you", "and", "then"]);
+    /* TODO(pyret2jayret): check-op is-not=~ */ asc is-not=~ a;
+    desc = raw-array-sort-by(a, string-length, false);
+    assertEqualsRoughly(desc, [raw-array: "then", "let", "you", "and", "us", "go", "i"]);
+    assertEqualsRoughly(a, [raw-array: "let", "us", "go", "then", "you", "and", "i"]);
+}}
   
 
   @function["raw-array-fold" #:contract (a-arrow (a-arrow "b" "a" N "b") "b" (RA-of "a") N "b") #:return "b"]
@@ -395,37 +350,29 @@ end
 
   Similar to @pyret-id["fold_n" "lists"].
 
-  @examples{
-check:
-  a = [raw-array: "a", "b", "c"]
-  str = for raw-array-fold(str from "", elt from a, i from 0):
-    if i < (raw-array-length(a) - 1):
-      str + elt + ": " + tostring(i) + ", "
-    else:
-      str + elt + ": " + tostring(i)
-    end
-  end
-  str is "a: 0, b: 1, c: 2"
-end
-  }
+  @examples{@"@"Check void test() {
+    a = [raw-array: "a", "b", "c"];
+    str = [for raw-array-fold(str : "", elt : a, i : 0) { yield if (i < (raw-array-length(a) - 1)) {
+        return str + elt + ": " + tostring(i) + ", ";
+    } else {
+        return str + elt + ": " + tostring(i);
+    }; }];
+    assertEquals(str, "a: 0, b: 1, c: 2");
+}}
   
   @function["raw-array-concat" #:contract (a-arrow (RA-of "a") (RA-of "a" )) #:return (RA-of "a")]
   
   Creates a new array with all the elements of @pyret{array1} followed by all
   the elements of @pyret{array2}.
   
-@examples{
-check:
-  a1 = [raw-array: 5, 6, 7]
-  a2 = [raw-array: 0, 3, 99, -1, 7]
-
-  c = raw-array-concat(a1, a2)
-  c is=~ [raw-array: 5, 6, 7, 0, 3, 99, -1, 7]
-  
-  a1 is=~ [raw-array: 5, 6, 7]
-  a2 is=~ [raw-array: 0, 3, 99, -1, 7]
-end
-}
+@examples{@"@"Check void test() {
+    a1 = [raw-array: 5, 6, 7];
+    a2 = [raw-array: 0, 3, 99, -1, 7];
+    c = raw-array-concat(a1, a2);
+    assertEqualsRoughly(c, [raw-array: 5, 6, 7, 0, 3, 99, -1, 7]);
+    assertEqualsRoughly(a1, [raw-array: 5, 6, 7]);
+    assertEqualsRoughly(a2, [raw-array: 0, 3, 99, -1, 7]);
+}}
 
   
 
@@ -434,30 +381,23 @@ end
   Returns a copy of the given array, such that corresponding elements in the
   result are @seclink["eq-fun-identical"] to those in the source array.
   
-  @examples{
-check:
-  a = [raw-array: 1, 2, 3]
-  b = raw-array-duplicate(a)
-  a is=~ b
-  b is=~ a
-
-  a is<=> a
-  a is-not<=> b
-  b is-not<=> a
-  b is<=> b
-
-  raw-array-set(a, 1, 1)
-
-  raw-array-get(a, 1) is 1
-  raw-array-get(b, 1) is 2
-
-  c = [raw-array: {1; 2}, {3; 4}]
-  d = raw-array-duplicate(c)
-
-  c is-not<=> d
-  raw-array-get(c, 0) is<=> raw-array-get(d, 0)
-  raw-array-get(c, 1) is<=> raw-array-get(d, 1)
-end
-  }
+  @examples{@"@"Check void test() {
+    a = [raw-array: 1, 2, 3];
+    b = raw-array-duplicate(a);
+    assertEqualsRoughly(a, b);
+    assertEqualsRoughly(b, a);
+    /* TODO(pyret2jayret): check-op is<=> */ a is<=> a;
+    /* TODO(pyret2jayret): check-op is-not<=> */ a is-not<=> b;
+    /* TODO(pyret2jayret): check-op is-not<=> */ b is-not<=> a;
+    /* TODO(pyret2jayret): check-op is<=> */ b is<=> b;
+    raw-array-set(a, 1, 1);
+    assertEquals(raw-array-get(a, 1), 1);
+    assertEquals(raw-array-get(b, 1), 2);
+    c = [raw-array: /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {1 ;2}, /* TODO(pyret2jayret): tuples deferred in Jayret v0.1 */ {3 ;4}];
+    d = raw-array-duplicate(c);
+    /* TODO(pyret2jayret): check-op is-not<=> */ c is-not<=> d;
+    /* TODO(pyret2jayret): check-op is<=> */ raw-array-get(c, 0) is<=> raw-array-get(d, 0);
+    /* TODO(pyret2jayret): check-op is<=> */ raw-array-get(c, 1) is<=> raw-array-get(d, 1);
+}}
 
 }

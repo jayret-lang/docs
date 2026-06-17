@@ -32,47 +32,38 @@ implementation of lists, defining functions named @tt{map}, @tt{filter}, and so
 on. In this case, the context they use should not be the default context
 (because it already has @tt{map} and so on):
 
-@pyret-block[#:style "bad-ex"]{
-use context essentials2021
-
-data List<A>:
-  | empty
-  | link(first :: A, rest :: List<A>)
-end
-
-# causes a shadowing error because empty and link already are defined and
-# provided by essentials2021
+@pyret-block[#:style "bad-ex"]{// [Jayret] use context: context essentials2021
+data List {
+    Empty;
+    Link(A first, List<Object> rest);
 }
+// causes a shadowing error because empty and link already are defined and
+// provided by essentials2021}
 
 You could create a context with just a limited set of global names, and publish
 it as a @tt{shared-gdrive} module:
 
-@pyret-block[#:style "good-ex"]{
-# In file "list-assignment-context.arr"
-use context global # This is a good default environment to use when constructing namespaces
-# Basic functions/types like num-max, to-string, Number, String
+@pyret-block[#:style "good-ex"]{// In file "list-assignment-context.arr"
+// [Jayret] use context: context global
+// This is a good default environment to use when constructing namespaces
+// Basic functions/types like num-max, to-string, Number, String
 import global as G
-provide from G: *, type * end
-
-# Option and Either might be used as return types for some list functions,
-# so provide those
+// [Jayret] explicit `provide`: 
+// Option and Either might be used as return types for some list functions,
+// so provide those
 import option as O
-provide from O: *, type * end
-
+// [Jayret] explicit `provide`: 
 import either as E
-provide from E: *, type * end
+// [Jayret] explicit `provide`: 
 }
 
 Then students could use that module as their context:
 
-@pyret-block[#:style "good-ex"]{
-use context shared-gdrive("list-assignment-context.arr", "google-id-goes-here")
-
-data List<A>:
-  | empty
-  | link(first :: A, rest :: List<A>)
-end
-}
+@pyret-block[#:style "good-ex"]{// [Jayret] use context: context shared-gdrive ( "list-assignment-context.arr" , "google-id-goes-here" )
+data List {
+    Empty;
+    Link(A first, List<Object> rest);
+}}
 
 
 

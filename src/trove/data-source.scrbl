@@ -146,9 +146,9 @@ This datatype describes Pyret's
 
 @section{Sanitizers}
 @type-spec["Sanitizer" (list "A" "B")]{
-A @pyret{Sanitizer<A, B>} is a function with signature
-@pyret{(}@pyret-id{CellContent}@pyret{<A>, }@g-id{String}@pyret{,
-}@g-id{Number}@pyret{ -> B}@pyret{)}.  It takes in the contents of a cell, as
+A @pyret{Sanitizer < A ,B >} is a function with signature
+@pyret{(}@pyret-id{CellContent}@pyret{<A>,}@g-id{String}@pyret{,}@g-id{Number}@; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{ -> B}@pyret{)}.  It takes in the contents of a cell, as
 well as the coordinates (column name, as given by the @seclink["s:tables:loading"]{@pyret{load-table}
 header}, and zero-indexed row number) of that cell, and attempts to parse the
 contents of that cell to a value of the intended Pyret type.  If a cell's

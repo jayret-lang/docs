@@ -23,21 +23,16 @@
 
   If any errors occur, returns @pyret-id["right" "either"] with that error as a string.
 
-@examples[#:show-try-it #t]{
-import fetch as F
+@examples[#:show-try-it #t]{import fetch as F
 import either as Ei
-
-
-check:
-  animals = F.fetch("https://raw.githubusercontent.com/brownplt/pyret-lang/refs/heads/horizon/tests/io-tests/tests/animals-ds-2024.csv")
-  animals satisfies Ei.is-left
-  string-contains(animals.v, "Name,Species,Sex,Age") is true
-  
-  bad-fetch = F.fetch("https://raw.githubusercontent.com/NO-SUCH-URL")
-  bad-fetch satisfies Ei.is-right
-  to-repr(bad-fetch) satisfies string-contains(_, "400")
-end
-}
+@"@"Check void test() {
+    animals = F.fetch("https://raw.githubusercontent.com/brownplt/pyret-lang/refs/heads/horizon/tests/io-tests/tests/animals-ds-2024.csv");
+    assertSatisfies(animals, Ei.is-left);
+    assertEquals(string-contains(animals.v, "Name,Species,Sex,Age"), true);
+    bad-fetch = F.fetch("https://raw.githubusercontent.com/NO-SUCH-URL");
+    assertSatisfies(bad-fetch, Ei.is-right);
+    assertSatisfies(to-repr(bad-fetch), string-contains(_, "400"));
+}}
 
 }
 

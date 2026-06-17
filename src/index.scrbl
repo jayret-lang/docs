@@ -45,6 +45,6 @@ Jayret programs in your browser.}
 
 @include-section["style-guide.scrbl"]
 
-@include-section["internal.scrbl"]
+@include-section["deferred-from-pyret.scrbl"]
 
 @include-section["glossary.scrbl"]

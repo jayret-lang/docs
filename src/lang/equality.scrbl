@@ -348,48 +348,36 @@ The negation of @pyret{==}: returns @pyret{true} if the values are not
 Here are some examples of @pyret-id{equal-always} stopping at mutable data, but
 checking immutable data, contrasted with @pyret-id{equal-now}.
 
-@pyret-block{
-data MyBox:
-  | my-box(ref x)
-end
-
-check:
-  b1 = my-box(1)
-  b2 = my-box(1)
-
-  b1 is-not%(equal-always) b2
-  b1 is%(equal-now) b2
-  b2!{x : 2}
-
-  b1 is-not%(equal-always) b2
-  b1 is-not%(equal-now) b2
-
-  b3 = my-box(2)
-
-  # remember that b2 currently refers to 2
-  l1 = [list: b1, b2]
-  l2 = [list: b1, b2]
-  l3 = [list: b1, b3]
-
-  l1 is%(equal-now) l2
-  l1 is%(equal-always) l2
-  l1 is-not%(identical) l2
-
-  l1 is%(equal-now) l3
-  l1 is-not%(equal-always) l3
-  l1 is-not%(identical) l3
-
-  b2!{x: 5}
-
-  l1 is%(equal-now) l2
-  l1 is%(equal-always) l2
-  l1 is-not%(identical) l2
-
-  l1 is-not%(equal-now) l3
-  l1 is-not%(equal-always) l3
-  l1 is-not%(identical) l3
-end
+@pyret-block{data MyBox {
+    My-box(ref x);
 }
+@"@"Check void test() {
+    b1 = my-box(1);
+    b2 = my-box(1);
+    assertNotEquals(b1, b2);
+    assertEquals(b1, b2);
+    b2 ! {x 2 }
+    assertNotEquals(b1, b2);
+    assertNotEquals(b1, b2);
+    b3 = my-box(2);
+    // remember that b2 currently refers to 2
+    l1 = [b1, b2];
+    l2 = [b1, b2];
+    l3 = [b1, b3];
+    assertEquals(l1, l2);
+    assertEquals(l1, l2);
+    assertNotEquals(l1, l2);
+    assertEquals(l1, l3);
+    assertNotEquals(l1, l3);
+    assertNotEquals(l1, l3);
+    b2 ! {x 5 }
+    assertEquals(l1, l2);
+    assertEquals(l1, l2);
+    assertNotEquals(l1, l2);
+    assertNotEquals(l1, l3);
+    assertNotEquals(l1, l3);
+    assertNotEquals(l1, l3);
+}}
 
 @;{
 @subsection[#:tag "s:always-equal-frozen"]{Equal Always and Frozen Mutable Data}
@@ -400,6 +388,7 @@ end
   will succeed for cyclic graphs created with @code{graph:} that have the same
   shape:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
   data MList:
     | mlink(ref first, ref rest)
@@ -452,15 +441,13 @@ hence cannot be passed as a parameter, etc.
 @code{equal-now} checks primitive equality on numbers, strings, and
 booleans:
 
-@examples{
-check:
-  5 is%(equal-now) 5
-  5 is-not%(equal-now) 6
-  "abc" is%(equal-now) "abc"
-  "a" is-not%(equal-now) "b"
-  "a" is-not%(equal-now) 5
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(5, 5);
+    assertNotEquals(5, 6);
+    assertEquals("abc", "abc");
+    assertNotEquals("a", "b");
+    assertNotEquals("a", 5);
+}}
 
 @subsection[#:tag "s:equal-now-structural"]{Equal Now and Structured Data}
 
@@ -470,21 +457,17 @@ members and checks for pairwise equality.  So, for example, lists will
 recursively check that their contents are the same, including the case where
 their contents are objects:
 
-@examples{
-check:
-  l1 = [list: 1, 2, 3]
-  l2 = [list: 1, 2, 3]
-
-  l1 is%(equal-now) l2
-  link(1, l1) is-not%(equal-now) l2
-
-  l3 = [list: {x: 5}]
-  l4 = [list: {x: 5}]
-  l5 = [list: {x: 6}]
-  l3 is%(equal-now) l4
-  l3 is-not%(equal-now) l5
-end
-}
+@examples{@"@"Check void test() {
+    l1 = [1, 2, 3];
+    l2 = [1, 2, 3];
+    assertEquals(l1, l2);
+    assertNotEquals(link(1, l1), l2);
+    l3 = [{x 5}];
+    l4 = [{x 5}];
+    l5 = [{x 6}];
+    assertEquals(l3, l4);
+    assertNotEquals(l3, l5);
+}}
 
 @subsection[#:tag "s:equal-now-mutable"]{Equal Now and References}
 
@@ -493,44 +476,35 @@ name: since it only checks the @emph{current} values, and those fields might
 change, it is not true that if @code{e1 =~ e2}, then later @code{e1 =~ e2} will
 hold again.  For example:
 
-@examples{
-data MyBox:
-  | my-box(ref x)
-end
-
-check:
-  b1 = my-box(1)
-  b2 = my-box(1)
-
-  b1 is%(equal-now) b2
-  b1!{x : 2}
-
-  b1 is-not%(equal-now) b2
-end
+@examples{data MyBox {
+    My-box(ref x);
 }
+@"@"Check void test() {
+    b1 = my-box(1);
+    b2 = my-box(1);
+    assertEquals(b1, b2);
+    b1 ! {x 2 }
+    assertNotEquals(b1, b2);
+}}
 
 Equal Now will recognize when references form a cycle, and cycles of the same
 shape are recognized as equal (even though the references might change their
 contents later):
 
-@examples{
-data InfiniteList:
-  | i-link(first, ref rest)
-  | i-empty
-end
-
-check:
-  l1 = i-link(1, i-empty)
-  l2 = i-link(1, i-empty)
-  l3 = i-link(1, i-link(2, i-empty))
-  l1!{rest : l1}
-  l2!{rest : l2}
-  l3!rest!{rest : l3}
-
-  l1 is%(equal-now) l2
-  l1 is-not%(equal-now) l3
-end
+@examples{data InfiniteList {
+    I-link(first, ref rest);
+    I-empty;
 }
+@"@"Check void test() {
+    l1 = i-link(1, i-empty);
+    l2 = i-link(1, i-empty);
+    l3 = i-link(1, i-link(2, i-empty));
+    l1 ! {rest l1 }
+    l2 ! {rest l2 }
+    l3 ! rest ! {rest l3 }
+    assertEquals(l1, l2);
+    assertNotEquals(l1, l3);
+}}
 
 @section[#:tag "eq-fun-identical"]{Identical}
 
@@ -562,15 +536,13 @@ checks if the values are actually the same exact value (the operator is meant
 to indicate that the values are interchangable).  So objects with the same
 fields are not identical to anything but themselves:
 
-@examples{
-check:
-  o = { x: 5 }
-  o2 = { x: 5 }
-  o is-not%(identical) o2
-  o is%(identical) o
-  o2 is%(identical) o2
-end
-}
+@examples{@"@"Check void test() {
+    o = {x 5}
+    o2 = {x 5}
+    assertNotEquals(o, o2);
+    assertEquals(o, o);
+    assertEquals(o2, o2);
+}}
 
 @subsection[#:tag "s:identical-mutable"]{Identical and Mutable Data}
 
@@ -579,29 +551,24 @@ used to tell if two references are @emph{aliases} for the same underlying
 state, or if they are in fact different (even though they may be equal right
 now).
 
-@examples{
-data InfiniteList:
-  | i-link(first, ref rest)
-  | i-empty
-end
-
-check:
-  l1 = i-link(1, i-empty)
-  l2 = i-link(1, i-empty)
-  l1!{rest : l1}
-  l2!{rest : l2}
-
-  l1 is%(identical) l1
-  l1!rest is%(identical) l1
-  l1 is-not%(identical) l2
-  l1!rest is-not%(identical) l2
-
-  l2 is%(identical) l2
-  l2!rest is%(identical) l2
-  l2 is-not%(identical) l1
-  l2!rest is-not%(identical) l1
-end
+@examples{data InfiniteList {
+    I-link(first, ref rest);
+    I-empty;
 }
+@"@"Check void test() {
+    l1 = i-link(1, i-empty);
+    l2 = i-link(1, i-empty);
+    l1 ! {rest l1 }
+    l2 ! {rest l2 }
+    assertEquals(l1, l1);
+    assertEquals(l1 ! rest, l1);
+    assertNotEquals(l1, l2);
+    assertNotEquals(l1 ! rest, l2);
+    assertEquals(l2, l2);
+    assertEquals(l2 ! rest, l2);
+    assertNotEquals(l2, l1);
+    assertNotEquals(l2 ! rest, l1);
+}}
 
 @;{
   Identical differs from the other equality operators on mutable data in that
@@ -610,6 +577,7 @@ end
   So, for example, the behavior of the @code{graph:} example from above
   differs:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
   data MList:
     | mlink(ref first, ref rest)
@@ -695,13 +663,11 @@ range.  For example, if we write an algorithm that computes an answer to
 within a given tolerance, we may want to check if the answer is within that
 tolerance.
 
-@pyret-block{
-check:
-  sqrt-5 = num-sqrt(5)
-  (sqrt-5 < 2.23) is true
-  (sqrt-5 > 2.22) is true
-end
-}
+@pyret-block{@"@"Check void test() {
+    sqrt-5 = num-sqrt(5);
+    assertEquals((sqrt-5 < 2.23), true);
+    assertEquals((sqrt-5 > 2.22), true);
+}}
 
 Pyret has a family of built-in functions for cases like this, and the default
 is @pyret-id{within}.  To explain it precisely, it is clearer to first explain the
@@ -713,35 +679,26 @@ It takes an argument representing the @emph{relative error}, and returns a
 function that can be used to check equality up to that relative error.  For
 example, we can check if an answer is within 10% of a desired result:
 
-@pyret-block{
-check:
-  within-10-percent = within(0.1)
-  within-10-percent(9.5, 10.5) is true
-end
-}
+@pyret-block{@"@"Check void test() {
+    within-10-percent = within(0.1);
+    assertEquals(within-10-percent(9.5, 10.5), true);
+}}
 
 Relative difference is defined by multiplying the @emph{smaller} of the two
 numbers by @pyret{tol}, and checking that the result is less than the
 difference between them.  That is, in the expression above, @pyret-id{within}
 checks:
 
-@pyret-block{
-num-abs(9.5 - 10.5) <= (0.1 * num-min(9.5, 10.5))
-}
+@pyret-block{num-abs(9.5 - 10.5) <= (0.1 * num-min(9.5, 10.5));}
 
 @note{Converting to exact numbers first avoids overflows on computing the
 mean.}
 Put yet another way, aside from some slight differences in bounds checking for
 errors, we could implement the numeric comparison of @pyret-id{within} as:
 
-@pyret-block{
-fun my-within(tol):
-  lam(left, right):
-    num-abs(num-exact(left) - num-exact(right))
-      <= num-exact(tol) * num-min(num-abs(left), num-abs(right))
-  end
-end
-}
+@pyret-block{Object my-within(tol) {
+    return (left, right) -> num-abs(num-exact(left) - num-exact(right)) <= num-exact(tol) * num-min(num-abs(left), num-abs(right));
+}}
 
 The @pyret{tol} argument must be between @pyret{0} and @pyret{1}.
 
@@ -751,44 +708,36 @@ in @pyret-id{equal-always}, but deferring to the bounds-checking equality when
 a pair of numbers is encountered.  All other values are compared with
 @pyret-id{equal-always}.
 
-@examples{
-check:
-  l7 = [list: 1]
-  l8 = [list: ~1.2]
-  l7 is%(within-rel(0.5))  l8
-  l7 is-not%(within-rel(0.1)) l8
-  l7 is%(within-rel(~0.5))  l8
-  l7 is-not%(within-rel(~0.1)) l8
-end
-}
+@examples{@"@"Check void test() {
+    l7 = [1];
+    l8 = [~1.2];
+    assertEquals(l7, l8);
+    assertNotEquals(l7, l8);
+    assertEquals(l7, l8);
+    assertNotEquals(l7, l8);
+}}
 
 @function["within-abs" #:contract (a-arrow N A)]
 
 Like @pyret-id{within-rel}, but compares with @emph{absolute} tolerance rather
 than relative.  The definition is equivalent to:
 
-@pyret-block{
-fun my-within-abs(tol):
-  lam(left, right):
-    num-abs(num-exact(left) - num-exact(right)) <= tol
-  end
-end
-}
+@pyret-block{Object my-within-abs(tol) {
+    return (left, right) -> num-abs(num-exact(left) - num-exact(right)) <= tol;
+}}
 
 (Note that the right-hand side of the inequality here is @emph{not} multiplied
 by the magnitude of the values being compared: the tolerance is therefore
 @emph{absolute}, rather than relative to the magnitudes of the values.)
 
-@examples{
-check:
-  la = [list: 10]
-  lb = [list: ~12]
-  la is%(within-abs(2))  lb
-  la is-not%(within-abs(1))  lb
-  la is%(within-abs(~5.5))  lb
-  la is-not%(within-abs(~1.9999)) lb
-end
-}
+@examples{@"@"Check void test() {
+    la = [10];
+    lb = [~12];
+    assertEquals(la, lb);
+    assertNotEquals(la, lb);
+    assertEquals(la, lb);
+    assertNotEquals(la, lb);
+}}
 
 @function["within" #:contract (a-arrow N A)]
 @function["roughly-equal" #:contract (a-arrow A A B)]
@@ -804,18 +753,16 @@ relative or absolute.  Accordingly, @pyret-id{within} is a function defined to
 such that the tolerance is treated as @emph{relative} when the numbers are
 large in magnitude, and as @emph{absolute} as they approach zero:
 
-@examples{
-check:
-  # For large numbers, within behaves like within-rel
-  1000 is%(within(0.1)) 1010
-  1000 is-not%(within-abs(0.1)) 1010
-  1000 is%(within-rel(0.1)) 1010
-  # For small numbers, wtihin behaves like within-abs
-  0 is%(within(0.1)) 0.0000001
-  0 is-not%(within-rel(0.1)) 0.000001
-  0 is%(within-abs(0.1)) 0.000001
-end
-}
+@examples{@"@"Check void test() {
+    // For large numbers, within behaves like within-rel
+    assertEquals(1000, 1010);
+    assertNotEquals(1000, 1010);
+    assertEquals(1000, 1010);
+    // For small numbers, wtihin behaves like within-abs
+    assertEquals(0, 0.0000001);
+    assertNotEquals(0, 0.000001);
+    assertEquals(0, 0.000001);
+}}
 
 For even simpler ergonomics, @pyret-id{roughly-equal} is defined to be
 @pyret{within(0.000001)}, that is, an error tolerance of one-millionth, or six
@@ -826,23 +773,19 @@ is required.
 It's common to use @pyret-id{within} along with @pyret-id["is%" "testing"] to
 define the binary predicate inline with the test:
 
-@examples{
-check:
-  num-sqrt(10) is%(within(0.1)) 3.2
-  num-sqrt(10) is-not%(within(0.1)) 5
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(num-sqrt(10), 3.2);
+    assertNotEquals(num-sqrt(10), 5);
+}}
 
 As a convenient shorthand, @pyret{is-roughly} is defined as a shorthand for
 @pyret-id["is%" "testing"](@pyret-id{roughly-equal}):
 
-@examples{
-check:
-  num-acos(-1) is-roughly ~3.14159
-  num-acos(-1) is%(roughly-equal) ~3.14159
-  num-acos(-1) is%(within(0.000001)) ~3.14159
-end
-}
+@examples{@"@"Check void test() {
+    assertRoughlyEquals(num-acos(-1), ~3.14159);
+    assertEquals(num-acos(-1), ~3.14159);
+    assertEquals(num-acos(-1), ~3.14159);
+}}
 
 @function["within-now" #:contract (a-arrow N A)]
 @function["within-rel-now" #:contract (a-arrow N A)]
@@ -852,16 +795,14 @@ end
 Like @pyret-id{within}, @pyret-id{within-rel}, @pyret-id{within-abs} and @pyret-id{roughly-equal}, but
 they traverse mutable structures as in @pyret{equal-now}.
 
-@examples{
-check:
-  aa = [array: 10]
-  ab = [array: ~12]
-  aa is%(within-rel-now(~0.2))  ab
-  aa is-not%(within-rel(~0.2)) ab
-  aa is%(within-abs-now(2))  ab
-  aa is-not%(within-abs(2))  ab
-end
-}
+@examples{@"@"Check void test() {
+    aa = [array: 10];
+    ab = [array: ~12];
+    assertEquals(aa, ab);
+    assertNotEquals(aa, ab);
+    assertEquals(aa, ab);
+    assertNotEquals(aa, ab);
+}}
 
 
 @section[#:tag "s:undefined-equalities"]{Partial and Total Equality Predicates}
@@ -869,15 +810,11 @@ end
 For some values, Pyret refuses to report @pyret{true} or @pyret{false} for any
 equality predicate, and raises an error instead.  For example:
 
-@pyret-block{
-check:
-  (~3 == ~3) raises "equality-failure"
-
-  (1 == ~1) raises "equality-failure"
-
-  (lam(x): x end == lam(y): y end) raises "equality-failure"
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertRaises(() -> { (~3 == ~3) }, "equality-failure");
+    assertRaises(() -> { (1 == ~1) }, "equality-failure");
+    assertRaises(() -> { ((x) -> x == (y) -> y) }, "equality-failure");
+}}
 
 This section discusses why this is the case.
 
@@ -896,20 +833,16 @@ Pyret calls these numbers @pyret-id["Roughnum" "numbers"]s, and they have
 special rules related to equality.  In particular, they @emph{cannot} be
 directly compared for equality, even if it seems like they ought to be equal:
 
-@pyret-block{
-check:
-  (~3 == ~3) raises "equality-failure"
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertRaises(() -> { (~3 == ~3) }, "equality-failure");
+}}
 
 In addition, @pyret-id["Roughnum" "numbers"]s cannot be compared for equality
 with @pyret-id["Exactnum" "numbers"]s, either.
 
-@pyret-block{
-check:
-  (~0.1 == 0.1) raises "equality-failure"
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertRaises(() -> { (~0.1 == 0.1) }, "equality-failure");
+}}
 
 @note{This example is not Pyret-specific, but matches the behavior of
 @link["https://en.wikipedia.org/wiki/IEEE_floating_point"]{IEEE
@@ -918,29 +851,23 @@ Returning either @pyret{true} or @pyret{false} in this case would be
 misleading, as because of unavoidable inaccuracies,
 both of the following expressions evaluate to @pyret{~0.1}:
 
-@pyret-block{
-(~1 - ~0.9) + 0.00000000000000003
-~0.2 - ~0.1
-}
+@pyret-block{(~1 - ~0.9) + 0.00000000000000003;
+~0.2 - ~0.1;}
 
 So in the following check block, if we chose either @pyret{true} or @pyret{false} for
 the result of @pyret{~0.1 == 0.1}, one of the tests would have a misleading failure:
 
-@pyret-block{
-check:
-  ((~1 - ~0.9) + 0.00000000000000003) is 0.1
-  (~0.2 - ~0.1) is 0.1
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertEquals(((~1 - ~0.9) + 0.00000000000000003), 0.1);
+    assertEquals((~0.2 - ~0.1), 0.1);
+}}
 
 For example, if Pyret answered @pyret{true} for the rough equivalent,
 @pyret{~0.1 == ~0.1}, then this test would pass:
 
-@pyret-block{
-check:
-  ((~1 - ~0.9) + 0.00000000000000003) is (~0.2 - ~0.1)
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertEquals(((~1 - ~0.9) + 0.00000000000000003), (~0.2 - ~0.1));
+}}
 
 To avoid giving misleading answers in cases like these, Pyret triggers an
 error on any number-to-number comparison that involves a @pyret-id["Roughnum"
@@ -961,22 +888,18 @@ equality from the @pyret-id["within"] family of functions to do a relative
 comparison, rather than a direct equality comparison.  So in this case, we
 could check that the answer is equal up to an relative error of @pyret{0.001}:
 
-@pyret-block{
-check:
-  ((~1 - ~0.9) + 0.00000000000000003) is%(within(0.001)) (~0.2 - ~0.1)
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertEquals(((~1 - ~0.9) + 0.00000000000000003), (~0.2 - ~0.1));
+}}
 
 It can be useful to check that two @pyret-id["Roughnum" "numbers"]s are
 actually indistinguishable, even though they may be approximating different
 values.  This can be expressed by checking that the numbers are within a
 tolerance of @pyret{~0}:
 
-@pyret-block{
-check:
-  ((~1 - ~0.9) + 0.00000000000000003) is%(within(~0)) (~0.2 - ~0.1)
-end
-}
+@pyret-block{@"@"Check void test() {
+    assertEquals(((~1 - ~0.9) + 0.00000000000000003), (~0.2 - ~0.1));
+}}
 
 Note that the same won't work for a tolerance of @pyret{0}, the exact zero,
 which will give an error if used to compare two @pyret-id["Roughnum"
@@ -991,35 +914,40 @@ equality (short of solving the halting problem), is to use reference equality
 mutable data works.  For a hint of why this can be a misleading definition of
 equality, consider this data definition:
 
-@pyret-block{
-data Stream<a>:
-  | stream(first :: a, rest :: (-> Stream<a>))
-end
-check:
-  fun mk-ones(): stream(1, mk-ones) end
-  ones = mk-ones()
-  ones is ones # Should this succeed?
-  ones is mk-ones() # What about this?
-  ones.rest() is mk-ones() # Or this...?
-end
+@pyret-block{data Stream {
+    Stream(a first, /* arrow-ann */ Object rest);
 }
+@"@"Check void test() {
+    Object mk-ones() {
+        return stream(1, mk-ones);
+    }
+    ones = mk-ones();
+    assertEquals(ones, ones);
+    // Should this succeed?
+    assertEquals(ones, mk-ones());
+    // What about this?
+    assertEquals(ones.rest(), mk-ones());
+}
+// Or this...?}
 
 All of these values (@code{ones}, @code{mk-ones()}, etc.) have the same
 behavior, so we could argue that @code{is} (which uses @code{==} behind the
 scenes) ought to succeed on these.  And indeed, if we used reference equality,
 it would succeed.  But consider this small tweak to the program:
 
-@pyret-block{
-check:
-  fun mk-ones():
-    stream(1, lam(): mk-ones() end)  # <-- changed this line
-  end
-  ones = mk-ones()
-  ones is ones # Should this succeed?
-  ones is mk-ones() # What about this?
-  ones.rest() is mk-ones() # Or this...?
-end
+@pyret-block{@"@"Check void test() {
+    Object mk-ones() {
+        return stream(1, () -> mk-ones());
+    }
+    // <-- changed this line
+    ones = mk-ones();
+    assertEquals(ones, ones);
+    // Should this succeed?
+    assertEquals(ones, mk-ones());
+    // What about this?
+    assertEquals(ones.rest(), mk-ones());
 }
+// Or this...?}
 
 If we used reference equality on these functions, all of these tests would
 now fail, and @code{ones} @emph{has the exact same behavior}.  Here's the
@@ -1040,17 +968,16 @@ it relies on comparing functions for equality, since Pyret cannot give reliable
 answers (no language can).  So, all the examples above (with one notable
 exception) actually raise errors:
 
-@pyret-block{
-  check:
-    fun mk-ones():
-      stream(1, lam(): mk-ones() end)  # <-- changed this line
-    end
-    ones = mk-ones()
-    ones == ones is true
-    ones == mk-ones() raises "Attempted to compare functions"
-    ones.rest() == mk-ones() raises "Attempted to compare functions"
-  end
-}
+@pyret-block{@"@"Check void test() {
+    Object mk-ones() {
+        return stream(1, () -> mk-ones());
+    }
+    // <-- changed this line
+    ones = mk-ones();
+    assertEquals(ones == ones, true);
+    assertRaises(() -> { ones == mk-ones() }, "Attempted to compare functions");
+    assertRaises(() -> { ones.rest() == mk-ones() }, "Attempted to compare functions");
+}}
 
 The first test is true because two @pyret-id{identical} values are considered
 @pyret-id{equal-always}.  This is an interesting point in this design space
@@ -1065,20 +992,15 @@ function values need to be compared to one another, not if a function value is
 compared to another type of value:
 }
 
-@pyret-block{
-  check:
-    f = lam(): "no-op" end
-    g = lam(): "also no-op" end
-
-    f == f raises "Attempted to compare functions"
-    f == g raises "Attempted to compare functions"
-    g == f raises "Attempted to compare functions"
-
-    5 is-not%(equal-always) f
-
-    { x: 5 } is-not%(equal-always) { x: f }
-  end
-}
+@pyret-block{@"@"Check void test() {
+    f = () -> "no-op";
+    g = () -> "also no-op";
+    assertRaises(() -> { f == f }, "Attempted to compare functions");
+    assertRaises(() -> { f == g }, "Attempted to compare functions");
+    assertRaises(() -> { g == f }, "Attempted to compare functions");
+    assertNotEquals(5, f);
+    assertNotEquals({x 5}, {x f});
+}}
 
 @para{
   @bold{Note 2}: This rule about functions interacts with structural equality.
@@ -1086,12 +1008,9 @@ compared to another type of value:
   should be @code{false} or an error for this test:
   }
 
-@pyret-block{
-  check:
-    { x: 5, f: lam(): "no-op" end } is%(equal-always)
-      { x: 6, f: lam(): "no-op" end }
-  end
-}
+@pyret-block{@"@"Check void test() {
+    assertEquals({x 5, f () -> "no-op"}, {x 6, f () -> "no-op"});
+}}
 
 This comparison will return @code{false}.  The rule is that if the equality
 algorithm can find values that differ without comparing functions, it will
@@ -1099,6 +1018,7 @@ report the difference and return @code{false}.  However, if all of the
 non-function comparisons are @code{true}, and some functions were compared,
 then an error is raised.  A few more examples:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 
   check:
@@ -1153,17 +1073,15 @@ We define three parallel functions to the equality predicates that return
   @function["equal-now3" #:contract (a-arrow A A T)]
   @function["identical3" #:contract (a-arrow A A T)]
 
-@examples{
-check:
-  f = lam(): 5 end
-  equal-always3(f, f) is Unknown
-  equal-always3(f, 5) satisfies is-NotEqual
-  equal-now3(f, f) is Unknown
-  equal-now3("a", f) satisfies is-NotEqual
-  identical3(f, f) is Unknown
-  identical3("a", f) satisfies is-NotEqual
-end
-}
+@examples{@"@"Check void test() {
+    f = () -> 5;
+    assertEquals(equal-always3(f, f), Unknown);
+    assertSatisfies(equal-always3(f, 5), is-NotEqual);
+    assertEquals(equal-now3(f, f), Unknown);
+    assertSatisfies(equal-now3("a", f), is-NotEqual);
+    assertEquals(identical3(f, f), Unknown);
+    assertSatisfies(identical3("a", f), is-NotEqual);
+}}
 
 We can now modify our table from above to be more complete:
 
@@ -1264,6 +1182,7 @@ For consider implementing an unordered @emph{set} of values in Pyret.  We might
 choose to implement it as a function that creates an object closing over the
 implementation of the set itself:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 fun make-empty-set<a>():
   {
@@ -1278,32 +1197,27 @@ We could fill in the bodies of the methods to have this implementation let
 clients create sets and add elements to them, but it won't work well with
 testing:
 
-@pyret-block{
-check:
-  s = make-empty-set().add(5)
-  s2 = make-empty-set().add(5)
-
-  s.member(5) is true
-  s2.member(5) is true
-
-  s.equal-to-other-set(s2) is true
-
-  s == s2 raises "Attempted to compare functions"
-end
-}
+@pyret-block{@"@"Check void test() {
+    s = make-empty-set().add(5);
+    s2 = make-empty-set().add(5);
+    assertEquals(s.member(5), true);
+    assertEquals(s2.member(5), true);
+    assertEquals(s.equal-to-other-set(s2), true);
+    assertRaises(() -> { s == s2 }, "Attempted to compare functions");
+}}
 
 The final test raises an exception because it traverses the structure of the
 object, and the only visible values are the three methods, which cannot be
 compared.  We might just say that users of custom datatypes have to use custom
 predicates for testing, for example they could write:
 
-@pyret-block{
-check:
-  # as before ...
-  fun equal-sets(set1, set2): set1.equal-to-other-set(set2) end
-  s is%(equal-sets) s2
-end
-}
+@pyret-block{@"@"Check void test() {
+    // as before ...
+    Object equal-sets(set1, set2) {
+        return set1.equal-to-other-set(set2);
+    }
+    assertEquals(s, s2);
+}}
 
 This works for sets on their own, but the built-in testing and equality
 operators will not work with nested user-defined data structures.  For example,
@@ -1311,12 +1225,10 @@ since lists are a dataype that checks built-in equality on their members, a
 list of sets as defined above will not use the equal-to-other-set method when
 comparing elements, and give an @pyret{"Attempted to compare functions"} error:
 
-@pyret-block{
-check:
-  # as before ...
-  ([list: s] == [list: s2]) raises "Attempted to compare functions"
-end
-}
+@pyret-block{@"@"Check void test() {
+    // as before ...
+    assertRaises(() -> { ([s] == [s2]) }, "Attempted to compare functions");
+}}
 
 To help make this use case more pleasant, Pyret picks a method name to call, if
 it is present, on user-defined objects when checking equality.  The method name
@@ -1348,6 +1260,7 @@ The @pyret{_equals} method is called in the equality algorithm when:
 So, for example, an object with an @pyret{_equals} method that always returns
 @pyret-id{Equal} is not considered equal to values that aren't also objects:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 import Equal from equality
 check:
@@ -1433,56 +1346,39 @@ result.
 @function[">" #:contract (a-arrow A A B)]
 @function["_greaterthan" #:contract (a-arrow A A B)]
 
-@pyret-block{
-check "strings":
-  "a" < "b" is true
-  "b" > "a" is true
-  
-  "a" < "a" is false
-  "a" > "a" is false
-  
-  "a" <= "a" is true
-  "a" >= "a" is true
-  
-  "A" < "a" is true
-  "a" > "A" is true
-  
-  "a" < "A" is false
-  "A" > "a" is false
-  
-  "a" < "aa" is true
-  "a" > "aa" is false
-  
-  "a" < "baa" is true
-  "a" > "baa" is false
-  "abb" < "b" is true
-  "abb" > "b" is false
-  
-  "ab" < "aa" is false
-  "ab" > "aa" is true
-  
-  "aa" < "ab" is true
-  "aa" > "ab" is false
-end
-}
+@pyret-block{@"@"Check void strings() {
+    assertEquals("a" < "b", true);
+    assertEquals("b" > "a", true);
+    assertEquals("a" < "a", false);
+    assertEquals("a" > "a", false);
+    assertEquals("a" <= "a", true);
+    assertEquals("a" >= "a", true);
+    assertEquals("A" < "a", true);
+    assertEquals("a" > "A", true);
+    assertEquals("a" < "A", false);
+    assertEquals("A" > "a", false);
+    assertEquals("a" < "aa", true);
+    assertEquals("a" > "aa", false);
+    assertEquals("a" < "baa", true);
+    assertEquals("a" > "baa", false);
+    assertEquals("abb" < "b", true);
+    assertEquals("abb" > "b", false);
+    assertEquals("ab" < "aa", false);
+    assertEquals("ab" > "aa", true);
+    assertEquals("aa" < "ab", true);
+    assertEquals("aa" > "ab", false);
+}}
 
-@pyret-block{
-check "numbers":
-  ~5 < 5 is false
-  ~5 > 5 is false
-  
-  ~5 <= 5 is true
-  ~5 >= 5 is true
-  
-  ~5 < ~5 is false
-  ~4.9 < ~5 is true
-  
-  
-  ~5 <= ~5 is true
-  ~5 >= ~5 is true
-  
-end
-}
+@pyret-block{@"@"Check void numbers() {
+    assertEquals(~5 < 5, false);
+    assertEquals(~5 > 5, false);
+    assertEquals(~5 <= 5, true);
+    assertEquals(~5 >= 5, true);
+    assertEquals(~5 < ~5, false);
+    assertEquals(~4.9 < ~5, true);
+    assertEquals(~5 <= ~5, true);
+    assertEquals(~5 >= ~5, true);
+}}
 
 }
 

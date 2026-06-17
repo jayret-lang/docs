@@ -30,10 +30,8 @@ Spies are used for convenient display of values for print-style debugging. See
 
 The shortest use of a @tt{spy} statement is to print the value of a name:
 
-@pyret-block{
-x = 10
-spy: x end
-}
+@pyret-block{x = 10;
+spy(x);}
 
 This will produce a message like:
 
@@ -57,11 +55,9 @@ corresponding use of @tt{x}.
 A @tt{spy} statement can contain more than one name, and will print out all their
 values:
 
-@pyret-block{
-x = 10
-y = [list: 1, 2, 3]
-spy: x, y end
-}
+@pyret-block{x = 10;
+y = [1, 2, 3];
+spy(x, y);}
 
 @verbatim{
 Spying (at file:///spies.arr:3:0-3:13)
@@ -74,21 +70,17 @@ A spy statement can also contain a message. This can be helpful for
 distinguishing between spy statements without looking at their corresponding
 line numbers:
 
-@pyret-block{
-fun square(x):
-  spy "in square": x end
-  x * x
-end
-
-fun cube(x):
-  spy "in cube": x end
-  x * x * x
-end
-
-square(x)
-cube(x)
-square(x)
+@pyret-block{Object square(x) {
+    spy(x);
+    return x * x;
 }
+Object cube(x) {
+    spy(x);
+    return x * x * x;
+}
+square(x);
+cube(x);
+square(x);}
 
 Will produce:
 
@@ -105,6 +97,7 @@ Spying "in square" (at file:///spies.arr:2:2-2:24)
 If we want to @tt{spy} on an expression, rather than just names, we can give
 the expression a name within the @tt{spy} statement:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 fun <A> reverse(lst :: List<A>, sofar :: List<A>) -> List<A>:
   spy "lengths":
@@ -151,17 +144,13 @@ Spying "lengths" (at file:///spies.arr:2:2-6:5)
 
 Both types of spy fields can be used in a single spy statement:
 
-@pyret-block{
-x = 10
-spy:
-  x,
-  y: 20
-end
-}
+@pyret-block{x = 10;
+spy(x, y);}
 
 Each value that is spied upon is required to have a name. That is, it's an
 error to write:
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block[#:style "bad-ex"]{
 spy:
   2 + 2
@@ -171,18 +160,14 @@ end
 The message position can contain expressions, not just string constants, so the
 message can be computed:
 
-@pyret-block{
-fun f(n):
-  n * n
-end
-for each(i from range(0, 10)):
-  result = f(i)
-  spy "iteration " + to-string(i):
-    result
-  end
-  result
-end
+@pyret-block{Object f(n) {
+    return n * n;
 }
+for (i : range(0, 10)) {
+    result = f(i);
+    spy(result);
+    result;
+}}
 
 
 
@@ -216,37 +201,32 @@ just to get a debugging print.
 
 For example, consider the @tt{reverse} example from above:
 
-@pyret-block{
-fun reverse(lst, sofar):
-  cases(List<A>) lst:
-    | empty => sofar
-    | link(first, rest) =>
-      reverse(rest, link(first, sofar))
-  end
-end
-}
+@pyret-block{Object reverse(lst, sofar) {
+    return switch (lst) {
+        case Empty: yield sofar;
+        case Link(first, rest): yield reverse(rest, link(first, sofar));
+    }
+}}
 
 We might try to add uses of @pyret-id["print" "<global>"] to do what the spy
 statement did:
 
-@pyret-block[#:style "bad-ex"]{
-fun reverse(lst, sofar):
-  print(lst.length())
-  print(sofar.length())
-  print(lst.length() + sofar.length())
-  cases(List<A>) lst:
-    | empty => sofar
-    | link(first, rest) =>
-      reverse(rest, link(first, sofar))
-  end
-end
-}
+@pyret-block[#:style "bad-ex"]{Object reverse(lst, sofar) {
+    print(lst.length());
+    print(sofar.length());
+    print(lst.length() + sofar.length());
+    return switch (lst) {
+        case Empty: yield sofar;
+        case Link(first, rest): yield reverse(rest, link(first, sofar));
+    }
+}}
 
 This has a few problems. First, because Pyret restricts function bodies to have
 no more than one expression unless @secref["s:blocky-blocks"] is used, this is
 an immediate syntax error. We could change the first line to include
 @tt{block:} to let Pyret know we want to allow multiple statements.
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 fun reverse(lst, sofar) block:
 }
@@ -257,9 +237,7 @@ difficult to discern which came from which print statement, or what the values
 meant. We could add more string information into the output to label the
 outputs, which leads to clunky string concatenation expressions like
 
-@pyret-block{
-print("lst-length: " + to-string(lst.length()))
-}
+@pyret-block{print("lst-length: " + to-string(lst.length()));}
 
 This ends up being onerous and error prone.
 

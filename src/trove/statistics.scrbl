@@ -102,13 +102,11 @@
   @pyret{l}.  This is simply the sum of all the values in the list, divided by
   its length.
   
-  @examples{
-    check:
-      mean([list: ]) raises "Empty List"
-      mean([list: 1]) is 1
-      mean([list: 2, 2, 4.5, 1.5, 1, 1]) is 2
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { mean([]) }, "Empty List");
+    assertEquals(mean([1]), 1);
+    assertEquals(mean([2, 2, 4.5, 1.5, 1, 1]), 2);
+}}
   }
   
   @function["median"
@@ -120,13 +118,11 @@
   ``middle-most'' value in the list, if the values were sorted.  If the list is of even
   length, returns the average of the two middle-most values.
   
-  @examples{
-    check:
-      median([list: ]) raises "Empty List"
-      median([list: 2]) is 2
-      median([list: -1, 0, 1, 2, 5]) is 1
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { median([]) }, "Empty List");
+    assertEquals(median([2]), 2);
+    assertEquals(median([-1, 0, 1, 2, 5]), 1);
+}}
   }
 
   @function["modes"
@@ -147,15 +143,13 @@ assert that when no element appears more than once, no element should be
 considered a mode. To avoid confusing high-school students, we adopt the
 definition they will find in their textbooks.
 
-  @examples{
-  check:
-    modes([list: ]) is [list: ]
-    modes([list: 1, 2, 3, 4]) is [list: ]
-    modes([list: 1, 2, 3, 1, 4]) is [list: 1]
-    modes([list: 1, 2, 1, 2, 2, 1]) is [list: 1, 2]
-    modes([list: 1, 2, 2, 1, 2, 1]) is [list: 1, 2]
-  end
-  }
+  @examples{@"@"Check void test() {
+    assertEquals(modes([]), []);
+    assertEquals(modes([1, 2, 3, 4]), []);
+    assertEquals(modes([1, 2, 3, 1, 4]), [1]);
+    assertEquals(modes([1, 2, 1, 2, 2, 1]), [1, 2]);
+    assertEquals(modes([1, 2, 2, 1, 2, 1]), [1, 2]);
+}}
   }
 
   @function["has-mode"
@@ -165,14 +159,12 @@ definition they will find in their textbooks.
     ]{
     Determines if a list of numbers has any modes, i.e., any repeated values.
 
-  @examples{
-  check:
-    has-mode([list: ]) is false
-    has-mode([list: 1, 2, 3, 4]) is false
-    has-mode([list: 1, 2, 2, 1, 2, 2]) is true
-    has-mode([list: 1, 2, 3, 2]) is true
-  end
-  }
+  @examples{@"@"Check void test() {
+    assertEquals(has-mode([]), false);
+    assertEquals(has-mode([1, 2, 3, 4]), false);
+    assertEquals(has-mode([1, 2, 2, 1, 2, 2]), true);
+    assertEquals(has-mode([1, 2, 3, 2]), true);
+}}
   }
 
   @function["mode-smallest"
@@ -182,15 +174,13 @@ definition they will find in their textbooks.
     ]{
     Returns the smallest mode of a list of numbers, if any is present.
 
-  @examples{
-  check:
-    mode-smallest([list: ]) raises "empty" 
-    mode-smallest([list: 1]) raises "no duplicate values"
-    mode-smallest([list: 1, 2, 3, 4, 5]) raises "no duplicate values"
-    mode-smallest([list: 1, 1, 2]) is 1
-    mode-smallest([list: 1, 2, 1, 2]) is 1
-  end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { mode-smallest([]) }, "empty");
+    assertRaises(() -> { mode-smallest([1]) }, "no duplicate values");
+    assertRaises(() -> { mode-smallest([1, 2, 3, 4, 5]) }, "no duplicate values");
+    assertEquals(mode-smallest([1, 1, 2]), 1);
+    assertEquals(mode-smallest([1, 2, 1, 2]), 1);
+}}
   }
 
   @function["mode-largest"
@@ -200,15 +190,13 @@ definition they will find in their textbooks.
     ]{
     Returns the largest mode of a list of numbers, if any is present.
 
-  @examples{
-  check:
-    mode-smallest([list: ]) raises "empty" 
-    mode-smallest([list: 1]) raises "no duplicate values"
-    mode-smallest([list: 1, 2, 3, 4, 5]) raises "no duplicate values"
-    mode-smallest([list: 1, 1, 2]) is 1
-    mode-smallest([list: 1, 2, 1, 2]) is 2
-  end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { mode-smallest([]) }, "empty");
+    assertRaises(() -> { mode-smallest([1]) }, "no duplicate values");
+    assertRaises(() -> { mode-smallest([1, 2, 3, 4, 5]) }, "no duplicate values");
+    assertEquals(mode-smallest([1, 1, 2]), 1);
+    assertEquals(mode-smallest([1, 2, 1, 2]), 2);
+}}
   }
 
   @function["mode-any"
@@ -218,15 +206,13 @@ definition they will find in their textbooks.
     ]{
     Returns an arbitrary mode of a list of numbers, if any is present.
 
-  @examples{
-  check:
-    mode-any([list: ]) raises "empty" 
-    mode-any([list: 1]) raises "no duplicate values"
-    mode-any([list: 1, 2, 3, 4, 5]) raises "no duplicate values"
-    mode-any([list: 1, 1, 2]) is 1
-    mode-any([list: 1, 2, 1, 2]) satisfies lam(m): (m == 1) or (m == 2) end
-  end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { mode-any([]) }, "empty");
+    assertRaises(() -> { mode-any([1]) }, "no duplicate values");
+    assertRaises(() -> { mode-any([1, 2, 3, 4, 5]) }, "no duplicate values");
+    assertEquals(mode-any([1, 1, 2]), 1);
+    assertSatisfies(mode-any([1, 2, 1, 2]), (m) -> (m == 1) || (m == 2));
+}}
   }
 
   @function["stdev"
@@ -237,13 +223,11 @@ definition they will find in their textbooks.
   Gives the @emph{population} or @emph{uncorrected sample} standard deviation
   of the data set represented by numbers in @pyret{l}.
   
-  @examples{
-    check:  
-      stdev([list: ]) raises "list is empty"
-      stdev([list: 2]) is 0
-      stdev([list: 2, 4, 4, 4, 5, 5, 7, 9]) is 2
-    end 
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { stdev([]) }, "list is empty");
+    assertEquals(stdev([2]), 0);
+    assertEquals(stdev([2, 4, 4, 4, 5, 5, 7, 9]), 2);
+}}
   }
 
   @function["stdev-sample"
@@ -254,13 +238,11 @@ definition they will find in their textbooks.
   Gives the @emph{corrected sample} standard deviation of the data set represented by
   numbers in @pyret{l}.
   
-  @examples{
-    check:  
-      stdev-sample([list: ]) raises "list is empty"
-      stdev-sample([list: 2]) raises "division by zero"
-      stdev-sample([list: 2, 4, 4, 4, 5, 5, 7, 9]) is-roughly 2.1380899
-    end 
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { stdev-sample([]) }, "list is empty");
+    assertRaises(() -> { stdev-sample([2]) }, "division by zero");
+    assertRoughlyEquals(stdev-sample([2, 4, 4, 4, 5, 5, 7, 9]), 2.1380899);
+}}
   }
 
   @section{Statistical Models}
@@ -276,14 +258,12 @@ definition they will find in their textbooks.
   variable relationship, using ordinary least squares regression.  Its result
   is a @emph{predictor function} to predict a y-value given an x-value.
 
-  @examples{
-    check:
-      predictor = linear-regression([list: 0, 1, 2, 3], [list: 3, 2, 1, 0])
-      predictor(1) is-roughly 2
-      predictor(1.5) is-roughly 1.5
-      predictor(1000) is-roughly -997
-    end
-  }
+  @examples{@"@"Check void test() {
+    predictor = linear-regression([0, 1, 2, 3], [3, 2, 1, 0]);
+    assertRoughlyEquals(predictor(1), 2);
+    assertRoughlyEquals(predictor(1.5), 1.5);
+    assertRoughlyEquals(predictor(1000), -997);
+}}
 }
 
 @function["r-squared"
@@ -295,21 +275,23 @@ definition they will find in their textbooks.
   measures how well the predictor function (from @link{linear-regression})
   matches the given actual function (the argument @pyret{f}).
 
-  @examples{
-    PI = ~3.1415926535
-
-    fun f-good(x): 3 - x end
-    fun f-poor(x): 3 * num-cos((x * PI) / 6) end
-    fun f-bad(x): 3 end
-
-    xs = [list: 0, 1, 2, 3]
-    ys = [list: 3, 2, 1, 0]
-    check:
-      r-squared(xs, ys, f-good) is-roughly 1
-      r-squared(xs, ys, f-poor) is-roughly 0.87846096
-      r-squared(xs, ys, f-bad)  is-roughly -1.8
-    end
-  }
+  @examples{PI = ~3.1415926535;
+Object f-good(x) {
+    return 3 - x;
+}
+Object f-poor(x) {
+    return 3 * num-cos((x * PI) / 6);
+}
+Object f-bad(x) {
+    return 3;
+}
+xs = [0, 1, 2, 3];
+ys = [3, 2, 1, 0];
+@"@"Check void test() {
+    assertRoughlyEquals(r-squared(xs, ys, f-good), 1);
+    assertRoughlyEquals(r-squared(xs, ys, f-poor), 0.87846096);
+    assertRoughlyEquals(r-squared(xs, ys, f-bad), -1.8);
+}}
 }
 
   @;#########################################################################
@@ -375,10 +357,11 @@ definition they will find in their textbooks.
 @;   Calculates a linear regression to model simple independent -> dependent
 @;   variable relationship.  Uses Ordinary Least Squares.
     
-@;   @examples{
-@;     check:
-@;       lin-reg-2V([list: 0, 1, 2, 3], [list: 3, 2, 1, 0]) is StatModel(3, -1, 1)
-@;     end
-@;   }
+@;   @; TODO(pyret2jayret): parse failed (no shifts)
+@examples{
+@"@";     check:
+@"@";       lin-reg-2V([list: 0, 1, 2, 3], [list: 3, 2, 1, 0]) is StatModel(3, -1, 1)
+@"@";     end
+@"@";   }
 @;   }
 }

@@ -1,6 +1,6 @@
 #lang scribble/base
 @(require "../../scribble-api.rkt"
-          "../Pyret-Tutorial/math-utilities.rkt"
+          "../utils/math-utilities.rkt"
           (except-in "../abbrevs.rkt" L-of))
 @(require (only-in scribble/core delayed-block)
           (only-in scribble/manual math)
@@ -860,14 +860,12 @@ Vector constructor which only creates three-dimensional vector instances.
 Vectors are defined to permit using addition and subtraction operators on them,
 whenever the lengths of the vectors are the same:
 
-@examples{
-check:
-  [vector: 1, 2, 3] + [vector: 4, 5, 6] is [vector: 5, 7, 9]
-  [vector: 1] + [vector: 1, 2] raises "vectors of different lengths"
-  [vector: 1, 2, 3] - [vector: 4, 5, 6] is [vector: -3, -3, -3]
-  [vector: 1] - [vector: 1, 2] raises "vectors of different lengths"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 1, 2, 3] + [vector: 4, 5, 6], [vector: 5, 7, 9]);
+    assertRaises(() -> { [vector: 1] + [vector: 1, 2] }, "vectors of different lengths");
+    assertEquals([vector: 1, 2, 3] - [vector: 4, 5, 6], [vector: -3, -3, -3]);
+    assertRaises(() -> { [vector: 1] - [vector: 1, 2] }, "vectors of different lengths");
+}}
 
 See also @pyret-id{vec-add} and @pyret-id{vec-sub}.
 
@@ -875,14 +873,12 @@ Two vectors are considered equal when their lengths are the same and their
 corresponding elements are equal, and obeys the same restrictions on comparing
 exact and rough numbers for equality:
 
-@examples{
-check:
-  ([vector: 1] == [vector: 1, 2]) is false
-  ([vector: 1, 2] == [vector: 1, 2]) is true
-  ([vector: ~1, ~2] == [vector: 1, 2]) raises "not allowed"
-  roughly-equal([vector: ~1, ~2], [vector: 1, 2]) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(([vector: 1] == [vector: 1, 2]), false);
+    assertEquals(([vector: 1, 2] == [vector: 1, 2]), true);
+    assertRaises(() -> { ([vector: ~1, ~2] == [vector: 1, 2]) }, "not allowed");
+    assertEquals(roughly-equal([vector: ~1, ~2], [vector: 1, 2]), true);
+}}
 
 @section{Vector Methods}
 
@@ -890,95 +886,76 @@ end
 
 Returns the item at the given index in this vector.
 
-@examples{
-check:
-  [vector: 3, 5].get(1) is 5
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 3, 5].get(1), 5);
+}}
 
 @vector-method["length"]
 
 Returns the length of this vector.
 
-@examples{
-check:
-  [vector: 1, 2, 3, 4].length() is 4
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 1, 2, 3, 4].length(), 4);
+}}
 
 @vector-method["dot"]
 
 Returns the dot product of this vector with the given vector.
 
-@examples{
-check:
-  [vector: 1, 2, 3].dot([vector: 3, 2, 1]) is 10
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 1, 2, 3].dot([vector: 3, 2, 1]), 10);
+}}
 
 @vector-method["magnitude"]
 
 Returns the magnitude of this vector.
 
-@examples{
-  check:
-    [vector: 3, 4].magnitude() is 5
-    [vector: 4, 0].magnitude() is 4
-  end
-  }
+@examples{@"@"Check void test() {
+    assertEquals([vector: 3, 4].magnitude(), 5);
+    assertEquals([vector: 4, 0].magnitude(), 4);
+}}
 
 @vector-method["cross"]
 
 Returns the cross product of this 3D vector and the given 3D vector.
 (Raises an error if either this or that vector are not 3-dimensional)
 
-@examples{
-check:
-  [vector: 2, -3, 1].cross([vector: -2, 1, 1]) is [vector: -4, -4, -4]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 2, -3, 1].cross([vector: -2, 1, 1]), [vector: -4, -4, -4]);
+}}
 
 @vector-method["normalize"]
 
 Normalizes this vector into a unit vector.
 
-@examples{
-check:
-  [vector: 1, 2, 3].normalize()
-    is [vector: (1 / num-sqrt(14)), (2 / num-sqrt(14)), (3 / num-sqrt(14))]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 1, 2, 3].normalize(), [vector: (1 / num-sqrt(14)), (2 / num-sqrt(14)), (3 / num-sqrt(14))]);
+}}
 
 
 @vector-method["scale"]
 
 Scales this vector by the given constant.
 
-@examples{
-check:
-  [vector: 1, 2, 3].scale(2) is [vector: 2, 4, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 1, 2, 3].scale(2), [vector: 2, 4, 6]);
+}}
 
 @vector-method["to-row-matrix"]
 
 Converts this vector to a one-row matrix.
 
-@examples{
-check:
-  [vector: 4, 5, 6].to-row-matrix() is [matrix(1, 3): 4, 5, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 4, 5, 6].to-row-matrix(), [matrix(1,3): 4, 5, 6]);
+}}
 
 @vector-method["to-col-matrix"]
 
 Converts this vector to a one-column matrix.
 
-@examples{
-check:
-  [vector: 4, 5, 6].to-row-matrix() is [matrix(3, 1): 4, 5, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([vector: 4, 5, 6].to-row-matrix(), [matrix(3,1): 4, 5, 6]);
+}}
 
 @section{Vector Functions}
 
@@ -986,11 +963,9 @@ end
 
 Returns the item at the given index in the given vector.
 
-@examples{
-check:
-  vec-get([vector: 3, 5], 1) is 5
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-get([vector: 3, 5], 1), 5);
+}}
 
 See @pyret-method["Vector" "get"].
 
@@ -998,11 +973,9 @@ See @pyret-method["Vector" "get"].
 
 Returns the length of the given vector.
 
-@examples{
-check:
-  vec-length([vector: 1, 2, 3, 4]) is 4
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-length([vector: 1, 2, 3, 4]), 4);
+}}
 
 See @pyret-method["Vector" "length"].
 
@@ -1010,6 +983,7 @@ See @pyret-method["Vector" "length"].
 
 Returns the dot product of the first vector with the second vector.
 
+@; TODO(pyret2jayret): parse failed (no shifts)
 @examples{
 check:
   vec-dot[vector: 1, 2, 3], ([vector: 3, 2, 1]) is 10
@@ -1022,12 +996,10 @@ See @pyret-method["Vector" "dot"].
 
 Returns the magnitude of the given vector.
 
-@examples{
-  check:
-    vec-magnitude([vector: 3, 4]) is 5
-    vec-magnitude([vector: 4, 0]) is 4
-  end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-magnitude([vector: 3, 4]), 5);
+    assertEquals(vec-magnitude([vector: 4, 0]), 4);
+}}
 
 See @pyret-method["Vector" "magnitude"].
 
@@ -1036,11 +1008,9 @@ See @pyret-method["Vector" "magnitude"].
 Returns the cross product of the two given 3D vectors.
 (Raises an error if either vector is not 3-dimensional)
 
-@examples{
-check:
-  vec-cross([vector: 2, -3, 1], [vector: -2, 1, 1]) is [vector: -4, -4, -4]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-cross([vector: 2, -3, 1], [vector: -2, 1, 1]), [vector: -4, -4, -4]);
+}}
 
 See @pyret-method["Vector" "cross"].
 
@@ -1048,12 +1018,9 @@ See @pyret-method["Vector" "cross"].
 
 Normalizes the given vector into a unit vector.
 
-@examples{
-check:
-  vec-normalize([vector: 1, 2, 3])
-    is [vector: (1 / num-sqrt(14)), (2 / num-sqrt(14)), (3 / num-sqrt(14))]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-normalize([vector: 1, 2, 3]), [vector: (1 / num-sqrt(14)), (2 / num-sqrt(14)), (3 / num-sqrt(14))]);
+}}
 
 
 See @pyret-method["Vector" "normalize"].
@@ -1062,11 +1029,9 @@ See @pyret-method["Vector" "normalize"].
 
 Scales the given vector by the given constant.
 
-@examples{
-check:
-  vec-scale([vector: 1, 2, 3], 2) is [vector: 2, 4, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-scale([vector: 1, 2, 3], 2), [vector: 2, 4, 6]);
+}}
 
 See @pyret-method["Vector" "scale"].
 
@@ -1075,24 +1040,20 @@ See @pyret-method["Vector" "scale"].
 
 Adds the second vector to first one.
 
-@examples{
-check:
-  vec-add([vector: 1, 2, 3], [vector: 4, 5, 6]) is [vector: 5, 7, 9]
-  vec-add([vector: 1], [vector: 1, 2]) raises "vectors of different lengths"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-add([vector: 1, 2, 3], [vector: 4, 5, 6]), [vector: 5, 7, 9]);
+    assertRaises(() -> { vec-add([vector: 1], [vector: 1, 2]) }, "vectors of different lengths");
+}}
 
 
 @function["vec-sub"]
 
 Subtracts the second vector from first one.
 
-@examples{
-check:
-  vec-sub([vector: 1, 2, 3], [vector: 4, 5, 6]) is [vector: -3, -3, -3]
-  vec-sub([vector: 1], [vector: 1, 2]) raises "vectors of different lengths"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(vec-sub([vector: 1, 2, 3], [vector: 4, 5, 6]), [vector: -3, -3, -3]);
+    assertRaises(() -> { vec-sub([vector: 1], [vector: 1, 2]) }, "vectors of different lengths");
+}}
 
 @section{The Matrix Datatype}
 @type-spec["Matrix" '()]
@@ -1108,12 +1069,10 @@ The @pyret{Matrix} type represents mathematical matrices.
 Every matrix has a @pyret{rows} field and a @pyret{cols} field, which are the
 dimensions of the matrix.
 
-@examples{
-check:
-  [matrix(2, 3): 10, 20, 30, 40, 50, 60].rows is 2
-  [matrix(2, 3): 10, 20, 30, 40, 50, 60].cols is 3
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 10, 20, 30, 40, 50, 60].rows, 2);
+    assertEquals([matrix(2,3): 10, 20, 30, 40, 50, 60].cols, 3);
+}}
 
 @section{Matrix Constructors}
 
@@ -1125,18 +1084,14 @@ Publicly exposed constructor which constructs a matrix of size
 
 The following example represents the matrix @math-imtx{1 & 2 & 3 \\ 4 & 5 & 6}:
 
-@examples{
-[matrix(2,3): 1, 2, 3, 4, 5, 6]
-}
+@examples{[matrix(2,3): 1, 2, 3, 4, 5, 6];}
 
 Supplying an inconsistent quantity of elements for a given matrix dimension
 will produce an error:
 
-@examples{
-check:
-  [matrix(4, 2): 100] raises "Invalid 1x2 Matrix"
-end
-}
+@examples{@"@"Check void test() {
+    assertRaises(() -> { [matrix(4,2): 100] }, "Invalid 1x2 Matrix");
+}}
 
 @collection-doc["row-matrix" #:contract `(a-arrow ("elt" ,N) ,mtx-type)]
 
@@ -1144,11 +1099,9 @@ Constructor which returns a one-row matrix containing the given entries.
 
 The following will construct the matrix @math-imtx{1 & 2 & 3}:
 
-@examples{
-check:
-  [row-matrix: 1, 2, 3] is [matrix(1,3): 1, 2, 3]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([row-matrix: 1, 2, 3], [matrix(1,3): 1, 2, 3]);
+}}
 
 @collection-doc["col-matrix" #:contract `(a-arrow ("elt" ,N) ,mtx-type)]
 
@@ -1156,61 +1109,44 @@ Constructor which returns a one-column matrix containing the given entries.
 
 The following will construct the matrix @math-imtx{1 \\ 2 \\ 3}:
 
-@examples{
-check:
-  [col-matrix: 1, 2, 3] is [matrix(3,1): 1, 2, 3]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([col-matrix: 1, 2, 3], [matrix(3,1): 1, 2, 3]);
+}}
 
 @function["identity-matrix"]
 
 Constructs an @math-in{n \times n} identity matrix.
 
-@examples{
-check:
-  identity-matrix(2) is [matrix(2,2): 1, 0,
-                                      0, 1]
-  identity-matrix(3) is [matrix(3,3): 1, 0, 0,
-                                      0, 1, 0,
-                                      0, 0, 1]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(identity-matrix(2), [matrix(2,2): 1, 0, 0, 1]);
+    assertEquals(identity-matrix(3), [matrix(3,3): 1, 0, 0, 0, 1, 0, 0, 0, 1]);
+}}
 
 @function["make-matrix"]
 
 Constructs a matrix of the given size using only the given element.
 
-@examples{
-check:
-  make-matrix(2, 3, 1) is [matrix(2,3): 1, 1, 1,
-                                        1, 1, 1]
-  make-matrix(3, 2, 5) is [matrix(3,2): 5, 5,
-                                        5, 5,
-                                        5, 5]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(make-matrix(2, 3, 1), [matrix(2,3): 1, 1, 1, 1, 1, 1]);
+    assertEquals(make-matrix(3, 2, 5), [matrix(3,2): 5, 5, 5, 5, 5, 5]);
+}}
 
 @function["zero-matrix"]
 
 Constructs a matrix of the given size containing only zeroes.
 
-@examples{
-check:
-  zero-matrix(2, 3) is [matrix(2,3): 0, 0, 0,
-                                     0, 0, 0]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(zero-matrix(2, 3), [matrix(2,3): 0, 0, 0, 0, 0, 0]);
+}}
 
 
 @function["build-matrix"]
 
-Constructs a matrix of the given size, where entry @math{(i,j)} is the result of @pyret{proc(i,j)}.
+Constructs a matrix of the given size, where entry @math{(i,j)} is the result of @pyret{proc(i, j)}.
 
-@examples{
-check:
-  build-matrix(2, 3, lam(i,j): i + j end) is [matrix(3,2): 0, 1, 1, 2, 2, 3]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(build-matrix(2, 3, (i, j) -> i + j), [matrix(3,2): 0, 1, 1, 2, 2, 3]);
+}}
 
 @section{Matrix Methods}
 
@@ -1220,13 +1156,11 @@ These methods are available on all matrices.
 
 Returns the matrix's entry in the @math{i^th} row and the @math{j^th} column.
 
-@examples{
-check:
-  [matrix(3,2): 1, 2, 3, 4, 5, 6].get(1,1) is 4
-  [matrix(3,2): 1, 2, 3, 4, 5, 6].get(2,0) is 5
-  [matrix(1,1): 1].get(2, 0) raises "Index out of bounds for matrix dimensions"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(3,2): 1, 2, 3, 4, 5, 6].get(1, 1), 4);
+    assertEquals([matrix(3,2): 1, 2, 3, 4, 5, 6].get(2, 0), 5);
+    assertRaises(() -> { [matrix(1,1): 1].get(2, 0) }, "Index out of bounds for matrix dimensions");
+}}
 
 @matrix-method["to-list"]
 
@@ -1234,40 +1168,28 @@ Returns the matrix as a list of numbers in row-major order.
 
 For example, given the matrix @math-imtx{2 & 4 & 6 \\ 8 & 10 & 12 \\ 14 & 16 & 18}:
 
-@examples{
-check:
-  [matrix(3,3): 2, 4, 6,
-                8, 10, 12,
-                14, 16, 18].to-list()
-    is [list: 2, 4, 6, 8, 10, 12, 14, 16, 18]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(3,3): 2, 4, 6, 8, 10, 12, 14, 16, 18].to-list(), [2, 4, 6, 8, 10, 12, 14, 16, 18]);
+}}
 
 @matrix-method["to-vector"]
 
 Returns a one-row/one-column matrix as a vector.
 
-@examples{
-check:
-  [matrix(2,1): 4, 5].to-vector() is [vector: 4, 5]
-  [matrix(1,2): 4, 5].to-vector() is [matrix(2,1): 4, 5].to-vector()
-  [matrix(2,2): 1, 2, 3, 4].to-vector()
-    raises "Cannot convert non-vector matrix to vector"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,1): 4, 5].to-vector(), [vector: 4, 5]);
+    assertEquals([matrix(1,2): 4, 5].to-vector(), [matrix(2,1): 4, 5].to-vector());
+    assertRaises(() -> { [matrix(2,2): 1, 2, 3, 4].to-vector() }, "Cannot convert non-vector matrix to vector");
+}}
 
 @matrix-method["to-lists"]
 
 Returns the matrix as a list of lists of numbers, with each list
 corresponding to one row.
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].to-lists()
-    is [list: [list: 1, 2, 3],
-              [list: 4, 5, 6]]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].to-lists(), [[1, 2, 3], [4, 5, 6]]);
+}}
 
 @matrix-method["to-vectors"]
 
@@ -1278,42 +1200,27 @@ with each list corresponding to one column.
 For example, the matrix @math-imtx{1 & 2 & 3 \\ 4 & 5 & 6} corresponds to the
 vectors @math-imtx{1 \\ 4}, @math-imtx{2 \\ 5}, and @math-imtx{3 \\ 6}: 
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].to-vectors()
-    is [list: [vector: 1, 4],
-              [vector: 2, 5],
-              [vector: 3, 6]]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].to-vectors(), [[vector: 1, 4], [vector: 2, 5], [vector: 3, 6]]);
+}}
 
 @matrix-method["row"]
 
 Returns a one-row matrix with the matrix's given row.
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].row(2)
-    is [matrix(1,3): 4, 5, 6]
-
-  [matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].row(3)
-    is [matrix(1,3): 7, 8, 9]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].row(2), [matrix(1,3): 4, 5, 6]);
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].row(3), [matrix(1,3): 7, 8, 9]);
+}}
 
 @matrix-method["col"]
 
 Returns a one-column matrix with the matrix's given column.
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].col(2)
-    is [matrix(2,1): 2, 5]
-
-  [matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].col(3)
-    is [matrix(3,1): 3, 6, 9]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].col(2), [matrix(2,1): 2, 5]);
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].col(3), [matrix(3,1): 3, 6, 9]);
+}}
 
 @matrix-method["submatrix"]
 
@@ -1330,7 +1237,8 @@ resulting submatrix will be the elements with @math-in{(row,col)} positions
             a_{11} & a_{12} & a_{13} \\
             a_{21} & a_{22} & a_{23} \\
             a_{31} & a_{32} & a_{33}
-            \end{matrix}\right]}@pyret{.submatrix([list: 1, 2], [list: 2, 3])}
+            \end{matrix}\right]}@; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{.submatrix([list: 1, 2], [list: 2, 3])}
                                      @math-in{=
 \left[\begin{matrix}
 a_{12} & a_{13} \\
@@ -1338,12 +1246,9 @@ a_{22} & a_{23}\end{matrix}\right]}
 
 This is shown in the below example:
 
-@examples{
-check:
-  [matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].submatrix([list: 1, 2], [list: 2, 3])
-    is [matrix(2,2): 2, 3, 4, 5]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].submatrix([1, 2], [2, 3]), [matrix(2,2): 2, 3, 4, 5]);
+}}
 
 @matrix-method["transpose"]
 
@@ -1352,12 +1257,9 @@ Returns the transposition of the matrix. For example,
                  \overrightarrow{Transpose}
                  \begin{bmatrix}1 & 4 \\ 2 & 5 \\ 3 & 6\end{bmatrix}}
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].transpose()
-    is [matrix(3,2): 1, 4, 2, 5, 3, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].transpose(), [matrix(3,2): 1, 4, 2, 5, 3, 6]);
+}}
 
 @matrix-method["hermitian"]
 
@@ -1368,15 +1270,10 @@ complex numbers, this is synonymous with @pyret-method["Matrix" "transpose"].
 
 Returns a one-row matrix containing the matrix's diagonal entries.
 
-@examples{
-check:
-  [matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].diagonal()
-    is [matrix(1,3): 1, 5, 9]
-
-  [matrix(3,2): 1, 2, 3, 4, 5, 6].diagonal()
-    is [matrix(1,2): 1, 5]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].diagonal(), [matrix(1,3): 1, 5, 9]);
+    assertEquals([matrix(3,2): 1, 2, 3, 4, 5, 6].diagonal(), [matrix(1,2): 1, 5]);
+}}
 
 @matrix-method["upper-triangle"]
 
@@ -1385,21 +1282,10 @@ consists of all the values on or above the main diagonal, and zeroes below it.
 For example, the upper triangle of @math-imtx{1 & 2 & 3\\ 4 & 5 & 6\\ 7 & 8 & 9}
 would be @math-imtx{1 & 2 & 3\\ 0 & 5 & 6 \\ 0 & 0 & 9}.
 
-@examples{
-check:
-  [matrix(2,2): 1, 2,
-                3, 4].upper-triangle()
-    is [matrix(2,2): 1, 2,
-                     0, 4]
-
-  [matrix(3,3): 1, 2, 3,
-                4, 5, 6,
-                7, 8, 9].upper-triangle()
-    is [matrix(3,3): 1, 2, 3,
-                     0, 5, 6,
-                     0, 0, 9]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 3, 4].upper-triangle(), [matrix(2,2): 1, 2, 0, 4]);
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].upper-triangle(), [matrix(3,3): 1, 2, 3, 0, 5, 6, 0, 0, 9]);
+}}
 
 @matrix-method["lower-triangle"]
 
@@ -1408,21 +1294,10 @@ consists of all the values on or below the main diagonal, and zeroes above it.
 For example, the upper triangle of @math-imtx{1 & 2 & 3\\ 4 & 5 & 6\\ 7 & 8 & 9}
 would be @math-imtx{1 & 0 & 0\\ 4 & 5 & 0\\ 7 & 8 & 9}.
 
-@examples{
-check:
-  [matrix(2,2): 1, 2,
-                3, 4].lower-triangle()
-    is [matrix(2,2): 1, 0,
-                     3, 4]
-
-  [matrix(3,3): 1, 2, 3,
-                4, 5, 6,
-                7, 8, 9].lower-triangle()
-    is [matrix(3,3): 1, 0, 0,
-                     4, 5, 0,
-                     7, 8, 9]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 3, 4].lower-triangle(), [matrix(2,2): 1, 0, 3, 4]);
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].lower-triangle(), [matrix(3,3): 1, 0, 0, 4, 5, 0, 7, 8, 9]);
+}}
 
 @matrix-method["row-list"]
 
@@ -1430,13 +1305,9 @@ Returns the matrix as a list of one-row matrices.
 (Very similar to @pyret-method["Matrix" "to-lists"], except this method
 returns a list of matrices instead.)
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].row-list()
-    is [list: [matrix(1,3): 1, 2, 3],
-              [matrix(1,3): 4, 5, 6]]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].row-list(), [[matrix(1,3): 1, 2, 3], [matrix(1,3): 4, 5, 6]]);
+}}
 
 @matrix-method["col-list"]
 
@@ -1444,66 +1315,50 @@ Returns the matrix as a list of one-column matrices.
 (Very similar to @pyret-method["Matrix" "to-vectors"], except this method
 returns a list of matrices instead.)
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].col-list()
-    is [list: [matrix(2,1): 1, 4],
-              [matrix(2,1): 2, 5],
-              [matrix(2,1): 3, 6]]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].col-list(), [[matrix(2,1): 1, 4], [matrix(2,1): 2, 5], [matrix(2,1): 3, 6]]);
+}}
 
 @matrix-method["map"]
 
 Maps the given function entrywise over the matrix.
 
-@examples{
-check:
-  multTwo = lam(x): x * 2 end
-  [matrix(2,2): 1, 2, 3, 4].map(multTwo)
-    is [matrix(2,2): 2, 4, 6, 8]
-end
-}
+@examples{@"@"Check void test() {
+    multTwo = (x) -> x * 2;
+    assertEquals([matrix(2,2): 1, 2, 3, 4].map(multTwo), [matrix(2,2): 2, 4, 6, 8]);
+}}
 
 @matrix-method["map2"]
 Maps the given function entrywise over corresponding elements of this and the
 given matrix.
 
-@examples{
-check:
-  m1 = [matrix(2,2): 10, 20, 30, 40]
-  m2 = [matrix(2,2): 4, 3, 2, 1]
-  m1.map2(m2, num-expt)
-    is [matrix(2,2): num-expt(10, 4), num-expt(20, 3),
-                     num-expt(30, 2), num-expt(40, 1)]
-end
-}
+@examples{@"@"Check void test() {
+    m1 = [matrix(2,2): 10, 20, 30, 40];
+    m2 = [matrix(2,2): 4, 3, 2, 1];
+    assertEquals(m1.map2(m2, num-expt), [matrix(2,2): num-expt(10, 4), num-expt(20, 3), num-expt(30, 2), num-expt(40, 1)]);
+}}
 
 @matrix-method["row-map"]
 
 Maps the given function over each row in the matrix.
 
-@examples{
-check:
-  # sumRow :: 1*n matrix
-  # Computes the total sum of all entries in the given row
-  sumRow = lam(row): [matrix(1,1): row.to-vector().foldr(_ + _)] end
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].row-map(sumRow) is [matrix(2,1): 6, 15]
-end
-}
+@examples{@"@"Check void test() {
+    // sumRow :: 1*n matrix
+    // Computes the total sum of all entries in the given row
+    sumRow = (row) -> [matrix(1,1): row.to-vector().foldr(_ + _)];
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].row-map(sumRow), [matrix(2,1): 6, 15]);
+}}
 
 @matrix-method["col-map"]
 
 Maps the given function over each column in the matrix.
 
-@examples{
-check:
-  # sumCol :: m*1 matrix
-  # Computes the total sum of all entries in the given column
-  sumCol = lam(col): [matrix(1,1): col.to-vector().foldr(_ + _)] end
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].col-map(sumCol) is [matrix(1,3): 5, 7, 9]
-end
-}
+@examples{@"@"Check void test() {
+    // sumCol :: m*1 matrix
+    // Computes the total sum of all entries in the given column
+    sumCol = (col) -> [matrix(1,1): col.to-vector().foldr(_ + _)];
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].col-map(sumCol), [matrix(1,3): 5, 7, 9]);
+}}
 
 @matrix-method["augment"]
 
@@ -1512,15 +1367,9 @@ example, augmenting the matrix @math-imtx{1 & 2\\4 & 5} with
 the matrix @math-imtx{3\\ 6} yields the matrix
 @math-imtx{1 & 2 & 3\\ 4 & 5 & 6}.
 
-@examples{
-check:
-  [matrix(2,2): 1, 2,
-                4, 5].augment([matrix(2,1): 3,
-                                            6])
-    is [matrix(2,3): 1, 2, 3,
-                     4, 5, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 4, 5].augment([matrix(2,1): 3, 6]), [matrix(2,3): 1, 2, 3, 4, 5, 6]);
+}}
 
 @matrix-method["stack"]
 
@@ -1529,39 +1378,27 @@ example, stacking the matrix @math-imtx{1 & 2 & 3} on top of
 the matrix @math-imtx{4 & 5 & 6} gives the matrix
 @math-imtx{1 & 2 & 3\\ 4 & 5 & 6}.
 
-@examples{
-check:
-  [matrix(1,3): 1, 2, 3].stack([matrix(1,3): 4, 5, 6])
-    is [matrix(2,3): 1, 2, 3,
-                     4, 5, 6]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(1,3): 1, 2, 3].stack([matrix(1,3): 4, 5, 6]), [matrix(2,3): 1, 2, 3, 4, 5, 6]);
+}}
 
 @matrix-method["trace"]
 
 Returns the trace of the matrix (i.e. the sum of its diagonal values).
 
-@examples{
-check:
-  [matrix(3,3): 1, 2, 3,
-                4, 5, 6,
-                7, 8, 9].trace() is (1 + 5 + 9)
-  [matrix(2,2): 2, 4,
-                6, 8].trace() is (2 + 8)
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(3,3): 1, 2, 3, 4, 5, 6, 7, 8, 9].trace(), (1 + 5 + 9));
+    assertEquals([matrix(2,2): 2, 4, 6, 8].trace(), (2 + 8));
+}}
 
 @matrix-method["scale"]
 
 Multiplies each entry in the matrix by the given value.
 
-@examples{
-check:
-  [matrix(2,2): 1, 2, 3, 4].scale(2) is [matrix(2,2): 2, 4, 6, 8]
-
-  [matrix(2,2): 2, 4, 6, 8].scale(1/2) is [matrix(2,2): 1, 2, 3, 4]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 3, 4].scale(2), [matrix(2,2): 2, 4, 6, 8]);
+    assertEquals([matrix(2,2): 2, 4, 6, 8].scale(1/2), [matrix(2,2): 1, 2, 3, 4]);
+}}
 
 @matrix-method["dot"]
 
@@ -1572,45 +1409,37 @@ the trace of the result. An example of this calculation (@math-in{\ast}
 denotes matrix multiplication):
 
 @math-in{\left(\left[\begin{smallmatrix}1 & 2 & 3\end{smallmatrix}\right]
-\ast\left[\begin{smallmatrix}4\\ 2\\ ^4/_3 \end{smallmatrix}\right]\right)}@pyret{.trace()}
+\ast\left[\begin{smallmatrix}4\\ 2\\ ^4/_3 \end{smallmatrix}\right]\right)}@; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{.trace()}
 @math-in{=
 \underbrace{\left[\begin{smallmatrix}(1\cdot 4)+(2\cdot 2)+(3\cdot \frac{4}{3})\end{smallmatrix}\right]}_{
-1\times 1 \text{ matrix}}}@pyret{.trace()}@math-in{=12}
+1\times 1 \text{ matrix}}}@; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{.trace()}@math-in{=12}
 
-@examples{
-check:
-  [matrix(1,3): 1, 2, 3].dot([matrix(1,3): 4, 2, 4/3]) is 12
-  [matrix(1,3): 1, 2, 3].dot([matrix(1,3): 1, 1, 1]) is 6
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(1,3): 1, 2, 3].dot([matrix(1,3): 4, 2, 4/3]), 12);
+    assertEquals([matrix(1,3): 1, 2, 3].dot([matrix(1,3): 1, 1, 1]), 6);
+}}
 
 @matrix-method["expt"]
 
 Multiplies the matrix by itself the given number of times.
 
-@examples{
-check:
-  a = [matrix(2,2): 1, 2, 3, 4]
-  a.expt(1) is a
-  a.expt(2) is a * a
-  a.expt(3) is a * a * a
-end
-}
+@examples{@"@"Check void test() {
+    a = [matrix(2,2): 1, 2, 3, 4];
+    assertEquals(a.expt(1), a);
+    assertEquals(a.expt(2), a * a);
+    assertEquals(a.expt(3), a * a * a);
+}}
 
 @matrix-method["determinant"]
 
 Returns the determinant of the matrix, calculated via a recursive
 implementation of Laplace expansion.
 
-@examples{
-check:
-  [matrix(5,5): 1, 2, 1, 2, 3,
-                2, 3, 1, 0, 1,
-                2, 2, 1, 0, 0,
-                1, 1, 1, 1, 1,
-                0,-2, 0,-2,-2].determinant() is -2
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(5,5): 1, 2, 1, 2, 3, 2, 3, 1, 0, 1, 2, 2, 1, 0, 0, 1, 1, 1, 1, 1, 0, -2, 0, -2, -2].determinant(), -2);
+}}
 
 @matrix-method["is-invertible"]
 
@@ -1632,11 +1461,9 @@ Returns the Reduced Row Echelon Form of the matrix. For example:
                  \overrightarrow{RREF}
                  \begin{bmatrix}1 & 0 & -1\\ 0 & 1 & 2\end{bmatrix}}
 
-@examples{
-check:
-  [matrix(2,3): 1, 2, 3, 4, 5, 6].rref() is [matrix(2,3): 1, 0,-1, 0, 1, 2]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,3): 1, 2, 3, 4, 5, 6].rref(), [matrix(2,3): 1, 0, -1, 0, 1, 2]);
+}}
 
 @matrix-method["inverse"]
 
@@ -1646,12 +1473,9 @@ echelon form). For example:
 @math-disp{\begin{bmatrix}1 & 0 & 4\\ 1 & 1 & 6\\ -3 & 0 & -10\end{bmatrix}^{-1}
                  = \begin{bmatrix}-5 & 0 & -2\\ -4 & 1 & -1\\ ^3/_2 & 0 & ^1/_2\end{bmatrix}}
 
-@examples{
-check:
-  [matrix(3,3): 1, 0, 4, 1, 1, 6, -3, 0, -10].inverse()
-    is [matrix(3,3): -5, 0, -2, -4, 1, -1, 3/2, 0, 1/2]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(3,3): 1, 0, 4, 1, 1, 6, -3, 0, -10].inverse(), [matrix(3,3): -5, 0, -2, -4, 1, -1, 3/2, 0, 1/2]);
+}}
 
 @matrix-method["solve"]
 
@@ -1700,19 +1524,15 @@ Computes the @math{L^p} norm of the matrix using the given number.
 
 Computes the @math{L^1}, @math{L^2}, and @math{L}@superscript{∞} norms of the matrix, respectively.
 
-@examples{
-check:
-  a = [matrix(3,1): 1, 2, 3]
-  b = [matrix(3,3): 1, 0, 0, 2, 0, 0, 3, 0, 0]
-
-  a.lp-norm(3) is-roughly num-expt(35, 1/3)
-  b.lp-norm(3) is-roughly (b * a).lp-norm(3)
-
-  a.l1-norm()  is-roughly 6
-  a.l2-norm()  is-roughly num-sqrt(14)
-  a.l-inf-norm() is 3
-end
-}
+@examples{@"@"Check void test() {
+    a = [matrix(3,1): 1, 2, 3];
+    b = [matrix(3,3): 1, 0, 0, 2, 0, 0, 3, 0, 0];
+    assertRoughlyEquals(a.lp-norm(3), num-expt(35, 1/3));
+    assertRoughlyEquals(b.lp-norm(3), (b * a).lp-norm(3));
+    assertRoughlyEquals(a.l1-norm(), 6);
+    assertRoughlyEquals(a.l2-norm(), num-sqrt(14));
+    assertEquals(a.l-inf-norm(), 3);
+}}
 
 @matrix-method["qr-decomposition"]
 
@@ -1732,32 +1552,19 @@ Returns an orthogonal matrix whose image is the same as the span of the matrix's
 Matrices are defined to permit using addition, subtraction, and multiplication
 operators on them, whenever the dimensions are compatible:
 
-@examples{
-check:
-  [matrix(2,2): 1, 2, 3, 4] + [matrix(2,2): 1, 2, 3, 4]
-    is [matrix(2,2): 2, 4, 6, 8]
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 3, 4] + [matrix(2,2): 1, 2, 3, 4], [matrix(2,2): 2, 4, 6, 8]);
+    assertRaises(() -> { [matrix(2,2): 1, 2, 3, 4] + [matrix(4,1): 1, 2, 3, 4] }, "different sized matrices");
+}}
 
-  [matrix(2,2): 1, 2, 3, 4] + [matrix(4, 1): 1, 2, 3, 4]
-    raises "different sized matrices"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 3, 4] - [matrix(2,2): 0, 2, 3, 3], [matrix(2,2): 1, 0, 0, 1]);
+    assertRaises(() -> { [matrix(2,2): 1, 2, 3, 4] - [matrix(4,1): 1, 2, 3, 4] }, "different sized matrices");
+}}
 
-@examples{
-check:
-  [matrix(2,2): 1, 2, 3, 4] - [matrix(2,2): 0, 2, 3, 3]
-    is [matrix(2,2): 1, 0, 0, 1]
-
-  [matrix(2,2): 1, 2, 3, 4] - [matrix(4, 1): 1, 2, 3, 4]
-    raises "different sized matrices"
-end
-}
-
-@examples{
-check:
-  [matrix(2,2): 1, 2, 3, 4] * [matrix(2,2): 3, 0, 0, 3]
-    is [matrix(2,2): 3, 6, 9, 12]
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([matrix(2,2): 1, 2, 3, 4] * [matrix(2,2): 3, 0, 0, 3], [matrix(2,2): 3, 6, 9, 12]);
+}}
 
 @section{Matrix Functions}
 
@@ -1948,29 +1755,23 @@ Adds, subtracts, or multiplies the two matrices.  See @secref{s:matrix-binary-op
 
 @function["is-row-matrix"]
 Returns whether the matrix has exactly one row:
-@examples{
-check:
-  is-row-matrix([matrix(1, 3): 10, 20, 10]) is true
-  is-row-matrix([matrix(3, 1): 10, 20, 10]) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-row-matrix([matrix(1,3): 10, 20, 10]), true);
+    assertEquals(is-row-matrix([matrix(3,1): 10, 20, 10]), false);
+}}
 
 
 @function["is-col-matrix"]
 Returns whether the matrix has exactly one column:
-@examples{
-check:
-  is-row-matrix([matrix(1, 3): 10, 20, 10]) is false
-  is-row-matrix([matrix(3, 1): 10, 20, 10]) is true
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-row-matrix([matrix(1,3): 10, 20, 10]), false);
+    assertEquals(is-row-matrix([matrix(3,1): 10, 20, 10]), true);
+}}
 @function["is-square-matrix"]{Returns true if the given matrix has the same number of rows and columns.}
-@examples{
-check:
-  is-square-matrix([matrix(2, 2): 10, 20, 30, 40]) is true
-  is-square-matrix([matrix(4, 1): 10, 20, 30, 40]) is false
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals(is-square-matrix([matrix(2,2): 10, 20, 30, 40]), true);
+    assertEquals(is-square-matrix([matrix(4,1): 10, 20, 30, 40]), false);
+}}
 
 
 @function[

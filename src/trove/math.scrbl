@@ -39,13 +39,11 @@
   Calculates the arithmetic sum of the Numbers in @pyret{l}.  If @pyret{l}
   contains at least one RoughNum, then the output will be a RoughNum.
 
-  @examples{
-    check:
-      sum([list: ]) is 0
-      sum([list: 0, 2, 4]) is 6
-      sum([list: -1, 1, ~2]) is-roughly ~2
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertEquals(sum([]), 0);
+    assertEquals(sum([0, 2, 4]), 6);
+    assertRoughlyEquals(sum([-1, 1, ~2]), ~2);
+}}
   }
 
   @;#########################################################################
@@ -58,13 +56,11 @@
   ]{
   Calculates the maximal element of the set of Numbers in @pyret{l}.
   
-  @examples{
-    check:
-      max([list: ]) raises "Empty List"
-      max([list: 10]) is 10
-      max([list: 2.1, 2, 4.5, ~1.5, -1, 1]) is-roughly 4.5
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { max([]) }, "Empty List");
+    assertEquals(max([10]), 10);
+    assertRoughlyEquals(max([2.1, 2, 4.5, ~1.5, -1, 1]), 4.5);
+}}
   }
   
   @function["min"
@@ -74,13 +70,11 @@
   ]{
   Calculates the minimal element of the set of Numbers in @pyret{l}.
 
-  @examples{
-    check:
-      min([list: ]) raises "Empty List"
-      min([list: 2]) is 2
-      min([list: -1, 0, ~1, 2, 5]) is-roughly -1
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { min([]) }, "Empty List");
+    assertEquals(min([2]), 2);
+    assertRoughlyEquals(min([-1, 0, ~1, 2, 5]), -1);
+}}
   }
 
   @function["arg-max"
@@ -90,13 +84,11 @@
   ]{
   Calculates the index of the maximal element within @pyret{l}.
   
-  @examples{
-    check:
-      arg-max([list: ]) raises "Empty List"
-      arg-max([list: 2]) is 0
-      arg-max([list: -1, 0, ~1, 5, 2]) is 3
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { arg-max([]) }, "Empty List");
+    assertEquals(arg-max([2]), 0);
+    assertEquals(arg-max([-1, 0, ~1, 5, 2]), 3);
+}}
   }
   @function["arg-min"
     #:contract (a-arrow (L-of N) N)
@@ -105,12 +97,10 @@
   ]{
   Calculates the index of the minimal element within @pyret{l}.
   
-  @examples{
-    check:
-      arg-max([list: ]) raises "Empty List"
-      arg-max([list: 8]) is 0
-      arg-max([list: -1, 0, ~1, -3, 5]) is 3
-    end
-  }
+  @examples{@"@"Check void test() {
+    assertRaises(() -> { arg-max([]) }, "Empty List");
+    assertEquals(arg-max([8]), 0);
+    assertEquals(arg-max([-1, 0, ~1, -3, 5]), 3);
+}}
   }
 }

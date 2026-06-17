@@ -87,25 +87,54 @@ exception of @pyret{init:}.  They can also appear in any order --- the order
 displayed above is not required.  Each option can only appear once.  So, for
 example, these are valid reactors:
 
-@pyret-block[#:style "good-ex"]{reactor init "inert";}
-
-@pyret-block[#:style "good-ex"]{Object increment(x) {
-    return x + 1;
+@pyret-block[#:style "good-ex"]{
+reactor:
+  init: "inert"
+end
 }
-reactor on-tick increment ,init 10 ,;}
 
-@pyret-block[#:style "good-ex"]{Object tencrement(x) {
-    return x + 10;
+@pyret-block[#:style "good-ex"]{
+fun increment(x): x + 1 end
+
+reactor:
+  on-tick: increment,
+  init: 10,
+end
 }
-reactor seconds-per-tick 0.1 ,title "Count by 10" ,on-tick tencrement ,init 10 ,;}
+
+@pyret-block[#:style "good-ex"]{
+fun tencrement(x): x + 10 end
+
+reactor:
+  seconds-per-tick: 0.1,
+  title: "Count by 10",
+  on-tick: tencrement,
+  init: 10,
+end
+}
 
 These are not allowed:
 
-@pyret-block[#:style "bad-ex"]{reactor init 10 ,init 11 ,;}
+@pyret-block[#:style "bad-ex"]{
+reactor:
+  init: 10,
+  init: 11,
+end
+}
 
-@pyret-block[#:style "bad-ex"]{reactor title "No init" ,seconds-per-tick 0.1 ,;}
+@pyret-block[#:style "bad-ex"]{
+reactor:
+  title: "No init",
+  seconds-per-tick: 0.1,
+end
+}
 
-@pyret-block[#:style "bad-ex"]{reactor init 10 ,not-a-handler "not allowed";}
+@pyret-block[#:style "bad-ex"]{
+reactor:
+  init: 10,
+  not-a-handler: "not allowed"
+end
+}
 
 @section{Configuring and Running a Reactor}
 
@@ -310,11 +339,17 @@ exploration.
 
   Given a reactor, returns the current value of its state.
 
-@examples{import reactors
-r = reactor init 0 ,;
-@"@"Check void test() {
-    assertEquals(get-value(r), 0);
-}}
+@examples{
+include reactors
+
+r = reactor:
+  init: 0,
+end
+
+check:
+  get-value(r) is 0
+end
+}
 
 }
 
@@ -327,17 +362,23 @@ r = reactor init 0 ,;
   results from calling the appropriate handler.  Note that it does not change
   the state of the input reactor; a @emph{new} reactor is created.
 
-@examples{import reactors
-Object increment(x) {
-    return x + 1;
+@examples{
+include reactors
+
+fun increment(x): x + 1 end
+
+r = reactor:
+  init: 0,
+  on-tick: increment,
+end
+
+check:
+  get-value(r) is 0
+  r2 = react(r, time-tick)
+  get-value(r2) is 1
+  get-value(r) is 0
+end
 }
-r = reactor init 0 ,on-tick increment ,;
-@"@"Check void test() {
-    assertEquals(get-value(r), 0);
-    r2 = react(r, time-tick);
-    assertEquals(get-value(r2), 1);
-    assertEquals(get-value(r), 0);
-}}
 
 
   }

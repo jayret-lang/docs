@@ -28,8 +28,6 @@ These are libraries of general interest to Pyret programmers.
 @include-section["trove/color.js.rkt"]
 @include-section["trove/image.js.rkt"]
 
-@include-section["builtin/reactors.scrbl"]
-
 @include-section["trove/chart.js.rkt"]
 @include-section["trove/plot.js.rkt"]
 

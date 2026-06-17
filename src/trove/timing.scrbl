@@ -58,6 +58,7 @@ programming languages: see the
 @hyperlink["https://smol-tutor.xyz/"]{Standard Model of Languages}).
 Instead, Pyret first turns @pyret{f(x)} into a value (if it has one),
 and it is this @emph{value} that is supplied to
+@; TODO(pyret2jayret): parse failed (no shifts)
 @pyret{time-of(…)}. Therefore, @pyret{time-of} already receives a
 value, which takes effectively no time to compute; so no matter how
 long @pyret{f(x)} took, @pyret{time-of(f(x))} will return essentially
@@ -96,16 +97,15 @@ produces both the duration and the value produced by the computation.
 Consumes a thunk, runs it, and produces how long it takes to run (in
 milliseconds).
   
-@examples[#:show-try-it #t]{
-include timing
-
-check:
-  produce-0-to-9 = {(): range(0, 10)}
-  fun takes-less-than-1-second(t): t < 1000 end
-  # NOTE: may fail on a sufficiently slooooow machine!
-  time-only(produce-0-to-9) satisfies takes-less-than-1-second
-end
-}
+@examples[#:show-try-it #t]{import timing
+@"@"Check void test() {
+    produce-0-to-9 = () -> range(0, 10);
+    Object takes-less-than-1-second(t) {
+        return t < 1000;
+    }
+    // NOTE: may fail on a sufficiently slooooow machine!
+    assertSatisfies(time-only(produce-0-to-9), takes-less-than-1-second);
+}}
 }
 
   @function["time-value"
@@ -117,18 +117,17 @@ end
 Consumes a thunk, runs it, and produces both how
 long it takes to run (in milliseconds) and the value that it produces.
   
-@examples[#:show-try-it #t]{
-include timing
-
-check:
-  produce-0-to-9 = {(): range(0, 10)}
-  fun takes-less-than-1-second(t): t < 1000 end
-  {t; v} = time-value(produce-0-to-9)
-  # NOTE: may fail on a sufficiently slooooow machine!
-  t satisfies takes-less-than-1-second
-  v is [list: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-end
-}
+@examples[#:show-try-it #t]{import timing
+@"@"Check void test() {
+    produce-0-to-9 = () -> range(0, 10);
+    Object takes-less-than-1-second(t) {
+        return t < 1000;
+    }
+    /* TODO(pyret2jayret): tuple-binding deferred in Jayret v0.1 */ time-value(produce-0-to-9);
+    // NOTE: may fail on a sufficiently slooooow machine!
+    assertSatisfies(t, takes-less-than-1-second);
+    assertEquals(v, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+}}
 }
 
   @function["time-now"
@@ -143,23 +142,18 @@ Since this value changes every millisecond, it is very difficult to
 write a test where it succeeds; it's much easier to write a test that
 it fails.
   
-@examples[#:show-try-it #t]{
-include timing
-
-check:
-  time-now() is-not 1740426758012
-end
-}
+@examples[#:show-try-it #t]{import timing
+@"@"Check void test() {
+    assertNotEquals(time-now(), 1740426758012);
+}}
 
 We can therefore reconstruct, for instance, @pyret{time-only} as follows:
-@examples{
-fun my-time-only(thunk):
-  start-time = time-now()
-  _ = thunk()
-  end-time = time-now()
-  end-time - start-time
-end
-}
+@examples{Object my-time-only(thunk) {
+    start-time = time-now();
+    _ = thunk();
+    end-time = time-now();
+    return end-time - start-time;
+}}
 
 }
 

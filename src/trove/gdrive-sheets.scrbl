@@ -85,10 +85,8 @@ load them into tables.
 Accepts either the ID of a Google Sheets file, or the full URL. So, for example, these two
 uses access the same sheet:
 
-@pyret-block{
-animal-sheet1 = load-spreadsheet("https://docs.google.com/spreadsheets/d/1VeR2_bhpLvnRUZslmCAcSRKfZWs_5RNVujtZgEl6umA/")
-animal-sheet2 = load-spreadsheet("1VeR2_bhpLvnRUZslmCAcSRKfZWs_5RNVujtZgEl6umA")
-}
+@pyret-block{animal-sheet1 = load-spreadsheet("https://docs.google.com/spreadsheets/d/1VeR2_bhpLvnRUZslmCAcSRKfZWs_5RNVujtZgEl6umA/");
+animal-sheet2 = load-spreadsheet("1VeR2_bhpLvnRUZslmCAcSRKfZWs_5RNVujtZgEl6umA");}
 
   }
 

@@ -77,9 +77,7 @@ functions below.
 
 Creates a string-dict with the given @pyret{elt}s.
 
-@examples{
-  sd1 = [string-dict: "a", 5, "b", 10]
-}
+@examples{sd1 = [string-dict: "a", 5, "b", 10];}
 
 @section{StringDict Methods}
 
@@ -93,12 +91,10 @@ Returns @pyret-id["none" "option"] if the key is not in the dictionary, and a
 @pyret-id["some" "option"] containing the value the key maps to
 if the key is in the dictionary.
 
-@examples{
-check:
-  [string-dict: "a", 5].get("a") is some(5)
-  [string-dict: "a", 5].get("b") is none
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([string-dict: "a", 5].get("a"), some(5));
+    assertEquals([string-dict: "a", 5].get("b"), none);
+}}
 
 @sd-method["get-value"
   #:contract (a-arrow (SD-of "a") S "a")
@@ -109,12 +105,10 @@ end
 Returns the value that @pyret{key} maps to if it is present, and throws an
 exception otherwise.
 
-@examples{
-check:
-  [string-dict: "a", 5].get-value("a") is 5
-  [string-dict: "a", 5].get-value("b") raises "Key b not found"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([string-dict: "a", 5].get-value("a"), 5);
+    assertRaises(() -> { [string-dict: "a", 5].get-value("b") }, "Key b not found");
+}}
 
 @sd-method["set"
   #:contract (a-arrow (SD-of "a") S "a" (SD-of "a"))
@@ -125,27 +119,23 @@ end
 Returns a new string-dict that maps @pyret{key} to @pyret{value}
 and is otherwise similar to the original string-dict.
 
-@examples{
-check:
-  sd1 = [string-dict: "a", 5, "b", 10]
-  sd1.get-value("a") is 5
-  sd1.get-value("b") is 10
-  sd2 = sd1.set("a", 15)
-  sd2.get-value("a") is 15
-  sd2.get-value("b") is 10
-end
-}
+@examples{@"@"Check void test() {
+    sd1 = [string-dict: "a", 5, "b", 10];
+    assertEquals(sd1.get-value("a"), 5);
+    assertEquals(sd1.get-value("b"), 10);
+    sd2 = sd1.set("a", 15);
+    assertEquals(sd2.get-value("a"), 15);
+    assertEquals(sd2.get-value("b"), 10);
+}}
 
 Setting a value is not restricted to existing keys.
 
-@examples{
-check:
-  s1 = [string-dict: ]
-  s2 = s1.set("Hello", "World")
-  s1.get("Hello") is none
-  s2.get("Hello") is some("World")
-end
-}
+@examples{@"@"Check void test() {
+    s1 = [string-dict: ];
+    s2 = s1.set("Hello", "World");
+    assertEquals(s1.get("Hello"), none);
+    assertEquals(s2.get("Hello"), some("World"));
+}}
 
 @sd-method["has-key"
   #:contract (a-arrow (SD-of "a") S B)
@@ -155,13 +145,11 @@ end
 
 Returns @pyret{true} if @pyret{key} is in the string-dict; @pyret{false} if not.
 
-@examples{
-check:
-  sd1 = [string-dict: "a", 5]
-  sd1.has-key("a") is true
-  sd1.has-key("b") is false
-end
-}
+@examples{@"@"Check void test() {
+    sd1 = [string-dict: "a", 5];
+    assertEquals(sd1.has-key("a"), true);
+    assertEquals(sd1.has-key("b"), false);
+}}
 
 @sd-method["keys"
   #:contract (a-arrow (SD-of "a") (S-of S))
@@ -171,13 +159,11 @@ end
 
 Returns the set of keys in the string-dict.
 
-@examples{
-check:
-  sd1 = [string-dict: "a", 5, "b", 10]
-  sd1.keys() is [tree-set: "a", "b"]
-  sd1.keys() is [tree-set: "b", "a"]
-end
-}
+@examples{@"@"Check void test() {
+    sd1 = [string-dict: "a", 5, "b", 10];
+    assertEquals(sd1.keys(), [tree-set: "a", "b"]);
+    assertEquals(sd1.keys(), [tree-set: "b", "a"]);
+}}
 
 @sd-method["remove"
   #:contract (a-arrow (SD-of "a") S (SD-of "a"))
@@ -188,16 +174,14 @@ end
 Returns a new string-dict that doesn't have the argument key but
 is otherwise similar to the original string-dict.
 
-@examples{
-check:
-  sd1 = [string-dict: "a", 5, "b", 10]
-  sd1.has-key("a") is true
-  sd1.has-key("b") is true
-  sd2 = sd1.remove("b")
-  sd2.has-key("a") is true
-  sd2.has-key("b") is false
-end
-}
+@examples{@"@"Check void test() {
+    sd1 = [string-dict: "a", 5, "b", 10];
+    assertEquals(sd1.has-key("a"), true);
+    assertEquals(sd1.has-key("b"), true);
+    sd2 = sd1.remove("b");
+    assertEquals(sd2.has-key("a"), true);
+    assertEquals(sd2.has-key("b"), false);
+}}
 
 @sd-method["count"
   #:contract (a-arrow (SD-of "a") N)
@@ -207,16 +191,14 @@ end
 
 Returns the number of keys in the string-dict.
 
-@examples{
-check:
-  sd1 = [string-dict: "a", 5, "b", 10]
-  sd1.count() is 2
-  sd2 = sd1.set("c", 15)
-  sd2.count() is 3
-  sd3 = sd1.remove("a")
-  sd3.count() is 1
-end
-}
+@examples{@"@"Check void test() {
+    sd1 = [string-dict: "a", 5, "b", 10];
+    assertEquals(sd1.count(), 2);
+    sd2 = sd1.set("c", 15);
+    assertEquals(sd2.count(), 3);
+    sd3 = sd1.remove("a");
+    assertEquals(sd3.count(), 1);
+}}
 
 @sd-method["unfreeze"
   #:contract (a-arrow (SD-of "a") (MSD-of "a"))
@@ -227,14 +209,12 @@ end
 Returns a mutable string-dict that has the same keys and values
 as the original string-dict.
 
-@examples{
-check:
-  sd1 = [string-dict: "a", 5, "b", 10]
-  msd1 = sd1.unfreeze()
-  msd1.set-now("a", 0)
-  msd1.get-value-now("a") is 0
-end
-}
+@examples{@"@"Check void test() {
+    sd1 = [string-dict: "a", 5, "b", 10];
+    msd1 = sd1.unfreeze();
+    msd1.set-now("a", 0);
+    assertEquals(msd1.get-value-now("a"), 0);
+}}
 
 @section{The MutableStringDict Type}
 
@@ -261,9 +241,7 @@ functions below.
 
 Creates an mutable string-dict with the given @pyret{elt}s.
 
-@examples{
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-}
+@examples{msd1 = [mutable-string-dict: "a", 5, "b", 10];}
 
 @section{MutableStringDict Methods}
 
@@ -277,12 +255,10 @@ Returns @pyret-id["none" "option"] if the key is not in the dictionary, and a
 @pyret-id["some" "option"] containing the value the key maps to
 if the key is in the dictionary.
 
-@examples{
-check:
-  [mutable-string-dict: "a", 5].get-now("a") is some(5)
-  [mutable-string-dict: "a", 5].get-now("b") is none
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([mutable-string-dict: "a", 5].get-now("a"), some(5));
+    assertEquals([mutable-string-dict: "a", 5].get-now("b"), none);
+}}
 
 @msd-method["get-value-now"
   #:contract (a-arrow (MSD-of "a") S "a")
@@ -293,12 +269,10 @@ end
 Returns the value that @pyret{key} maps to if it is present, and throws an
 exception otherwise.
 
-@examples{
-check:
-  [mutable-string-dict: "a", 5].get-value-now("a") is 5
-  [mutable-string-dict: "a", 5].get-value-now("b") raises "Key b not found"
-end
-}
+@examples{@"@"Check void test() {
+    assertEquals([mutable-string-dict: "a", 5].get-value-now("a"), 5);
+    assertRaises(() -> { [mutable-string-dict: "a", 5].get-value-now("b") }, "Key b not found");
+}}
 
 @msd-method["set-now"
   #:contract (a-arrow (MSD-of "a") S "a" No)
@@ -310,16 +284,14 @@ Modifies the mutable-string-dict so that it now maps @pyret{key}
 to @pyret{value}. This method is called only for its side-effect
 and so returns @pyret{nothing}
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-  msd1.get-value-now("a") is 5
-  msd1.get-value-now("b") is 10
-  msd1.set-now("a", 15) is nothing
-  msd1.get-value-now("a") is 15
-  msd1.get-value-now("b") is 10
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5, "b", 10];
+    assertEquals(msd1.get-value-now("a"), 5);
+    assertEquals(msd1.get-value-now("b"), 10);
+    assertEquals(msd1.set-now("a", 15), nothing);
+    assertEquals(msd1.get-value-now("a"), 15);
+    assertEquals(msd1.get-value-now("b"), 10);
+}}
 
 @msd-method["has-key-now"
   #:contract (a-arrow (MSD-of "a") S B)
@@ -329,13 +301,11 @@ end
 
 Returns @pyret{true} if @pyret{key} is in the string-dict; @pyret{false} if not.
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5]
-  msd1.has-key-now("a") is true
-  msd1.has-key-now("b") is false
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5];
+    assertEquals(msd1.has-key-now("a"), true);
+    assertEquals(msd1.has-key-now("b"), false);
+}}
 
 @msd-method["keys-now"
   #:contract (a-arrow (MSD-of "a") (S-of S))
@@ -345,13 +315,11 @@ end
 
 Returns the set of keys in the string-dict.
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-  msd1.keys-now() is [tree-set: "a", "b"]
-  msd1.keys-now() is [tree-set: "b", "a"]
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5, "b", 10];
+    assertEquals(msd1.keys-now(), [tree-set: "a", "b"]);
+    assertEquals(msd1.keys-now(), [tree-set: "b", "a"]);
+}}
 
 @msd-method["remove-now"
   #:contract (a-arrow (MSD-of "a") S No)
@@ -362,16 +330,14 @@ end
 Modifies the mutable-string-dict so that it no longer has the
 argument @pyret{key}.
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-  msd1.has-key-now("a") is true
-  msd1.has-key-now("b") is true
-  msd1.remove-now("b") is nothing
-  msd1.has-key-now("a") is true
-  msd1.has-key-now("b") is false
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5, "b", 10];
+    assertEquals(msd1.has-key-now("a"), true);
+    assertEquals(msd1.has-key-now("b"), true);
+    assertEquals(msd1.remove-now("b"), nothing);
+    assertEquals(msd1.has-key-now("a"), true);
+    assertEquals(msd1.has-key-now("b"), false);
+}}
 
 @msd-method["count-now"
   #:contract (a-arrow (MSD-of "a") N)
@@ -381,16 +347,14 @@ end
 
 Returns the number of keys in the mutable-string-dict.
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-  msd1.count-now() is 2
-  msd1.set-now("c", 15)
-  msd1.count-now() is 3
-  msd1.remove-now("a")
-  msd1.count-now() is 2
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5, "b", 10];
+    assertEquals(msd1.count-now(), 2);
+    msd1.set-now("c", 15);
+    assertEquals(msd1.count-now(), 3);
+    msd1.remove-now("a");
+    assertEquals(msd1.count-now(), 2);
+}}
 
 @msd-method["freeze"
   #:contract (a-arrow (MSD-of "a") (SD-of "a"))
@@ -401,15 +365,13 @@ end
 Returns an immutable string-dict that has the same keys and
 values as the mutable one.
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-  sd1 = msd1.freeze()
-  sd2 = sd1.set("a", 10)
-  sd2.get-value("a") is 10
-  sd1.get-value("a") is 5
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5, "b", 10];
+    sd1 = msd1.freeze();
+    sd2 = sd1.set("a", 10);
+    assertEquals(sd2.get-value("a"), 10);
+    assertEquals(sd1.get-value("a"), 5);
+}}
 
 @msd-method["seal"
   #:contract (a-arrow (MSD-of "a") (MSD-of "a"))
@@ -422,16 +384,14 @@ same keys and values, but does not allow modification. The
 original mutable-string-dict continues to be modifiable, and such
 modifications will be visible in the sealed one.
 
-@examples{
-check:
-  msd1 = [mutable-string-dict: "a", 5, "b", 10]
-  smsd1 = msd1.seal()
-  smsd1.get-value-now("a") is 5
-  smsd1.set-now("a", 15) raises "Cannot modify sealed string dict"
-  msd1.set-now("a", 15) is nothing
-  msd1.get-value-now("a") is 15
-  smsd1.get-value-now("a") is 15
-end
-}
+@examples{@"@"Check void test() {
+    msd1 = [mutable-string-dict: "a", 5, "b", 10];
+    smsd1 = msd1.seal();
+    assertEquals(smsd1.get-value-now("a"), 5);
+    assertRaises(() -> { smsd1.set-now("a", 15) }, "Cannot modify sealed string dict");
+    assertEquals(msd1.set-now("a", 15), nothing);
+    assertEquals(msd1.get-value-now("a"), 15);
+    assertEquals(smsd1.get-value-now("a"), 15);
+}}
 
 }

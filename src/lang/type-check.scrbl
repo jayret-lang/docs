@@ -28,34 +28,28 @@ argument @pyret{x}. The return annotation is not necessary so the function
 to type check with an error requiring an annotation on the argument
 @pyret{x}.
 
-@pyret-block{
-# Type checks
-fun foo(x :: Number) -> Number:
-  x
-end
-
-# Type checks
-fun bar(x :: Number):
-  x
-end
-
-# Fails
-fun baz(x):
-  x
-end
+@pyret-block{// Type checks
+int foo(int x) {
+    return x;
 }
+// Type checks
+Object bar(int x) {
+    return x;
+}
+// Fails
+Object baz(x) {
+    return x;
+}}
 
 The other place that annotations are required is on
 @seclink["s:data-decl"]{data declarations}. Each field must be annotated
 with its type.
 
-@pyret-block{
-# Type checks
-data BTree:
-  | node(value :: Number, left :: BTree, right :: BTree)
-  | leaf(value :: Number)
-end
-}
+@pyret-block{// Type checks
+data BTree {
+    Node(int value, BTree left, BTree right);
+    Leaf(int value);
+}}
   
 @;@section[#:tag "test-inference"]{Using Tests for Types}
 
@@ -64,42 +58,39 @@ end
 There are a couple important notes when working with polymorphic data
 types such as @pyret{Option} (defined below).
 
-@pyret-block{
-data Option<A>:
-  | none
-  | some(value :: A)
-end
-}
+@pyret-block{data Option {
+    None;
+    Some(A value);
+}}
 
 Whenever a value is being annotated with a polymorphic type, the type
-instantiation must be written. So @pyret{x :: Option<Number> = some(1)}
-is okay, but @pyret{x :: Option = some(1)} is not. The caveat to this is
+instantiation must be written. So @pyret{x = some(1)}
+is okay, but @pyret{x = some(1)} is not. The caveat to this is
 when writing @pyret{cases} statements. On these the instantiating type is
-not needed and you can simply write @pyret{cases(Option) x:}.
+not needed and you can simply write @; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{cases(Option) x:}.
 
 @;@subsection[#:tag "refinement-types"]{Refinement Types}
 
 @section[#:tag "record-types"]{Record Types}
 
-Record types such as @pyret{{x :: Number, y :: String}} have two meanings.
-The first one is that they are the type of records (@pyret{{x: 1, y: "a"}}
+Record types such as @; TODO(pyret2jayret): parse failed (no shifts)
+@pyret{{x :: Number, y :: String}} have two meanings.
+The first one is that they are the type of records (@pyret{{x 1, y "a"}}
 has the type shown above). In addition, any data type where all
-variants have the fields @pyret{x :: Number} and @pyret{y :: String} would
+variants have the fields @pyret{/* contract: x :: Object */} and @pyret{/* contract: y :: Object */} would
 satisfy that type. For example, if we have the code shown below, the type
 checker will accept the program.
 
-@pyret-block{
-data Side:
-  | left(x :: Number)
-  | right(x :: Number)
-end
-
-fun f(thing :: {x :: Number}) -> Number:
-  thing.x
-end
-
-side-thing :: Side = left(1)
-x :: Number = f(side-thing) # Type checks
+@pyret-block{data Side {
+    Left(int x);
+    Right(int x);
 }
+int f({} thing) {
+    return thing.x;
+}
+side-thing = left(1);
+x = f(side-thing);
+// Type checks}
 
 }
