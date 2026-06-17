@@ -139,7 +139,7 @@ interpreted relative to the module the import statement appears in.
 }
 
 @form["js-file" "js-file(<path>)"]{
-@pyret-block[#:style "good-ex"]{import js-file("path/to/a/file.arr.js")
+@pyret-block[#:style "good-ex"]{import js-file("path/to/a/file.jrt.js")
 }
 Like @pyret{file}, but expects the contents of the file to be a JavaScript
 module that conforms to the format expected by the Jayret runtime.
@@ -247,7 +247,7 @@ libraries, but some of the names overlap?
 
 Consider:
 
-@pyret-block{// list-helpers.arr
+@pyret-block{// list-helpers.jrt
 // [Jayret] explicit `provide`: 
 Object concat(l1, l2) {
     return l1.append(l2);
@@ -256,7 +256,7 @@ Object every-other(l) {
     return ...;
 }}
 
-@pyret-block{// list-helpers2.arr
+@pyret-block{// list-helpers2.jrt
 // [Jayret] explicit `provide`: 
 /* contract: concat :: Object */;
 Object concat(list-of-lists) {
@@ -269,8 +269,8 @@ Object is-odd-length(l) {
 @; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
 # in a separate file
-include file("list-helpers.arr")
-include file("list-helpers2.arr")
+include file("list-helpers.jrt")
+include file("list-helpers2.jrt")
 
 concat(???)
 }
@@ -692,12 +692,12 @@ However, it is @emph{not} an error to include the same name multiple times if
 it has the same meaning:
 
 @pyret-block[#:style "good-ex"]{
-# in "student-helpers.arr"
+# in "student-helpers.jrt"
 provide from L: map, filter, fold end
 import lists as L
 
-# in "student-code.arr"
-include file("student-helpers.arr")
+# in "student-code.jrt"
+include file("student-helpers.jrt")
 import lists as L
 include from L: map end
 # map included again here, but it's OK because the other map is the same

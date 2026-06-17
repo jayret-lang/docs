@@ -43,7 +43,7 @@ data List {
 You could create a context with just a limited set of global names, and publish
 it as a @tt{shared-gdrive} module:
 
-@pyret-block[#:style "good-ex"]{// In file "list-assignment-context.arr"
+@pyret-block[#:style "good-ex"]{// In file "list-assignment-context.jrt"
 // [Jayret] use context: context global
 // This is a good default environment to use when constructing namespaces
 // Basic functions/types like num-max, to-string, Number, String
@@ -59,7 +59,7 @@ import either as E
 
 Then students could use that module as their context:
 
-@pyret-block[#:style "good-ex"]{// [Jayret] use context: context shared-gdrive ( "list-assignment-context.arr" , "google-id-goes-here" )
+@pyret-block[#:style "good-ex"]{// [Jayret] use context: context shared-gdrive ( "list-assignment-context.jrt" , "google-id-goes-here" )
 data List {
     Empty;
     Link(A first, List<Object> rest);

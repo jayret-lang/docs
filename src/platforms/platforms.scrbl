@@ -42,10 +42,12 @@ Code in an interface similar to jayret-lang.github.io/code, with a definitions a
 From Visual Studio Code, choose the extensions sidebar options (looks like four
 squares with the top right square at an angle). Search for “Jayret” and click on
 the extension called “Jayret Interactive Editor for VScode” by the author “Jayret Programming Language”. You should see a
-screen like this, with an option to install, which you can click to add the extension:
+screen like this, with an option to install, which you can click to add the extension.
 
-@image["src/vscode-install.png"]
-
+@margin-note{Screenshots in this section still show the Pyret-era UI of the
+extension and have been removed pending Jayret captures
+(see @link["https://github.com/jayret-lang/docs/blob/horizon/PARITY.md"
+"PARITY.md"]).}
 
 @subsection{Opening Files in the VScode Extension}
 
@@ -53,10 +55,8 @@ The extension can be used from desktop Visual Studio Code, in which case it's
 generally expected that students or users are able to open files and folders
 from their computer in VScode (or get a copy of a folder from version control,
 etc). Once a folder is opened (for example with File -> Open Folder...),
-clicking on files with the @code{.arr} extension will open them in the editor.
+clicking on files with the @code{.jrt} extension will open them in the editor.
 Then you can use the Run button and other editor features as usual.
-
-@image["src/vscode-open.png"]
 
 Jayret programs in open editors save and synchronize to the filesystem like
 other open text files, respecting keyboard shortcuts like Ctrl/Cmd-s or
@@ -85,27 +85,19 @@ users are prompted to install the extension when the workspace opens.
 
 @subsection{Editing Jayret Files with the Default Editor}
 
-For many reasons we might prefer to edit @code{.arr} files without using the
+For many reasons we might prefer to edit @code{.jrt} files without using the
 visual editor and instead using the Visual Studio Code default text editor.  To
 do this, you can open the context menu on a file and choose “Open With...”,
 which will allow you select the visual editor or the plain text editor, and
-optionally set your preferred default:
-
-@image["src/open-with.png"]
-
-@image["src/open-with-default.png"]
+optionally set your preferred default.
 
 In plain text editors for Jayret files, there is a ▶ icon at the top of the tab.
 Clicking this button will run the program (like using the run button in the
 visual editor), and open the interactions area in a new VScode pane to the side.
 
-@image["src/play-button.png"]
-
-@image["src/split-run.png"]
-
 @section{Command Line}
 
 Jayret can also be run from the command line. The command-line interface is
-distributed as a npm package @link["https://www.npmjs.com/package/pyret-npm"
-"pyret-npm"]. The options for using the command line are described in the tool
+distributed as an npm package @link["https://www.npmjs.com/package/jayret-npm"
+"jayret-npm"]. The options for using the command line are described in the tool
 itself. The @code{--help} option lists the available options.

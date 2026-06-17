@@ -18,11 +18,6 @@ docs:
     ++extra src/code-stable-small.png \
     ++extra src/terminal-vscode.png \
     ++extra src/hilite.js \
-    ++extra src/vscode-open.png \
-    ++extra src/open-with.png \
-    ++extra src/open-with-default.png \
-    ++extra src/play-button.png \
-    ++extra src/split-run.png \
     ++extra src/trove/brush.svg \
     ++extra src/trove/paint.svg \
     ++extra src/trove/checkers.svg \

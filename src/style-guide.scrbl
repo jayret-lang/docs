@@ -99,7 +99,7 @@ is not.
 
 @subsection{File Naming}
 
-Use @code{.arr} as the extension for Jayret files.
+Use @code{.jrt} as the extension for Jayret files.
 
 @subsection[#:tag "eg-tests"]{Example and Tests}
 
