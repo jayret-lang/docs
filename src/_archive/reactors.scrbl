@@ -47,7 +47,7 @@
 
 @docmodule["reactors"]{
 
-Pyret's reactors help create reactive programs: ones that respond to
+Jayret's reactors help create reactive programs: ones that respond to
 the passage of time, user interactions, or other stimuli. Reactors also
 update any visual output. Combining these lets us write games, animations,
 simulations, and more. They are also designed well to support various
@@ -87,54 +87,25 @@ exception of @pyret{init:}.  They can also appear in any order --- the order
 displayed above is not required.  Each option can only appear once.  So, for
 example, these are valid reactors:
 
-@pyret-block[#:style "good-ex"]{
-reactor:
-  init: "inert"
-end
+@pyret-block[#:style "good-ex"]{reactor init "inert";}
+
+@pyret-block[#:style "good-ex"]{Object increment(x) {
+    return x + 1;
 }
+reactor on-tick increment ,init 10 ,;}
 
-@pyret-block[#:style "good-ex"]{
-fun increment(x): x + 1 end
-
-reactor:
-  on-tick: increment,
-  init: 10,
-end
+@pyret-block[#:style "good-ex"]{Object tencrement(x) {
+    return x + 10;
 }
-
-@pyret-block[#:style "good-ex"]{
-fun tencrement(x): x + 10 end
-
-reactor:
-  seconds-per-tick: 0.1,
-  title: "Count by 10",
-  on-tick: tencrement,
-  init: 10,
-end
-}
+reactor seconds-per-tick 0.1 ,title "Count by 10" ,on-tick tencrement ,init 10 ,;}
 
 These are not allowed:
 
-@pyret-block[#:style "bad-ex"]{
-reactor:
-  init: 10,
-  init: 11,
-end
-}
+@pyret-block[#:style "bad-ex"]{reactor init 10 ,init 11 ,;}
 
-@pyret-block[#:style "bad-ex"]{
-reactor:
-  title: "No init",
-  seconds-per-tick: 0.1,
-end
-}
+@pyret-block[#:style "bad-ex"]{reactor title "No init" ,seconds-per-tick 0.1 ,;}
 
-@pyret-block[#:style "bad-ex"]{
-reactor:
-  init: 10,
-  not-a-handler: "not allowed"
-end
-}
+@pyret-block[#:style "bad-ex"]{reactor init 10 ,not-a-handler "not allowed";}
 
 @section{Configuring and Running a Reactor}
 
@@ -147,7 +118,7 @@ end
 While there are a number of useful operations on a reactor, the most central is
 interacting with one.  The @pyret-id{interact} function takes a reactor as an
 argument starts an interactive event loop as described by the reactor's
-configuration.  In @url{https://code.pyret.org}, for a very simple reactor with
+configuration.  In @url{https://code.jayret.org}, for a very simple reactor with
 just an initial value, the reactor's display looks like:
 
 @(image "src/builtin/inert-reactor.png")
@@ -272,17 +243,17 @@ on-mouse :: @(a-arrow "a" N N S "a")
 The two numbers indicate the x and y coordinates of the mouse, and the string
 indicates the type of mouse event, which is one of:
 
-@itemlist[(item (pyret "\"button-down\"") 
+@itemlist[(item (jayret "\"button-down\"") 
                 " signals that the computer user has pushed a mouse button down;")
-          (item (pyret "\"button-up\"") 
+          (item (jayret "\"button-up\"") 
                 " signals that the computer user has let go of a mouse button;")
-          (item (pyret "\"drag\"") 
+          (item (jayret "\"drag\"") 
                 " signals that the computer user is dragging the mouse. A dragging event occurs when the mouse moves while a mouse button is pressed.")
-          (item (pyret "\"move\"") 
+          (item (jayret "\"move\"") 
                 " signals that the computer user has moved the mouse;")
-          (item (pyret "\"enter\"") 
+          (item (jayret "\"enter\"") 
                 " signals that the computer user has moved the mouse into the canvas area; and")
-          (item (pyret "\"leave\"") 
+          (item (jayret "\"leave\"") 
                 " signals that the computer user has moved the mouse out of the canvas area.")]
 
 
@@ -339,17 +310,11 @@ exploration.
 
   Given a reactor, returns the current value of its state.
 
-@examples{
-include reactors
-
-r = reactor:
-  init: 0,
-end
-
-check:
-  get-value(r) is 0
-end
-}
+@examples{import reactors
+r = reactor init 0 ,;
+@"@"Check void test() {
+    assertEquals(get-value(r), 0);
+}}
 
 }
 
@@ -362,23 +327,17 @@ end
   results from calling the appropriate handler.  Note that it does not change
   the state of the input reactor; a @emph{new} reactor is created.
 
-@examples{
-include reactors
-
-fun increment(x): x + 1 end
-
-r = reactor:
-  init: 0,
-  on-tick: increment,
-end
-
-check:
-  get-value(r) is 0
-  r2 = react(r, time-tick)
-  get-value(r2) is 1
-  get-value(r) is 0
-end
+@examples{import reactors
+Object increment(x) {
+    return x + 1;
 }
+r = reactor init 0 ,on-tick increment ,;
+@"@"Check void test() {
+    assertEquals(get-value(r), 0);
+    r2 = react(r, time-tick);
+    assertEquals(get-value(r2), 1);
+    assertEquals(get-value(r), 0);
+}}
 
 
   }

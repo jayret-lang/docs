@@ -146,7 +146,7 @@ Unicode escape code or codes.}
 @(image "src/builtin/codes.png")
 
 Internally, a Jayret @pyret{String} is implemented as a JavaScript
-@tt{JSString}.  See the @seclink["runtime"] for more context.
+@tt{JSString} via the underlying Pyret runtime.
 
 @margin-note{One implication of how JavaScript handles Unicode characters is
 that characters that are identified by a Unicode code point greater than

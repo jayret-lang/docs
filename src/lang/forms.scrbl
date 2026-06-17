@@ -2242,7 +2242,8 @@ option-name:
   | "seconds-per-tick"
 }
 
-Reactors are described in detail in @secref["s:reactors"].
+Reactors do not yet have a Jayret surface syntax —
+see @secref["Deferred_from_Pyret"] for status.
 
 @subsection[#:tag "s:reference-fields"]{Mutable fields}
 Jayret allows creating data definitions whose fields are mutable.  Accordingly,

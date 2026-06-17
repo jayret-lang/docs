@@ -141,8 +141,8 @@ interpreted relative to the module the import statement appears in.
 @form["js-file" "js-file(<path>)"]{
 @pyret-block[#:style "good-ex"]{import js-file("path/to/a/file.arr.js")
 }
-Like @pyret{file}, but expects the contents of the file to contain a
-definition in @seclink["s:single-module" "JavaScript module format"].
+Like @pyret{file}, but expects the contents of the file to be a JavaScript
+module that conforms to the format expected by the Jayret runtime.
 }
 
 @form["my-gdrive" "my-gdrive(<name>)"]{
