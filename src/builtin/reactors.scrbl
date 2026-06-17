@@ -47,7 +47,7 @@
 
 @docmodule["reactors"]{
 
-Pyret's reactors help create reactive programs: ones that respond to
+Jayret's reactors help create reactive programs: ones that respond to
 the passage of time, user interactions, or other stimuli. Reactors also
 update any visual output. Combining these lets us write games, animations,
 simulations, and more. They are also designed well to support various
@@ -118,7 +118,7 @@ These are not allowed:
 While there are a number of useful operations on a reactor, the most central is
 interacting with one.  The @pyret-id{interact} function takes a reactor as an
 argument starts an interactive event loop as described by the reactor's
-configuration.  In @url{https://code.pyret.org}, for a very simple reactor with
+configuration.  In @url{https://code.jayret.org}, for a very simple reactor with
 just an initial value, the reactor's display looks like:
 
 @(image "src/builtin/inert-reactor.png")
@@ -243,17 +243,17 @@ on-mouse :: @(a-arrow "a" N N S "a")
 The two numbers indicate the x and y coordinates of the mouse, and the string
 indicates the type of mouse event, which is one of:
 
-@itemlist[(item (pyret "\"button-down\"") 
+@itemlist[(item (jayret "\"button-down\"") 
                 " signals that the computer user has pushed a mouse button down;")
-          (item (pyret "\"button-up\"") 
+          (item (jayret "\"button-up\"") 
                 " signals that the computer user has let go of a mouse button;")
-          (item (pyret "\"drag\"") 
+          (item (jayret "\"drag\"") 
                 " signals that the computer user is dragging the mouse. A dragging event occurs when the mouse moves while a mouse button is pressed.")
-          (item (pyret "\"move\"") 
+          (item (jayret "\"move\"") 
                 " signals that the computer user has moved the mouse;")
-          (item (pyret "\"enter\"") 
+          (item (jayret "\"enter\"") 
                 " signals that the computer user has moved the mouse into the canvas area; and")
-          (item (pyret "\"leave\"") 
+          (item (jayret "\"leave\"") 
                 " signals that the computer user has moved the mouse out of the canvas area.")]
 
 

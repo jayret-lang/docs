@@ -53,10 +53,10 @@ function called @pyret{time-of} and could just call
 @pyret{time-of(f(x))}. We might expect this to determine how long it
 takes for @pyret{f(x)} to run.
 
-Unfortunately, that is not how functions work in Pyret (or indeed in most
+Unfortunately, that is not how functions work in Jayret (or indeed in most
 programming languages: see the
 @hyperlink["https://smol-tutor.xyz/"]{Standard Model of Languages}).
-Instead, Pyret first turns @pyret{f(x)} into a value (if it has one),
+Instead, Jayret first turns @pyret{f(x)} into a value (if it has one),
 and it is this @emph{value} that is supplied to
 @; TODO(pyret2jayret): parse failed (no shifts)
 @pyret{time-of(…)}. Therefore, @pyret{time-of} already receives a

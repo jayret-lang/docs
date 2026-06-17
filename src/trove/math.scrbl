@@ -20,7 +20,7 @@
    ))
 
 @docmodule["math"]{
-  The Pyret Math library.  It consists of functions for arithmetic
+  The Jayret Math library.  It consists of functions for arithmetic
   calculations, optimization, and more to come!
 
   Every function in this library is available on the @tt{math} module

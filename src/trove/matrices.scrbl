@@ -1263,7 +1263,7 @@ Returns the transposition of the matrix. For example,
 
 @matrix-method["hermitian"]
 
-Computes the conjugate-transpose of this matrix.  Since Pyret does not have
+Computes the conjugate-transpose of this matrix.  Since Jayret does not have
 complex numbers, this is synonymous with @pyret-method["Matrix" "transpose"].
 
 @matrix-method["diagonal"]

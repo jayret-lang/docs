@@ -9,22 +9,22 @@
 
 @(define output verbatim)
 
-@title{A Tour of Pyret}
+@title{A Tour of Jayret}
 
-You can start playing with Pyret right away at
-@url{https://code.pyret.org/editor}.  You can copy the examples below, run
+You can start playing with Jayret right away at
+@url{https://code.jayret.org/editor}.  You can copy the examples below, run
 them, and play with them to get a feel for the language.
 
 @section{Testing and Assertions}
 
-The simplest way to add a test to a Pyret program is to use a @pyret{check:}
+The simplest way to add a test to a Jayret program is to use a @pyret{check:}
 block and a testing assertion.  Try running the following:
 
 @pyret-block{@"@"Check void test() {
     assertEquals("Ahoy " + "world!", "Ahoy world!");
 }}
 
-Upon running this program, Pyret reports:
+Upon running this program, Jayret reports:
 
 @output{
     Looks shipshape, your 1 test passed, mate!
@@ -36,7 +36,7 @@ expressions on the left and right for equality.  It reports the result to the
 built-in testing framework, which produces a report when all the tests have
 been run.
 
-If we break the test slightly, we can see that Pyret reports the
+If we break the test slightly, we can see that Jayret reports the
 error for us:
 
 @pyret-block{@"@"Check void test() {
@@ -54,7 +54,7 @@ error for us:
       The test failed.
 }
 
-The usual flow of writing a Pyret program involves writing tests along with
+The usual flow of writing a Jayret program involves writing tests along with
 your code, running your code to check the test output, and repeating until
 you're satisfied with the functionality of your program.  The more tests you
 write, the more useful feedback you get.
@@ -69,7 +69,7 @@ all pass, and we're showing correct behavior.
 
 Primitives values are the basic building blocks of the language;
 structured data exists to organize computation over a small set of
-primitive values.  We describe Pyret's primitives here.
+primitive values.  We describe Jayret's primitives here.
 
 @subsection{Numbers}
 
@@ -79,7 +79,7 @@ Numbers can be written with or without decimals.  For example:
     assertEquals(5.0, 5);
 }}
 
-Pyret defines a number of binary operators over numbers (the full list is
+Jayret defines a number of binary operators over numbers (the full list is
 available in @seclink["s:binop-expr" "the documentation for binary
 operators"]):
 
@@ -91,9 +91,9 @@ operators"]):
 }}
 
 Once we have binary operators, it is natural to ask what operator
-precedence Pyret has chosen.  In order to avoid ambiguity and
+precedence Jayret has chosen.  In order to avoid ambiguity and
 confusing updates to precedence tables when new operators are
-added, chains of operators in Pyret simply disallows mixing
+added, chains of operators in Jayret simply disallows mixing
 operators without disambiguating parentheses.  For example:
 
 @pyret-block{@"@"Check void test() {
@@ -118,7 +118,7 @@ You can see more utilities on numbers at
 
 @section{Booleans}
 
-Pyret has two distinguished boolean values, @pyret{true} and @pyret{false}.  Neither is a
+Jayret has two distinguished boolean values, @pyret{true} and @pyret{false}.  Neither is a
 number or string or nullary or any other kind of value; both are booleans and
 they are the only two booleans.  The comparison operators on numbers evaluate
 to them, for instance:
@@ -159,8 +159,8 @@ Multi-line strings can be written with three backtick characters:
 
 @section{Lists}
 
-Lists aren't primitive values, but they come up a lot in Pyret programs.
-Pyret's list are of the head-and-tail variety found in many functional
+Lists aren't primitive values, but they come up a lot in Jayret programs.
+Jayret's list are of the head-and-tail variety found in many functional
 languages.  They are most easily written as a comma-separated list of values
 enclosed in square brackets and using the @pyret-id["list" "lists"]
 constructor.  The elements of a list can be accessed through the dot lookup
@@ -200,7 +200,7 @@ freely mixed with bracket notation:
 
 @subsection{Identifiers}
 
-It's often useful to name intermediate results of a computation.  Pyret uses
+It's often useful to name intermediate results of a computation.  Jayret uses
 @pyret{=} to bind identifiers to values:
 
 @pyret-block{@"@"Check void test() {
@@ -223,7 +223,7 @@ error:
     It looks like you defined the name list1 twice, at
 }
 
-Pyret takes a strong stance on the integrity of the @pyret{=} statement.  If the
+Jayret takes a strong stance on the integrity of the @pyret{=} statement.  If the
 program says the name is equal to the value, then it had better continue to be!
 This has a very real correlation to something every high school algebra class
 teaches: the substitutability of names for expressions.  Defining names that,
@@ -232,7 +232,7 @@ about expressions and programs.
 
 @section{Variables}
 
-For names that can be updated, Pyret provides variables, which are distinct
+For names that can be updated, Jayret provides variables, which are distinct
 from identifiers at their declaration site, using @pyret{var}.  Such declarations
 must always give an initial value for the name, which can be later updated with
 @pyret{=}:
@@ -256,14 +256,14 @@ var x = 15;}
 
 @section[#:tag "functions-tour"]{Functions}
 
-In Pyret, most functions are defined with a function declaration.
+In Jayret, most functions are defined with a function declaration.
 A function declaration looks like:
 
 @pyret-block{Object square(n) {
     return n * n;
 }}
 
-This binds the name @pyret{square} to a function.  Note that Pyret has no
+This binds the name @pyret{square} to a function.  Note that Jayret has no
 explicit @pyret{return} keyword, and the function body “returns” whatever it
 evaluates to.  We can call @pyret{square} by passing arguments in parentheses:
 
@@ -286,7 +286,7 @@ This runs the same tests as the @pyret{check:} block, but it is now obvious to
 the reader (and to the programming environment!) that these tests go with the
 @pyret{square} function.
 
-Functions are first-class values in Pyret, which means they can be passed
+Functions are first-class values in Jayret, which means they can be passed
 as arguments to other functions or returned from them:
 
 @pyret-block{Object apply-twice(f, x) {
@@ -304,7 +304,7 @@ written by using @pyret{lam} rather than @pyret{fun}:
 
 @section[#:tag "data-tour"]{Data}
 
-Pyret has a builtin form for declaring and manipulating structured data.
+Jayret has a builtin form for declaring and manipulating structured data.
 
 @subsection[#:tag "definitions-tour"]{Definitions}
 
@@ -313,14 +313,14 @@ One example that you've already seen is @pyret-id["List" "lists"]. A
 of an element and another list.  While very important to the code that we
 write, @pyret{List}s are not a special internal value, they are just defined
 with the @pyret{data} form. A simplified version of what appears in the
-standard library of Pyret:
+standard library of Jayret:
 
 @pyret-block{data List {
     Empty;
     Link(first, rest);
 }}
 
-Though this won't actually run, because Pyret will complain that you're trying
+Though this won't actually run, because Jayret will complain that you're trying
 to re-define @pyret{List}.  This is the general syntax of a @pyret{data}
 definition: the name of the datatype, then a list of one or more variants,
 which may have members (like @pyret{link} does), or may not. The values of the
@@ -347,7 +347,7 @@ there are two functions: @pyret-id["is-empty" "lists"] checks if a value is the
 
 @bold{An aside on testing:} There's actually a more natural way to write the
 above test.  Along with @pyret-id["is" "testing"] and @pyret-id["raises"
-"testing"], Pyret defines a test assertion called @pyret-id["satisfies"
+"testing"], Jayret defines a test assertion called @pyret-id["satisfies"
 "testing"] that checks if a predicate returns @pyret{true} on a test value.  We
 could instead write the above as:
 
@@ -409,7 +409,7 @@ that's passed to @pyret{cases}. If you want to have a catch-all, you can use
 
 @section[#:tag "annotations-tour"]{Annotations}
 
-Pyret is not currently a typed language (a static checker is an ongoing
+Jayret is not currently a typed language (a static checker is an ongoing
 project), but it allows type-like annotations, both to document the type
 structure of programs, and for some run-time checking.  Annotations can be
 added to function arguments, to variable bindings, and to the members in data
@@ -473,7 +473,7 @@ These are features that we plan to check statically rather than at runtime.
 
 @subsection{For loops}
 
-Pyret provides syntactic support for common patterns of iteration. For example,
+Jayret provides syntactic support for common patterns of iteration. For example,
 to @pyret-id["map" "lists"] over a list, running some block of code to produce a
 new value for each existing value, we can write:
 
@@ -562,7 +562,7 @@ cause side effects, write a @pyret{when} block instead. A few examples:
 // ...
 // ...}
 
-Pyret expects that @pyret{if} expressions take some branch, and signals an
+Jayret expects that @pyret{if} expressions take some branch, and signals an
 error if control falls off the end:
 
 @pyret-block{@"@"Check void test() {
@@ -576,7 +576,7 @@ error if control falls off the end:
     assertRaises(() -> { if-falls-off() }, "no-branches-matched");
 }}
 
-For this reason, Pyret syntactically rules out single-branch if expressions,
+For this reason, Jayret syntactically rules out single-branch if expressions,
 which make little sense given this rule.
 
 @subsection{When blocks}
@@ -600,10 +600,10 @@ but makes it explicit that the body is used for its side effects.
 @section{And more...}
 
 This introduction should get you to the point where you can write non-trivial
-Pyret programs.  From here, you can check out the rest of the documentation to
+Jayret programs.  From here, you can check out the rest of the documentation to
 learn more about the language and for reference.  If your interest is piqued by
 the tour, or if you have suggestions or questions, you should sign up for the
-@link["https://groups.google.com/forum/#!forum/pyret-discuss" "Pyret discussion
+@link["https://groups.google.com/forum/#!forum/pyret-discuss" "Jayret discussion
 list"].
 
 

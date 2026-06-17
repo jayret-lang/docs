@@ -48,7 +48,7 @@ Sheets documents, as well.
 @section{The Worksheet Type}
 @type-spec["Worksheet" '()]{
 @pyret-id{Worksheet}s represent individual worksheets within a Google Sheets
-document.  Nothing can be done directly with worksheets in Pyret, except to
+document.  Nothing can be done directly with worksheets in Jayret, except to
 load them into tables.
 }
 
@@ -98,7 +98,7 @@ animal-sheet2 = load-spreadsheet("1VeR2_bhpLvnRUZslmCAcSRKfZWs_5RNVujtZgEl6umA")
   Obtains the @pyret-id{Worksheet} of the given name from the given
   @pyret-id{Spreadsheet}.  Since worksheets commonly contain a @emph{header row}
   with names describing the contents of each column, the last parameter tells
-  Pyret whether to ignore the first row when extracted the data from the
+  Jayret whether to ignore the first row when extracted the data from the
   worksheet into a table.  This function is a shortcut for using
   @pyret-id{load-spreadsheet} followed by the @pyret-method["Spreadsheet"
   "sheet-by-name"] method.  See @secref["s:tables:loading"] for more information.

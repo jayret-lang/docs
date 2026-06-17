@@ -80,7 +80,7 @@
   (method-doc "StatModel" "simple-linear-model" name #:alt-docstrings ""))
 
 @docmodule["statistics"]{
-  The Pyret Statistics library.  It consists of functions that calculate 
+  The Jayret Statistics library.  It consists of functions that calculate 
   relevant statistical values of data sets, and functions for statistical
   modeling of numerical data.
 
@@ -246,7 +246,7 @@ definition they will find in their textbooks.
   }
 
   @section{Statistical Models}
-  Pyret currently supports two functions for working with simple
+  Jayret currently supports two functions for working with simple
   linear-regression models.  Further support will be added over time.
 
 @function["linear-regression"

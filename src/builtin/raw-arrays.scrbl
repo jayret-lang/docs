@@ -107,7 +107,7 @@
 @emph{The @seclink{arrays} library provides the user-facing version of
 this library.}
 
-By default, Pyret users should use @seclink{arrays} instead. It is
+By default, Jayret users should use @seclink{arrays} instead. It is
 primarily designed to be user-facing. This library provides higher
 performance, but is instead primarily meant for internal use and for
 building other libaries. Only use this if @pyret{Array}s are not

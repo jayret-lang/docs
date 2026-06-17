@@ -2,7 +2,7 @@
 
 @title[#:style '(toc)]{Language Concepts}
 
-This section documents the language forms in Pyret, as well as a number of
+This section documents the language forms in Jayret, as well as a number of
 Pyret-specific libraries and concepts, like @seclink["testing"] and
 @seclink["equality" "Equality"].
 

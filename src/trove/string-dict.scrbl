@@ -56,7 +56,7 @@
 @type-spec["StringDict" (list "a")]{
 
 @pyret-id{StringDict}s keep track of a mapping from @pyret-id["String"
-"strings"]s to any Pyret value. A @pyret-id{StringDict} is
+"strings"]s to any Jayret value. A @pyret-id{StringDict} is
 immutable, i.e., a mapping cannot be changed; however, a new
 @pyret-id{StringDict} can be fashioned from an existing
 @pyret-id{StringDict} with a new, omitted, or changed mapping.
@@ -221,7 +221,7 @@ as the original string-dict.
 @type-spec["MutableStringDict" (list "a")]{
 
 @pyret-id{MutableStringDict}s keep track of a mapping from
-@pyret-id["String" "strings"]s to any Pyret value. In contrast to
+@pyret-id["String" "strings"]s to any Jayret value. In contrast to
 @pyret-id{StringDict}s, a @pyret{MutableStringDict} can have
 mappings added, deleted, or changed.
 

@@ -122,7 +122,7 @@ A @pyret{array} is a mutable, fixed-length collection indexed
 by non-negative intgers. Accessing and mutating a @pyret{array} takes
 constant time in the size of the array.
 
-By default, Pyret users should use this library. If, however, you need
+By default, Jayret users should use this library. If, however, you need
 a higher-performant but potentially less ergonomic array library, look at
 @seclink{raw-arrays} instead, which is primarily reserved for internal
 use and for building other libraries. However, do not use that library

@@ -133,7 +133,7 @@ then returns the value.
 Creates a string representation of the value that resembles an expression that
 could be used to construct it.
 
-The @pyret{to-repr} of a string yields a string containing the Pyret syntax
+The @pyret{to-repr} of a string yields a string containing the Jayret syntax
 needed to write the original value as string literal: most characters are unchanged,
 but quotes, newlines, tabs, and backslashes are all escaped, and the whole
 value surrounded by quotes.
@@ -178,11 +178,11 @@ A type specification that permits all values.  This is mainly useful
 in built-in language forms, like in @secref["equality"] or 
 @pyret-id{torepr}, which truly do handle any value.  
 
-Pyret programs that use @pyret{Any} on their own can usually be 
+Jayret programs that use @pyret{Any} on their own can usually be 
 restructured to use a specific type declaration to be more clear about 
 what data they are working with.
 
-Specifying @pyret{Any} will prevent Pyret from attempting to infer types, as
+Specifying @pyret{Any} will prevent Jayret from attempting to infer types, as
 it will if no type specification is provided.}
 
 @type-spec["Boolean" (list)]{

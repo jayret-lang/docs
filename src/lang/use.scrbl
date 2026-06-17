@@ -73,23 +73,23 @@ data List {
 
 @subsection[#:tag "s:use:compat"]{Backwards and Forwards Compatibility}
 
-By default, until @tt{use context} was released, all Pyret programs had a
+By default, until @tt{use context} was released, all Jayret programs had a
 single default context. It had provided common names related to, for example,
 @seclink["lists" "Lists"] and @seclink["option" "Option"].  Now files that
 don't have a @tt{use} line are treated as if they start with @tt{use context
 essentials2020}, which is equivalent to this historically available default
-context. The online environment @hyperlink["https://code.pyret.org"
-"code.pyret.org"] inserts @tt{use context essentialsYEAR} into new programs,
+context. The online environment @hyperlink["https://code.jayret.org"
+"code.jayret.org"] inserts @tt{use context essentialsYEAR} into new programs,
 where @tt{YEAR} will change when new useful names are available. Notably,
 @tt{essentials2021} includes all of the names for the untyped @seclink["image"
 "Image"] library by default, removing the need to @tt{include image} in new
 programs.
 
-Existing contexts provided by Pyret, like @tt{essentials2020} and
+Existing contexts provided by Jayret, like @tt{essentials2020} and
 @tt{essentials2021}, aren't intended to change the names they provide, so files
 with a @tt{use context} line won't have their set of available names changed
 with updates to the language. This is important for @bold{forwards}
-compatibility, because Pyret is particular about @seclink["s:shadowing"
+compatibility, because Jayret is particular about @seclink["s:shadowing"
 "shadowing"], so context stability ensures that definitions in files using a
 context in this way won't suddenly shadow a newly-provided name after an
 update.

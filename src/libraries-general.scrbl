@@ -3,7 +3,7 @@
 
 @title[#:style '(toc)]{General-Purpose Libraries}
 
-These are libraries of general interest to Pyret programmers.
+These are libraries of general interest to Jayret programmers.
 
 @(table-of-contents)
 

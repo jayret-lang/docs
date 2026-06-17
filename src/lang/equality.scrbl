@@ -256,7 +256,7 @@
 
 @section[#:tag "types-of-equality"]{Types of Equality}
 
-Pyret has three notions of equality.  Two values can be @emph{equal now},
+Jayret has three notions of equality.  Two values can be @emph{equal now},
 @emph{equal always}, and/or @emph{identical}.  The following table summarizes
 the functions and operators that test for these relationships, and how they
 compare to some other languages' operators:
@@ -669,7 +669,7 @@ tolerance.
     assertEquals((sqrt-5 > 2.22), true);
 }}
 
-Pyret has a family of built-in functions for cases like this, and the default
+Jayret has a family of built-in functions for cases like this, and the default
 is @pyret-id{within}.  To explain it precisely, it is clearer to first explain the
 other two functions, @pyret-id{within-rel} and @pyret-id{within-abs}:
 
@@ -807,7 +807,7 @@ they traverse mutable structures as in @pyret{equal-now}.
 
 @section[#:tag "s:undefined-equalities"]{Partial and Total Equality Predicates}
 
-For some values, Pyret refuses to report @pyret{true} or @pyret{false} for any
+For some values, Jayret refuses to report @pyret{true} or @pyret{false} for any
 equality predicate, and raises an error instead.  For example:
 
 @pyret-block{@"@"Check void test() {
@@ -829,7 +829,7 @@ some approximation of their true (irrational) value.  When such a result is
 used in a computation, it represents a @emph{rough approximation} of the true
 value.
 
-Pyret calls these numbers @pyret-id["Roughnum" "numbers"]s, and they have
+Jayret calls these numbers @pyret-id["Roughnum" "numbers"]s, and they have
 special rules related to equality.  In particular, they @emph{cannot} be
 directly compared for equality, even if it seems like they ought to be equal:
 
@@ -862,14 +862,14 @@ the result of @pyret{~0.1 == 0.1}, one of the tests would have a misleading fail
     assertEquals((~0.2 - ~0.1), 0.1);
 }}
 
-For example, if Pyret answered @pyret{true} for the rough equivalent,
+For example, if Jayret answered @pyret{true} for the rough equivalent,
 @pyret{~0.1 == ~0.1}, then this test would pass:
 
 @pyret-block{@"@"Check void test() {
     assertEquals(((~1 - ~0.9) + 0.00000000000000003), (~0.2 - ~0.1));
 }}
 
-To avoid giving misleading answers in cases like these, Pyret triggers an
+To avoid giving misleading answers in cases like these, Jayret triggers an
 error on any number-to-number comparison that involves a @pyret-id["Roughnum"
 "numbers"], which looks like:
 
@@ -963,8 +963,8 @@ must have the same behavior.  But when it returns @code{false}, we know
 nothing.  The functions may behave exactly the same, or they might be
 completely different, and the equality predicate can't tell us either way.
 
-Pyret takes the following stance: You probably should rethink your program if
-it relies on comparing functions for equality, since Pyret cannot give reliable
+Jayret takes the following stance: You probably should rethink your program if
+it relies on comparing functions for equality, since Jayret cannot give reliable
 answers (no language can).  So, all the examples above (with one notable
 exception) actually raise errors:
 
@@ -981,7 +981,7 @@ exception) actually raise errors:
 
 The first test is true because two @pyret-id{identical} values are considered
 @pyret-id{equal-always}.  This is an interesting point in this design space
-that Pyret may explore more in the future -- it isn't clear if the benefits of
+that Jayret may explore more in the future -- it isn't clear if the benefits of
 this relationship between @pyret-id{identical} and @pyret-id{equal-always} are
 worth the slight brittleness in the above example.
 
@@ -1033,7 +1033,7 @@ then an error is raised.  A few more examples:
 
 @section[#:tag "s:total-equality-predicates"]{Total Equality Predicates (Avoiding Incomparability Errors)}
 
-Most Pyret programs should be written using @code{equal-always},
+Most Jayret programs should be written using @code{equal-always},
 @code{equal-now}, and @code{identical}, which guarantee that an error will be
 raised if functions are compared.  Some programs, however, need to be able to
 compare arbitrary values, and it's convenient to have the ability to compare
@@ -1178,7 +1178,7 @@ work over values created with @pyret{data} by comparing fields in the same
 position.  However, sometimes user-defined values need a more sophisticated
 notion of equality than this simple definition provides.
 
-For consider implementing an unordered @emph{set} of values in Pyret.  We might
+For consider implementing an unordered @emph{set} of values in Jayret.  We might
 choose to implement it as a function that creates an object closing over the
 implementation of the set itself:
 
@@ -1230,7 +1230,7 @@ comparing elements, and give an @pyret{"Attempted to compare functions"} error:
     assertRaises(() -> { ([s] == [s2]) }, "Attempted to compare functions");
 }}
 
-To help make this use case more pleasant, Pyret picks a method name to call, if
+To help make this use case more pleasant, Jayret picks a method name to call, if
 it is present, on user-defined objects when checking equality.  The method name
 is @pyret{_equals}, and it has the following signature:
 
@@ -1280,7 +1280,7 @@ one of @pyret-id{equal-always3} or @pyret-id{equal-now3}.  The reasons for this
 are threefold:
 
 @itemlist[
-  @item{In order to check for equality of cyclic values, Pyret needs to do
+  @item{In order to check for equality of cyclic values, Jayret needs to do
   internal bookkeeping of visited references.  This information is stored
   within the callback, and calling e.g. @pyret-id{equal-now3} directly would not
   take previously visted references into account.}
@@ -1300,7 +1300,7 @@ are threefold:
 
 @section[#:tag "inequalities"]{Inequalities}
 
-The inequality operators and functions in Pyret follow different rules than
+The inequality operators and functions in Jayret follow different rules than
 those for equality.  In particular:
 
 @itemlist[
@@ -1319,7 +1319,7 @@ approximations, for example by using a test like @pyret{x < (y + tolerance)},
 negative), in applications that closely track approximation error.  Since in
 common cases inequality comparison of approximation is quite useful, and it is
 quite onerous to program with an analog of @pyret-id{within} for inequalities
-as well, Pyret chooses to allow the inequality operators to work on
+as well, Jayret chooses to allow the inequality operators to work on
 approximations.
 
 The inequality operators all work on either:

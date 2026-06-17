@@ -21,7 +21,7 @@
 
 @title[#:tag "s:forms" #:style '(toc)]{Language Constructs}
 
-This section contains information on the various language forms in Pyret, from
+This section contains information on the various language forms in Jayret, from
 binary operators to data definitions to functions.  This is a more detailed
 reference to the grammar of expressions and statements and their evaluation,
 rather than to
@@ -35,13 +35,13 @@ documentation.
 
 @subsection{Names}
 
-Names in Pyret match the following regular expression:
+Names in Jayret match the following regular expression:
 
 @justcode{
 ^[_a-zA-Z][_a-zA-Z0-9]*(?:-+[_a-zA-Z0-9]+)*
 }
 
-@margin-note{The convention in Pyret is that @pyret{kebab-case-names} are used
+@margin-note{The convention in Jayret is that @pyret{kebab-case-names} are used
 for names of values and fields, and @pyret{TitleCaseNames} are used for
 annotations.} That is, they start with an alphabetical character or an
 underscore, followed by any number of alphanumeric characters mixed with
@@ -84,7 +84,7 @@ $abc
 string-expr: STRING
 }
 
-Strings in Pyret come in several forms.  First, they can be enclosed in double
+Strings in Jayret come in several forms.  First, they can be enclosed in double
 quotes:
 
 @pyret-block[#:style "good-ex"]{"a string";
@@ -126,7 +126,7 @@ beginning of intermediate lines is preserved.
 num-expr: NUMBER
 }
 
-Pyret has several types of number literals.  The most traditional allows for
+Jayret has several types of number literals.  The most traditional allows for
 decimal numbers, negation, and an exponent:
 
 @justcode{
@@ -221,7 +221,7 @@ bool-expr: "true" | "false"
 Boolean literals are the lowercase words @pyret{true} and @pyret{false}.
 
 @section[#:tag "s:comments"]{Comments}
-Pyret supports two forms of comments:
+Jayret supports two forms of comments:
 @itemlist[
 
 @item{@emph{Single-line comments} begin with a @pyret{//} symbol and extend to
@@ -321,7 +321,7 @@ import-string: STRING
 }
 
 The form with @py-prod{import-name} looks for a file with that name in the
-built-in libraries of Pyret, and it is an error if there is no such library.
+built-in libraries of Jayret, and it is an error if there is no such library.
 
 Example:
 
@@ -348,7 +348,7 @@ provide-types-stmt: PROVIDE-TYPES record-ann | PROVIDE-TYPES STAR
 
 @pyret{provide} and @pyret{provide-types} statements specify which
 bindings and declarations in the
-program are available to other Pyret programs via @pyret{import} statements. 
+program are available to other Jayret programs via @pyret{import} statements. 
 
 @pyret{provide} statements must be the first non-comment code in the
 program or a syntax error will be raised.  @pyret{provide} statements have no
@@ -391,7 +391,7 @@ syntax can prevent namespace pollution, especially if you expect
 programmers (students) to use @pyret{include} to add the
 names directly to their top level namespace.}
 
-Programmers working through @url{http://code.pyret.org} can @pyret{provide}
+Programmers working through @url{http://code.jayret.org} can @pyret{provide}
 and @pyret{import} code via Google Drive sharing integrated into the
 development environment.  
 
@@ -412,7 +412,7 @@ providing program, and reload any open instances of the
 
 @section{Bindings}
 
-Many syntactic forms in Pyret need to designate names for values.  These are
+Many syntactic forms in Jayret need to designate names for values.  These are
 uniformly represented as @py-prod{binding}s:
 
 @bnf['Pyret]{
@@ -453,7 +453,7 @@ PI = ~3.14 :: Number
 
 @subsection[#:tag "s:shadowing"]{Shadowing}
 
-Pyret does not permit a program to implicitly bind the same name
+Jayret does not permit a program to implicitly bind the same name
 multiple times in the same scope, as this can be confusing or
 ambiguous: which name was meant?
 
@@ -463,7 +463,7 @@ ans = true;
 ans;
 // which one was meant?}
 
-Pyret will signal an error on the second binding of @pyret{ans} above, saying
+Jayret will signal an error on the second binding of @pyret{ans} above, saying
 that it @emph{shadows} the earlier definition.  The same rule applies to names
 defined in nested scopes, like functions.  This program is disallowed by the
 shadowing rule, as well:
@@ -502,7 +502,7 @@ end
 }
 
 @subsection{Tuple bindings}
-Tuples are useful to package up several Pyret values into a single
+Tuples are useful to package up several Jayret values into a single
 value, which can then be passed around and manipulated as a single
 entity.  But often, the most useful manipulation is to break the tuple
 apart into its components.  While there are @py-prod{tuple-get}
@@ -599,7 +599,7 @@ BLOCK: "block:"
 END: "end"
 }
 
-Blocks serve two roles in Pyret:
+Blocks serve two roles in Jayret:
 
 @itemlist[
   @item{Sequencing of operations}
@@ -628,7 +628,7 @@ z = y + ans;
 
 @subsection[#:tag "s:blocky-blocks"]{Block Shorthand}
 
-Many expressions in Pyret include one or more blocks within them.  For
+Many expressions in Jayret include one or more blocks within them.  For
 example, the body of a function is defined as a block.  Technically,
 this means the following program is legal:
 
@@ -643,7 +643,7 @@ sunny day, it will evaluate the first @tt{ask} expression,
 @emph{discard the result}, and then evaluate the second @tt{ask}
 expression and return its result.
 
-Pyret will warn the programmer if it encounters programs like these,
+Jayret will warn the programmer if it encounters programs like these,
 and complain that the block contains multiple expressions.  Often
 as in this case, it signals a real mistake, and the programmer ought
 to revise the code to comprise a single expression --- say, by
@@ -659,7 +659,7 @@ expressions are deliberate:
     return do-something-else();
 }}
 
-To tell Pyret that these multiple statements are intentional, we could
+To tell Jayret that these multiple statements are intentional, we could
 write an explicit @tt{block} form:
 
 @pyret-block[#:style "ok-ex"]{if (some-condition()) {
@@ -672,7 +672,7 @@ write an explicit @tt{block} form:
 }}
 
 ...but that is syntactically annoying for a straightforward situation!
-Instead, Pyret allows for block @emph{shorthands}: writing @tt{block}
+Instead, Jayret allows for block @emph{shorthands}: writing @tt{block}
 before the opening colon of a blocky expression signals that the
 expression is deliberate.
 
@@ -693,8 +693,8 @@ eliminated the @tt{print} call in the example above:
 
 Why should this expression be penalized, but the equivalent one, where
 we inline the definition of @tt{temp}, not be?  After all, this one is
-clearer to read!  In fact, Pyret will @emph{not} complain about this
-block containing multiple expressions.  Instead, Pyret will consider
+clearer to read!  In fact, Jayret will @emph{not} complain about this
+block containing multiple expressions.  Instead, Jayret will consider
 the following to be valid "non-blocky" blocks:
 
 @bnf['Pyret]{
@@ -880,7 +880,7 @@ own body, to enable recursive functions like @pyret{fact} above:
     ...;
 }}
 
-As with all Pyret identifiers, these function and parameter names cannot be
+As with all Jayret identifiers, these function and parameter names cannot be
 mutated, and they cannot be redefined while in scope unless they are explicitly
 @pyret{shadow}ed.
 
@@ -1057,7 +1057,7 @@ updating.
 
 
 @subsection[#:tag "s:type-decl"]{Type Declarations}
-Pyret provides two means of defining new type names.  
+Jayret provides two means of defining new type names.  
 @bnf['Pyret]{
 TYPE: "type"
 EQUALS: "="
@@ -1099,7 +1099,7 @@ about branders.
 @section[#:tag "s:contracts"]{Contracts}
 
 
-As part of its support for the systematic design of functions, Pyret allows
+As part of its support for the systematic design of functions, Jayret allows
 developers to specify an annotation for a name, before that name is defined.
 The general grammar for standalone contracts is:
 
@@ -1118,7 +1118,7 @@ Object vals-to-string(val1, val2) {
 
 In all of these cases, the definition itself (of @pyret{the-answer},
 @pyret{double}, and @pyret{vals-to-string}) is preceded by a @emph{contract}
-statement, asserting the signature of the definition to follow.  Pyret treats
+statement, asserting the signature of the definition to follow.  Jayret treats
 these contracts specially, and weaves them in to the definitions: the previous
 examples are equivalent to
 
@@ -1145,7 +1145,7 @@ contract-arrow-ann: (ann COMMA)* ann THINARROW ann
               | LPAREN (NAME COLONCOLON ann COMMA)* NAME COLONCOLON ann RPAREN THINARROW ann
 }
 
-When weaving function annotations onto functions, Pyret enforces a few
+When weaving function annotations onto functions, Jayret enforces a few
 restrictions:
 @itemlist[
 @item{For a standalone function, the contract must immediately precede the
@@ -1317,7 +1317,7 @@ well-formedness checking).
 
 @section{Expressions}
 
-The following are all the expression forms of Pyret:
+The following are all the expression forms of Jayret:
 
 @bnf['Pyret]{
 expr: paren-expr | id-expr | prim-expr
@@ -1510,7 +1510,7 @@ arguments names are bound to the provided values.  If they don't, an exception
 is thrown.
 
 Note that there is @emph{no space} allowed before the opening parenthesis of
-the application.  If you make a mistake, Pyret will complain:
+the application.  If you make a mistake, Jayret will complain:
 
 @pyret-block{f(1);
 // This is the function application expression f(1)
@@ -1533,13 +1533,13 @@ calls @tt{f} with some arguments pre-specified:
 
 @pyret-block{call-f-with-123 = (y, z) -> f(1, 2, 3, y, z);}
 
-Pyret provides syntactic sugar to make writing such helper functions
+Jayret provides syntactic sugar to make writing such helper functions
 easier:
 
 @pyret-block{call-f-with-123 = f(1, 2, 3, _, _);
 // same as the fun expression above}
 
-Specifically, when Pyret code contains a function application some of
+Specifically, when Jayret code contains a function application some of
 whose arguments are underscores, it constructs an lambda expression
 with the same number of arguments as there were underscores in the
 original expression, whose body is simply the original function
@@ -1577,7 +1577,7 @@ intended expression manually:
 
 @pyret-block{(x, y, z) -> x + y + z;}
 
-Pyret just does not provide syntactic sugar to help in this case
+Jayret just does not provide syntactic sugar to help in this case
 (or other more complicated ones).
 
 @subsection[#:tag "s:cannonball-expr"]{Chaining Application}
@@ -1654,7 +1654,7 @@ inst-expr: expr LANGLE ann (COMMA ann)* RANGLE
 
 @subsection[#:tag "s:binop-expr"]{Binary Operators}
 
-There are a number of binary operators in Pyret.  A binary operator expression
+There are a number of binary operators in Jayret.  A binary operator expression
 is a series of expressions joined by binary operators. An expression itself
 is also a binary operator expression.
 
@@ -1662,7 +1662,7 @@ is also a binary operator expression.
 binop-expr: expr (BINOP expr)*
 }
 
-Pyret supports the following operations, shown by example:
+Jayret supports the following operations, shown by example:
 @pyret-block{@"@"Check void test() {
     assertEquals(1 + 1, 2);
     assertEquals(1 - 1, 0);
@@ -1678,10 +1678,10 @@ Pyret supports the following operations, shown by example:
     assertEquals(not(false), true);
 }}
 
-@margin-note{There are additional equality operators in Pyret, which also call methods, but are
+@margin-note{There are additional equality operators in Jayret, which also call methods, but are
 somewhat more complex.  They are documented in detail in @seclink["equality"].}
 The arithmetic and comparison operators examine their arguments.  For primitive
-numbers and strings, the operation happens internally to Pyret.  If the
+numbers and strings, the operation happens internally to Jayret.  If the
 arguments are objects, however, the operators are syntactic sugar for a particular
 method call, as follows:
 
@@ -2245,7 +2245,7 @@ option-name:
 Reactors are described in detail in @secref["s:reactors"].
 
 @subsection[#:tag "s:reference-fields"]{Mutable fields}
-Pyret allows creating data definitions whose fields are mutable.  Accordingly,
+Jayret allows creating data definitions whose fields are mutable.  Accordingly,
 it provides syntax for accessing and modifying those fields.
 @bnf['Pyret]{
 BANG: "!"
@@ -2259,7 +2259,7 @@ By analogy with how @py-prod{dot-expr} accesses normal fields,
 @py-prod{get-bang-expr} accesses mutable fields --- but more emphatically so,
 because mutable fields, by their nature, might change.  Dot-access to mutable
 fields also works, but does not return the field's value: it returns the
-reference itself, which is a Pyret value that's mostly inert and difficult to
+reference itself, which is a Jayret value that's mostly inert and difficult to
 work with outside the context of its host object.
 
 @examples{data MutX {
@@ -2287,13 +2287,13 @@ likewise made more emphatic:
 
 
 @subsection[#:tag "s:construct-expr"]{Construction expressions}
-Individual Pyret data values are syntactically simple to construct: they look
+Individual Jayret data values are syntactically simple to construct: they look
 similar to function calls.  But arbitrarily-sized data is not as obvious.  For
 instance, we could write
 @examples{link(1, link(2, link(3, link(4, empty))));}
 to construct a 4-element list of numbers, but this gets tiresome quite
 quickly.  Many languages provide built-in syntactic support for constructing
-lists, but in Pyret we want all data types to be treated equally.  Accordingly,
+lists, but in Jayret we want all data types to be treated equally.  Accordingly,
 we can write the above example as
 @examples{[1, 2, 3, 4];}
 where @emph{@pyret{list} is not a syntactic keyword} in the language.  Instead,
@@ -2307,14 +2307,14 @@ construct-expr: LBRACK binop-expr COLON construct-args RBRACK
 construct-args: [binop-expr (COMMA binop-expr)*]
 }
 
-Pyret defines several of these constructors for you: lists, sets, arrays, and
+Jayret defines several of these constructors for you: lists, sets, arrays, and
 string-dictionaries all have the same syntax.
 
 
-The expression before the initial colon is a Pyret object that has a particular
+The expression before the initial colon is a Jayret object that has a particular
 set of methods available.  Users can define their own constructors as well.
 @pyret-block{type Constructor < A > = {make0 :: (-> A ) ,make1 :: (Any -> A ) ,make2 :: (Any ,Any -> A ) ,make3 :: (Any ,Any ,Any -> A ) ,make4 :: (Any ,Any ,Any ,Any -> A ) ,make5 :: (Any ,Any ,Any ,Any ,Any -> A ) ,make :: (RawArray < Any > -> A ) ,}}
-When Pyret encounters a construction expression, it will call the
+When Jayret encounters a construction expression, it will call the
 appropriately-numbered method on the constructor objects, depending on the
 number of arguments it received.
 
@@ -2331,10 +2331,10 @@ number of arguments it received.
 
 
 @subsection[#:tag "s:binding-expressions"]{Expression forms of bindings}
-Every definition in Pyret is visible until the end of its scope, which is
+Every definition in Jayret is visible until the end of its scope, which is
 usually the nearest enclosing block.  To limit that scope, you can wrap
 definitions in explicit @py-prod{user-block-expr}s, but this is sometimes awkward to
-read.  Pyret allows for three additional forms that combine bindings with
+read.  Jayret allows for three additional forms that combine bindings with
 expression blocks in a manner that is sometimes more legible:
 
 @bnf['Pyret]{
@@ -2383,14 +2383,14 @@ ann: name-ann | dot-ann
    | tuple-ann | record-ann
 }
 
-Annotations in Pyret express intended types values will have at runtime.
+Annotations in Jayret express intended types values will have at runtime.
 They appear next to identifiers anywhere a @tt{binding} is specified in the
 grammar, and if an annotation is present adjacent to an identifier, the program
 is compiled to raise an error if the value bound to that identifier would
 behave in a way that violates the annotation.  The annotation provides a
 @emph{guarantee} that either the value will behave in a particular way, or the
 program will raise an exception. In addition, annotations can be checked
-by Pyret's @seclink["type-check"]{type checker} to ensure that all values
+by Jayret's @seclink["type-check"]{type checker} to ensure that all values
 have the expected types and are used correctly.
 
 @subsection[#:tag "s:name-ann"]{Name Annotations}

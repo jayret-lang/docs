@@ -47,8 +47,8 @@
 
 @section[#:tag "testing-blocks"]{@pyret{check:} and @pyret{where:} blocks}
 
-Tests in Pyret are written in special @emph{testing blocks}.  These blocks can
-contain any Pyret code that isn't toplevel-only (like data definitions and
+Tests in Jayret are written in special @emph{testing blocks}.  These blocks can
+contain any Jayret code that isn't toplevel-only (like data definitions and
 import or provide statements), and are the only places where
 @seclink["testing-operators" "Testing Operators"] can be used.
 
@@ -91,7 +91,7 @@ Check block: a second block
 
 Testing blocks are also a unit of failure: most of the time an error stops the
 whole program, but inside a check block (and also inside @pyret-id{raises},
-mentioned later), the error is stopped and reported, and Pyret goes on to
+mentioned later), the error is stopped and reported, and Jayret goes on to
 evaluating the next check block:
 
 @pyret-block{@"@"Check void errorBlock() {
@@ -336,7 +336,7 @@ tying the two test cases together: we have to notice that the two tests are
 adjacent in our program and their left sides are identical, to notice that both
 tests are about the same input scenario.
 
-Pyret allows us to write test cases in a slightly different way, that addresses
+Jayret allows us to write test cases in a slightly different way, that addresses
 both of these concerns:
 
 @examples{@"@"Check void test() {
@@ -369,12 +369,12 @@ used @pyret{num-sqrt} instead of @pyret{num-sqr}):
     assertRoughlyEquals(distance-to-origin(3, 4), num-sqrt(num-sqrt(3) + num-sqr(4)));
 }}
 
-Pyret will show us
+Jayret will show us
 
 @image[#:scale 0.5]{src/lang/test-inconsistent.png}
 
 Here, even if the function is defined properly, the explanation and the
-expected result are inconsistent.  Pyret will show this inconsistency as a test
+expected result are inconsistent.  Jayret will show this inconsistency as a test
 failure, even if the left-hand side and the expected value do match --- after
 all, we might simply have gotten lucky, and the explanation is more accurate!
 A test case using a @pyret{because} clause will pass only if the explanation

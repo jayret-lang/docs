@@ -104,15 +104,15 @@ The general idea of loading a spreadsheet into a table is straightforward: each
 cell of the spreadsheet corresponds to a cell of the table.  However,
 spreadsheet files (such as Google Sheets or .csv files) store their data in a
 serialized format, and loading the file must convert from that
-representation back into useful Pyret data types.  Moreover, Pyret tables
+representation back into useful Jayret data types.  Moreover, Jayret tables
 expect each of their columns to be homogeneous, but there is nothing enforcing
 that restriction on arbitrary spreadsheet files.
 
-Accordingly, Pyret exposes a @pyret-id{CellContent} data type to record what
+Accordingly, Jayret exposes a @pyret-id{CellContent} data type to record what
 type it thinks each cell contains, and a @pyret-id{Sanitizer} to allow
 enforcing a uniform type over all values in a column.  These two notions are
 used by the @secref{gdrive-sheets} library to convert Google Sheets files into
-Pyret @pyret-id["Table" "tables"]s.  A similar library could be written to use
+Jayret @pyret-id["Table" "tables"]s.  A similar library could be written to use
 these two types to load tables from .csv files or other data sources.
 
 @section{The CellContent Type}
@@ -140,7 +140,7 @@ these two types to load tables from .csv files or other data sources.
   @function["is-c-bool" #:alt-docstrings ""]
   @function["is-c-custom" #:alt-docstrings ""]
 
-This datatype describes Pyret's 
+This datatype describes Jayret's 
 }
 
 
@@ -151,7 +151,7 @@ A @pyret{Sanitizer < A ,B >} is a function with signature
 @pyret{ -> B}@pyret{)}.  It takes in the contents of a cell, as
 well as the coordinates (column name, as given by the @seclink["s:tables:loading"]{@pyret{load-table}
 header}, and zero-indexed row number) of that cell, and attempts to parse the
-contents of that cell to a value of the intended Pyret type.  If a cell's
+contents of that cell to a value of the intended Jayret type.  If a cell's
 contents cannot be parsed, the sanitizer may raise an error explaining the problem.
 }
 

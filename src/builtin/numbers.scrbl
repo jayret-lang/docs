@@ -317,16 +317,16 @@
 
 @docmodule["numbers" #:noimport #t #:friendly-title "Numbers"]{
 
-Pyret numbers are of two kinds: exact numbers, or @pyret{Exactnum}s, 
+Jayret numbers are of two kinds: exact numbers, or @pyret{Exactnum}s, 
 and rough numbers or @pyret{Roughnum}s. Both are 
 real; finite; and written in base ten.
 
-@margin-note{Note that imaginary numbers were implemented in earlier versions of Pyret,
+@margin-note{Note that imaginary numbers were implemented in earlier versions of Jayret,
 but are not currently supported.}
 
 @pyret{Exactnum}s are arbitrarily precise rational numbers, including
 integers and rational fractions.  For integers whose magnitude is less
-than @pyret{(num-expt(2, 53) - 1)}, Pyret internally uses JavaScript
+than @pyret{(num-expt(2, 53) - 1)}, Jayret internally uses JavaScript
 @tt{fixnum}s, in order to optimize basic arithmetic.
 
 @pyret{Roughnum}s are numbers that are necessarily or
@@ -391,7 +391,7 @@ The type of number values that are equal to or greater than zero.}
 
 @pyret{Exactnum}s can be integers,  fractions represented
 with a solidus, or decimals, with an optional exponent. In the following,
-the numerals on the same line all denote the same Pyret number.
+the numerals on the same line all denote the same Jayret number.
 
 @examples{42;
 +42;
@@ -484,7 +484,7 @@ The mathematical constant π, approximated as a @pyret-id["Roughnum"], or
   @margin-note{To be used as an operator, @pyret{/} has to have spaces around
   it. This means you need to write @pyret{a / 3} rather than @pyret{a/3} to
   divide the value stored in @pyret{a} by @pyret{3}. Things like @pyret{4/3} and
-  @pyret{1/2} are read by Pyret as single
+  @pyret{1/2} are read by Jayret as single
   numbers, and can't have names or other expressions in them.}
   When @pyret{left} and @pyret{right} evaluate to numbers, divides @pyret{left}
   by @pyret{right} and returns the result.
@@ -1079,7 +1079,7 @@ JavaScript number (i.e., JavaScript double).
     assertEquals(num-is-fixnum(1.5), false);
 }}
 
-@margin-note{Pyret represents @pyret{Exactnums} that are non-integers as tuples, 
+@margin-note{Jayret represents @pyret{Exactnums} that are non-integers as tuples, 
 and hence even small rationals such as 1.5 are considered non-@tt{fixnum},
 although they could be represented as JavaScript doubles.}
 

@@ -91,7 +91,7 @@ will then be checked against the annotation.  Unsurprisingly, they are useful
 for representing tabular data from sources like spreadsheets or CSV files.
 
 @bold{Note:} The @pyret-id{Table} data type and the syntax for manipulating
-tables is built in to Pyret without needing any imports; however, using the
+tables is built in to Jayret without needing any imports; however, using the
 @secref{Reducers} or the functions in @secref{s:tables:methods} require the
 @pyret{import} line above.
 
@@ -114,12 +114,12 @@ program above will display a formatted version of the table:
   
   @section[#:tag "s:tables:loading"]{Loading Tables}
 
-Pyret supports loading spreadsheets from Google Sheets and
-interpreting them as Pyret tables.
+Jayret supports loading spreadsheets from Google Sheets and
+interpreting them as Jayret tables.
 
 You can import most relevant file types, including .xlsx,
-into Google Sheets, and then into Pyret, so you should be able to
-get almost any tabular data into Pyret with a little effort.
+into Google Sheets, and then into Jayret, so you should be able to
+get almost any tabular data into Jayret with a little effort.
 
 @margin-note{In Google Sheets, you create a file, referred to as a
 "spreadsheet" that contains one or more grids called
@@ -127,7 +127,7 @@ get almost any tabular data into Pyret with a little effort.
 grid as a "worksheet."  We will follow Google Sheets'
 nomenclature.}
 
-Pyret assumes each sheet contains only one table of neatly formatted
+Jayret assumes each sheet contains only one table of neatly formatted
 data, without skipping columns or extra comments other than an
 optional single header row at the top.
 
@@ -136,7 +136,7 @@ As a simple and consistent example, let's say we wanted to import the
 
 @(image "src/builtin/gsheet-1.png")
 
-To import this data into a Pyret program, you need to get the
+To import this data into a Jayret program, you need to get the
 spreadsheet's
 unique Google ID.  The easiest way to do this is to click
 on the blue @tt{Share} button in the upper right.
@@ -147,7 +147,7 @@ If you don't
 want to share your spreadsheet with anyone else, click
 @tt{Advanced} in the lower right of the @tt{Share with others}
 dialog, then copy the @tt{Link to share}, highlighted in orange below,
-and paste it into your Pyret definitions area (or another editor).
+and paste it into your Jayret definitions area (or another editor).
 
 @(image "src/builtin/gsheet-3.png")
 
@@ -164,7 +164,7 @@ on the blue @tt{Share} button as above, and then click
 @tt{Get sharable link}, choose the appropriate level of
 sharing, and copy the URL to get the Google ID as above.}
 
-Now you can load the spreadsheet into your Pyret program:
+Now you can load the spreadsheet into your Jayret program:
 
 @examples{import gdrive-sheets as GS
 imported-my-table = GS.load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6UzI");}
@@ -181,10 +181,10 @@ imported-my-table = load-spreadsheet("1BAexzf08Q5o8bXb_k8PwuE3tMKezxRfbKBKT-4L6U
 use @pyret{include}, omit @tt{GS.} where used below.}
 
 When data is loaded into a table, we recommend using @italic{sanitizers} 
-to properly load each entry of the table as the correct Pyret type.  The
+to properly load each entry of the table as the correct Jayret type.  The
 supported sanitizers are imported from the @pyret{data-source} module.
 
-The sanitizers currently provided by Pyret are:
+The sanitizers currently provided by Jayret are:
 
 @itemlist[@item{@bold{string-sanitizer} tries to convert anything to a @g-id{String}}
 @item{@bold{num-sanitizer} tries to convert  numbers, strings and booleans to @g-id{Number}s}
@@ -312,11 +312,11 @@ a year older than it says they are. We can fix our data as follows:
 
 @section{Extracting Columns from Tables}
 
-A large number of Pyret modules work on @seclink{lists} instead of tables, so it
+A large number of Jayret modules work on @seclink{lists} instead of tables, so it
 may be desired to pull the contents of one column of a table as a list to
 use it elsewhere. The @pyret{extract} mechanism allows this ability, and
 serves as the primary link between processing tabular data and non-tabular
-Pyret functions.
+Jayret functions.
 
 Suppose, for example, we wanted just the names of each person in
 @pyret{my-table}. We could pull those names out as follows:
@@ -372,7 +372,7 @@ row it is being added to @italic{and one or more of the rows above}
 that row.  This is
 analogous to the @pyret-id["fold" "lists"] function for @seclink{lists}.
 
-The simplest examples of reducing use reducers built into Pyret.
+The simplest examples of reducing use reducers built into Jayret.
 
 For each reducer below, you will need to specify
 a name for the new column and which existing column new value
@@ -399,7 +399,7 @@ The @pyret{difference} extender creates a new column
 containing the difference between the value in
 the current row (of the selected column) minus the value in @italic{only}
 the row directly above.  In the first row, the value is unchanged.
-Since there's no value before the first row, Pyret behaves as if it were zero.
+Since there's no value before the first row, Jayret behaves as if it were zero.
 
 @margin-note{Both @pyret{difference} and @pyret-id{difference-from} do
 @italic{not} calculate a running difference, only the difference between
@@ -568,7 +568,7 @@ a column name using @tt{sieve}: the program above conflates the identifier
 an error that the @tt{colname} in the query shadows the @tt{colname} that's a
 parameter of the function.
 
-Pyret provides facilities for writing programs like the above, they are simply
+Jayret provides facilities for writing programs like the above, they are simply
 a different set of operations than the query syntax. These table manipulation
 operations are useful for building abstractions over tables and for creating
 tables programmatically.

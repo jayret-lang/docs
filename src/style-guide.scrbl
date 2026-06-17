@@ -3,10 +3,10 @@
 @(define code tt)
 @(define codedisp verbatim)
 
-@title{Pyret Style Guide}
+@title{Jayret Style Guide}
 @author{Frank Goodman and Shriram Krishnamurthi}
 
-Ahoy matey! Here be the style guide for Pyret. Follow me rules to find 
+Ahoy matey! Here be the style guide for Jayret. Follow me rules to find 
 the hidden treasure, or walk the plank!
 
 @(table-of-contents)
@@ -49,10 +49,10 @@ pieces are doing, helping a later reader (who may be yourself!).
 @subsection{Variable Naming}
 
 The programming language world rages about the use of @code{camelCase}
-versus @code{under_scores} in variable names. Pyret's syntax supports
+versus @code{under_scores} in variable names. Jayret's syntax supports
 both, but we can do better.
 
-In Pyret, you can use dashes (@code{-})
+In Jayret, you can use dashes (@code{-})
 inside variable names.@margin-note*{This is sometimes called ``kebab
 case'', but it would be more accurate to call it ``shish case''.}
 Thus, you would write @code{camel-case} and
@@ -63,7 +63,7 @@ is in all-caps?). Dashes are also humanizing: they make your program
 look that little bit more like human prose.
 
 Most languages can't support dashes because the dash also stands for
-infix subtraction. In Pyret, subtraction must be surrounded by
+infix subtraction. In Jayret, subtraction must be surrounded by
 space. Therefore, @code{camel-case} is a name whereas @code{camel -
 case} is subtraction.
 
@@ -79,7 +79,7 @@ e = 2.7182
 
 @subsubsection{Reusing Variable Names}
 
-Pyret is picky about letting you reuse variable names. This is to help
+Jayret is picky about letting you reuse variable names. This is to help
 you avoid confusing two different variables that have the same name
 and accidentally using the wrong one. Specifically, an inner scope
 can't use a name that is already bound in an outer scope; but two
@@ -99,7 +99,7 @@ is not.
 
 @subsection{File Naming}
 
-Use @code{.arr} as the extension for Pyret files.
+Use @code{.arr} as the extension for Jayret files.
 
 @subsection[#:tag "eg-tests"]{Example and Tests}
 
@@ -155,7 +155,7 @@ fun f(x):
   x + x
 end
 }
-This is also how you write a multi-line string in Pyret.
+This is also how you write a multi-line string in Jayret.
 
 @subsection{Annotations}
 
@@ -165,7 +165,7 @@ fun str-len(str :: String) -> Number:
   # ...
 end
 }
-Even though Pyret does not currently check parametric annotations, you
+Even though Jayret does not currently check parametric annotations, you
 should still write them for their value as user documentation. Thus:
 @codedisp{
 fun length(lst :: List<Any>) -> Number:
@@ -305,7 +305,7 @@ function is that produced by its expression (which, here, is
 
 @subsection{Beware of @code{var}!}
 
-You might have noticed that Pyret lets you write @code{var} before
+You might have noticed that Jayret lets you write @code{var} before
 local names: for instance, you can write the previous example as
 @codedisp{
 fun hypo-len(a, b):
@@ -317,7 +317,7 @@ end
 }
 instead. In particular, if you have prior experience in a language
 like JavaScript, you might think this is @emph{good} practice. It's
-not: @emph{don't do this}! In Pyret, adding @code{var} turns each name
+not: @emph{don't do this}! In Jayret, adding @code{var} turns each name
 into a @emph{mutable variable}, i.e., one that you can modify using an
 assignment statement. Therefore, do not use @code{var} unless you
 absolutely mean to create a mutable variable.

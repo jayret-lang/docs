@@ -24,7 +24,7 @@
 @title[#:tag "s:spies"]{Spies}
 
 Spies are used for convenient display of values for print-style debugging. See
-@secref["s:spies:rationale"] for why this is particularly useful in Pyret.
+@secref["s:spies:rationale"] for why this is particularly useful in Jayret.
 
 @section{Examples}
 
@@ -36,13 +36,13 @@ spy(x);}
 This will produce a message like:
 
 @margin-note{The filename will be the name of the file containing the @tt{spy}
-statement, not @tt{spies.arr} as shown here}
+statement, not @tt{spies.jrt} as shown here}
 @verbatim{
-Spying (at file:///spies.arr:2:0-2:10)
+Spying (at file:///spies.jrt:2:0-2:10)
   x: 10
 }
 
-On code.pyret.org, you'll see output like:
+On code.jayret.org, you'll see output like:
 
 @image[#:scale 0.3 "src/lang/simple-spy.png"]
 
@@ -60,7 +60,7 @@ y = [1, 2, 3];
 spy(x, y);}
 
 @verbatim{
-Spying (at file:///spies.arr:3:0-3:13)
+Spying (at file:///spies.jrt:3:0-3:13)
   x: 10
   y: [list: 1, 2, 3]
 }
@@ -85,11 +85,11 @@ square(x);}
 Will produce:
 
 @verbatim{
-Spying "in square" (at file:///spies.arr:2:2-2:24)
+Spying "in square" (at file:///spies.jrt:2:2-2:24)
   x: 3
-Spying "in cube" (at file:///spies.arr:7:2-7:22)
+Spying "in cube" (at file:///spies.jrt:7:2-7:22)
   x: 2
-Spying "in square" (at file:///spies.arr:2:2-2:24)
+Spying "in square" (at file:///spies.jrt:2:2-2:24)
   x: 2
 }
 
@@ -121,19 +121,19 @@ end
 This produces:
 
 @verbatim{
-Spying "lengths" (at file:///spies.arr:2:2-6:5)
+Spying "lengths" (at file:///spies.jrt:2:2-6:5)
   lst-length: 3
   sofar-length: 0
   sum: 3
-Spying "lengths" (at file://spies.arr:2:2-6:5)
+Spying "lengths" (at file://spies.jrt:2:2-6:5)
   lst-length: 2
   sofar-length: 1
   sum: 3
-Spying "lengths" (at file:///spies.arr:2:2-6:5)
+Spying "lengths" (at file:///spies.jrt:2:2-6:5)
   lst-length: 1
   sofar-length: 2
   sum: 3
-Spying "lengths" (at file:///spies.arr:2:2-6:5)
+Spying "lengths" (at file:///spies.jrt:2:2-6:5)
   lst-length: 0
   sofar-length: 3
   sum: 3
@@ -190,12 +190,12 @@ spy-field: NAME | NAME COLON binop-expr
 
 Often, when debugging or explaining a program, it's useful to display values
 during execution. It's common to do this with functions like @pyret-id["print"
-"<global>"]. However, both in general, and specifically in Pyret, using a
+"<global>"]. However, both in general, and specifically in Jayret, using a
 regular function call for debug printing leaves something to be desired. For
 example, just printing doesn't track the line and column something was printed
 at, and when the value of an identifier is printed, its name is lost in the
 output, forcing the programmer to add extra string output describing the value.
-More annoyingly in Pyret, since we often add print statements to
+More annoyingly in Jayret, since we often add print statements to
 already-existing code, it becomes a nuisance to add @secref["s:blocky-blocks"]
 just to get a debugging print.
 
@@ -221,10 +221,10 @@ statement did:
     }
 }}
 
-This has a few problems. First, because Pyret restricts function bodies to have
+This has a few problems. First, because Jayret restricts function bodies to have
 no more than one expression unless @secref["s:blocky-blocks"] is used, this is
 an immediate syntax error. We could change the first line to include
-@tt{block:} to let Pyret know we want to allow multiple statements.
+@tt{block:} to let Jayret know we want to allow multiple statements.
 
 @; TODO(pyret2jayret): parse failed (no shifts)
 @pyret-block{
@@ -243,7 +243,7 @@ This ends up being onerous and error prone.
 
 Finally, for rich values like tables and images, the string representation
 produced by @pyret-id["print" "<global>"] isn't as useful as the rich rendering
-that Pyret provides in an interface like code.pyret.org.
+that Jayret provides in an interface like code.jayret.org.
 
 The @tt{spy} statement is designed to make it natural and useful to add printed
 observations to the program, supporting and enhancing the practice of

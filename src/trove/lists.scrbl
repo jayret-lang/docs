@@ -1156,15 +1156,15 @@
 A @pyret{List} is an immutable, fixed-length collection indexed by
 non-negative integers.
   
-As in most programming languages, you can use @pyret{List}s in Pyret
+As in most programming languages, you can use @pyret{List}s in Jayret
 without understanding much, if anything, about how they are 
 implemented internally in the language.  
 
-However, in functional languages such as Pyret a particular
+However, in functional languages such as Jayret a particular
 implementation of lists — the linked list — has a central
 role for both historical and practical reasons, and a fuller
 understanding of linked lists goes hand in hand with a fuller
-understanding of Pyret.  If you have not encountered linked
+understanding of Jayret.  If you have not encountered linked
 lists before and would like to know more, we recommend reading
 @link["https://jayret-lang.github.io/dcic/" "the material on
 lists in DCIC"].
@@ -1864,7 +1864,7 @@ end
 
 When the @pyret{List}s are of different length, the function is only
 called when both @pyret{List}s have a value at a given index.  In other words,
-Pyret iterates over the shortest @pyret{List} and stops.
+Jayret iterates over the shortest @pyret{List} and stops.
   
 @examples[#:show-try-it #t]{import lists as L
 @"@"Check void test() {
@@ -1892,7 +1892,7 @@ Pyret iterates over the shortest @pyret{List} and stops.
 
 When the @pyret{List}s are of different length, the function is only
 called when both @pyret{List}s have a value at a given index.  In other words,
-Pyret iterates over the shortest @pyret{List} and stops.
+Jayret iterates over the shortest @pyret{List} and stops.
   
 @examples[#:show-try-it #t]{import lists as L
 @"@"Check void test() {
@@ -1906,7 +1906,7 @@ Pyret iterates over the shortest @pyret{List} and stops.
 
 When the @pyret{List}s are of different length, the function is only
 called when all @pyret{List}s have a value at a given index.  In other words,
-Pyret iterates over the shortest @pyret{List} and stops.
+Jayret iterates over the shortest @pyret{List} and stops.
 
 @examples[#:show-try-it #t]{import lists as L
 @"@"Check void test() {
@@ -1920,7 +1920,7 @@ Pyret iterates over the shortest @pyret{List} and stops.
 
 When the @pyret{List}s are of different length, the function is only
 called when all @pyret{List}s have a value at a given index.  In other words,
-Pyret iterates over the shortest @pyret{List} and stops.
+Jayret iterates over the shortest @pyret{List} and stops.
 
 @examples[#:show-try-it #t]{import lists as L
 @"@"Check void test() {
@@ -1949,7 +1949,7 @@ Like @pyret-id{map_n}, but for two-argument functions.
 
 When the @pyret{List}s are of different length, the function is only
 called when all @pyret{List}s have a value at a given index.  In other words,
-Pyret iterates over the shortest @pyret{List} and stops.
+Jayret iterates over the shortest @pyret{List} and stops.
   
 @examples[#:show-try-it #t]{import lists as L
 @"@"Check void test() {
@@ -1961,7 +1961,7 @@ Pyret iterates over the shortest @pyret{List} and stops.
 
 When the @pyret{List}s are of different length, the function is only
 called when all @pyret{List}s have a value at a given index.  In other words,
-Pyret iterates over the shortest @pyret{List} and stops.
+Jayret iterates over the shortest @pyret{List} and stops.
 
 @examples[#:show-try-it #t]{import lists as L
 @"@"Check void test() {

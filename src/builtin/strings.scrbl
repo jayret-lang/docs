@@ -145,12 +145,12 @@ Unicode escape code or codes.}
 
 @(image "src/builtin/codes.png")
 
-Internally, a Pyret @pyret{String} is implemented as a JavaScript
+Internally, a Jayret @pyret{String} is implemented as a JavaScript
 @tt{JSString}.  See the @seclink["runtime"] for more context.
 
 @margin-note{One implication of how JavaScript handles Unicode characters is
 that characters that are identified by a Unicode code point greater than
-65535 are sometimes treated as two characters by Pyret, as noted below.}
+65535 are sometimes treated as two characters by Jayret, as noted below.}
 
 
 @section{String Functions}
@@ -246,7 +246,7 @@ Converts the argument string to a number, returning @pyret-id["none" "option"]
 if it is not a valid numeric string, and @pyret-id["some" "option"] number if it is.
 
 @pyret-id{string-to-number} is strict about its inputs, and recognizes exactly
-the same numbers that Pyret itself does: no surrounding whitespace, extra
+the same numbers that Jayret itself does: no surrounding whitespace, extra
 punctuation, or trailing characters are allowed.
 
 @examples{@"@"Check void test() {
@@ -298,7 +298,7 @@ first character.}
   isn't found.
 
 @examples{@"@"Check void test() {
-    assertEquals(string-index-of("Pyret", "P"), 0);
+    assertEquals(string-index-of("Jayret", "P"), 0);
     assertEquals(string-index-of("012🤑45", "🤑"), 3);
     assertEquals(string-index-of("🤔🤔🤔", "🤒"), -1);
 }}
@@ -384,7 +384,7 @@ from @pyret{String} @pyret{n}.
 
   @function["string-to-upper" #:contract (a-arrow S S) #:return S]
 
-@margin-note{Pyret uses JavaScript's built-in string operations, and so will
+@margin-note{Jayret uses JavaScript's built-in string operations, and so will
 have the same behavior as @link["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toUpperCase" "toUpperCase"].}
 Convert a string to all uppercase characters.  Punctuation and other characters
 without an uppercase equivalent are left alone.  Note that because of
@@ -464,7 +464,7 @@ Converts a @pyret{String} to all lower case.
   "surrogate pair"] in combination with
   @pyret-id{string-from-code-points} and @pyret-id{string-to-code-points}.}
 
-  Converts the code point @pyret{code} to a Pyret string.
+  Converts the code point @pyret{code} to a Jayret string.
 
 @examples{@"@"Check void test() {
     assertEquals(string-from-code-point(97), "a");
@@ -475,7 +475,7 @@ Converts a @pyret{String} to all lower case.
 
   @function["string-from-code-points" #:contract (a-arrow (L-of N) S) #:return S]
 
-  Converts from a list of code points to a Pyret string.
+  Converts from a list of code points to a Jayret string.
 
 @examples{@"@"Check void test() {
     assertEquals(string-from-code-points([]), "");

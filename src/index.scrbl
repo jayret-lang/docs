@@ -26,8 +26,8 @@ behavior of its expression forms and built-in libraries, along with many
 examples and some longer descriptions of language design choices.
 
 @bold{Note:} Jayret is a Java-flavored variant of Pyret. This documentation
-site is a work in progress — syntax shown here currently reflects Pyret syntax.
-See
+site is a work in progress — some code samples may still reflect Pyret
+syntax. See
 @link["https://github.com/jayret-lang/jayret-lang/blob/main/docs/jayret-spec.md"
       "jayret-spec.md"]
 for the current Jayret syntax reference.}
