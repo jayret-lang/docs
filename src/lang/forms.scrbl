@@ -885,7 +885,7 @@ mutated, and they cannot be redefined while in scope unless they are explicitly
 @pyret{shadow}ed.
 
 @subsubsection{Where blocks}
-If a function defines a @pyret{where:} block, it can incorporate unit tests
+If a function defines a @pyret{where} block, it can incorporate unit tests
 directly inline with its definition.  This helps to document the code in
 terms of executable examples.  Additionally, whenever the function declaration
 is executed, the tests will be executed as well.  This helps ensure that the
@@ -895,7 +895,7 @@ functions that might rely on the parameters of their containing function: in
 the example above, @pyret{inner-helper} might have a test case that relied on
 the parameters @pyret{a}, @pyret{b} or @pyret{c} from the surrounding call to
 @pyret{outer-function}.) See the documentation for
-@seclink["testing-blocks"]{@pyret{check:} and @pyret{where:} blocks} for more
+@seclink["testing-blocks"]{@pyret{@"@"Check} and @pyret{where} blocks} for more
 details. 
 
 @subsubsection{Syntactic sugar}

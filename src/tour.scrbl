@@ -17,7 +17,7 @@ them, and play with them to get a feel for the language.
 
 @section{Testing and Assertions}
 
-The simplest way to add a test to a Jayret program is to use a @pyret{check:}
+The simplest way to add a test to a Jayret program is to use a @pyret{@"@"Check}
 block and a testing assertion.  Try running the following:
 
 @pyret-block{@"@"Check void test() {
@@ -30,7 +30,7 @@ Upon running this program, Jayret reports:
     Looks shipshape, your 1 test passed, mate!
 }
 
-This program uses a @pyret{check:} block to register a set of tests to be run.
+This program uses a @pyret{@"@"Check} block to register a set of tests to be run.
 The special @pyret{is} statement inside the check block compares the
 expressions on the left and right for equality.  It reports the result to the
 built-in testing framework, which produces a report when all the tests have
@@ -60,7 +60,7 @@ you're satisfied with the functionality of your program.  The more tests you
 write, the more useful feedback you get.
 
 The examples in this tour will all be presented in testing blocks
-(you'll see one kind other than @pyret{check:} later).  Unless we're
+(you'll see one kind other than @pyret{@"@"Check} later).  Unless we're
 explicitly pointing out a failure, you can assume that the tests
 all pass, and we're showing correct behavior.
 
@@ -274,15 +274,16 @@ evaluates to.  We can call @pyret{square} by passing arguments in parentheses:
 
 Since there are often tests that go along with a function
 declaration, a declaration can directly attach a testing block
-using @pyret{where:}.  So we could write the above as:
+using @pyret{where}.  So we could write the above as:
 
 @pyret-block{Object square(n) {
     return n * n;
 } where {
-    
+    assertEquals(square(4), 16);
+    assertEquals(square(2), 4);
 }}
 
-This runs the same tests as the @pyret{check:} block, but it is now obvious to
+This runs the same tests as the @pyret{@"@"Check} block, but it is now obvious to
 the reader (and to the programming environment!) that these tests go with the
 @pyret{square} function.
 
@@ -292,11 +293,12 @@ as arguments to other functions or returned from them:
 @pyret-block{Object apply-twice(f, x) {
     return f(f(x));
 } where {
-    
+    assertEquals(apply-twice((x) -> x + 1, 10), 12);
+    assertEquals(apply-twice((s) -> s + "!", "hi"), "hi!!");
 }}
 
 Functions don't need to have names.  An anonymous function can be
-written by using @pyret{lam} rather than @pyret{fun}:
+written by using lambdas (the @pyret{(args) -> body} arrow form):
 
 @pyret-block{@"@"Check void test() {
     assertEquals(apply-twice((x) -> x + 1, 10), 12);

@@ -45,16 +45,16 @@
 
 @docmodule["testing" #:friendly-title "Testing" #:noimport #t]{
 
-@section[#:tag "testing-blocks"]{@pyret{check:} and @pyret{where:} blocks}
+@section[#:tag "testing-blocks"]{@pyret{@"@"Check} and @pyret{where} blocks}
 
 Tests in Jayret are written in special @emph{testing blocks}.  These blocks can
 contain any Jayret code that isn't toplevel-only (like data definitions and
 import or provide statements), and are the only places where
 @seclink["testing-operators" "Testing Operators"] can be used.
 
-@subsection{@pyret{check:} blocks}
+@subsection{@pyret{@"@"Check} blocks}
 
-The simplest testing blocks are @pyret{check:} blocks.  They can be written at
+The simplest testing blocks are @pyret{@"@"Check} blocks.  They can be written at
 the top-level or inside other testing blocks.  Check blocks are a unit of
 reporting test results, so all the test operators that evaluate inside a check
 block will be reported as part of that block.  For example, these two check
@@ -107,24 +107,25 @@ because it means that later tests in the
 same block may not have run, so the output doesn't reflect all the tests that
 were written.
 
-@subsection{@pyret{where:} blocks}
+@subsection{@pyret{where} blocks}
 
 Sometimes a function has tests that are explicitly associated with it.  For
-these cases, the function can end in a @pyret{where:} block rather than
-immediately with @pyret{end}.  @pyret{where:} blocks run the same way that
-@pyret{check:} blocks do, and their name is taken from the function they are
-attached to.
+these cases, a @pyret{where} block can be attached to the function's
+declaration, right after the closing @pyret{@"}"}.  @pyret{where} blocks run
+the same way that @pyret{@"@"Check} blocks do, and their name is taken from
+the function they are attached to.
 
-@examples{Object double(n) {
+@pyret-block{Object double(n) {
     return n + n;
 } where {
-    
+    assertEquals(double(0), 0);
+    assertEquals(double(3), 6);
 }}
 
 @section[#:tag "testing-operators"]{Testing Operators}
 
-Testing operators should be written on their own line inside a @pyret{check:} or
-@pyret{where:} block.  They can check for a number of properties and come in
+Testing operators should be written on their own line inside a @pyret{@"@"Check} or
+@pyret{where} block.  They can check for a number of properties and come in
 several forms.
 
 @subsection{Binary Test Operators}

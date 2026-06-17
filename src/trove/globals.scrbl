@@ -164,7 +164,7 @@ the output is identical to @pyret-id["torepr"], except for @pyret{String}s.
 
 Raises the value as an error.  This usually stops the program and reports the
 raised value, but errors can be caught and checked in tests by
-@pyret-id["raises" "testing"] and by @seclink["testing-blocks"]{@pyret{check:}
+@pyret-id["raises" "testing"] and by @seclink["testing-blocks"]{@pyret{@"@"Check}
 blocks}.
 
 @(image "src/trove/raise.png")
