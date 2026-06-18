@@ -1,4 +1,11 @@
-The source of the documentation for the Pyret programming language.
+The source of the documentation for the Jayret programming language.
+
+> **Notice.** This is an independent derivative of
+> [pyret-docs](https://github.com/brownplt/pyret-docs), originally by
+> Joe Gibbs Politz and others, used under the Apache License 2.0.
+> It is **not affiliated with, endorsed by, or sponsored by**
+> the Pyret project, Brown PLT, or the original authors.
+> See [`NOTICE`](./NOTICE) for full attribution.
 
 Read the built documentation at https://www.pyret.org/docs/latest/
 
