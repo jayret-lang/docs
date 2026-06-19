@@ -2214,8 +2214,8 @@ and @tt{.load()} materialises the @tt{Table}:
 import csv as C;
 import data-source as DS;
 
-Table events = loadTable(["name", "email", "tickcount"])
-  .source(C.csv-table-str("name,email,tickcount\nAli,ali@x.com,3", C.default-options))
+Table events = loadTable(["name", "tickcount"])
+  .source(C.csv-table-str("name,tickcount\nAli,3\nBo,7", C.default-options))
   .withSanitizer("tickcount", DS.num-sanitizer)
   .load();
 }
