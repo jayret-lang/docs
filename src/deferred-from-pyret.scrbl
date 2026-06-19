@@ -33,16 +33,6 @@ tuple-pattern bindings (@tt{@"{"x; y@"}" = ...}) are not in
 Upstream: @link["https://www.pyret.org/docs/latest/Tuples.html"
                 "Pyret docs: tuples"].
 
-@subsection{External tables (@tt{load-table})}
-
-The literal @tt{table @"{" ... @"}"} form and the column DSL
-(@tt{sieve} / @tt{order} / @tt{extend} / @tt{select} / @tt{extract}) are
-all supported in Jayret. Only the external loader form
-(@tt{load-table:} for CSV and Google Sheets) is deferred.
-
-Upstream: @link["https://www.pyret.org/docs/latest/tables.html"
-                "Pyret docs: tables, Loading Tables section"].
-
 @subsection{Shared methods on @tt{data} variants (@tt{sharing:})}
 
 Pyret's @tt{sharing:} block — methods shared across every variant of a

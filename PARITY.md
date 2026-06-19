@@ -82,5 +82,5 @@ upstream `ignore[]` pattern.
 
 See [`src/deferred-from-pyret.scrbl`](src/deferred-from-pyret.scrbl) for the
 user-facing list of Pyret features without a Jayret surface syntax yet
-(Reactors, Tuples, `load-table`, `sharing:`, refinement annotations,
+(Reactors, Tuples, `sharing:`, refinement annotations,
 fine-grained `provide`, mid-loop `return`, `while` loops, `use context`).

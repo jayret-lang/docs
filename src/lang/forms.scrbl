@@ -2203,22 +2203,50 @@ table-extend-field: key [COLONCOLON ann] COLON binop-expr
 }
 
 
-@subsection[#:tag "s:table-loading"]{Table Loading Expressions}
+@subsection[#:tag "s:table-loading"]{Loading Tables from External Sources}
 
-A table loading expression constructs a table using a data source and
-zero or more data sanitizers:
-@bnf['Pyret]{
-LOAD-TABLE: "load-table"
-COLON: ":"
-END: "end"
-SOURCECOLON: "source:"
-SANITIZE: "sanitize"
-USING: "using"
-load-table-expr: LOAD-TABLE COLON table-headers [load-table-specs] END
-load-table-specs: load-table-spec* load-table-spec
-load-table-spec: SOURCECOLON expr
-               | SANITIZE NAME USING expr
+Jayret exposes loading from CSV files and Google Sheets through the
+@tt{loadTable} builder API.  Column names are passed as a list of strings;
+the data source and per-column sanitizers are configured with method calls,
+and @tt{.load()} materialises the @tt{Table}:
+
+@pyret-block[#:style "good-ex"]{
+import csv as C;
+import data-source as DS;
+
+Table events = loadTable(["name", "email", "tickcount"])
+  .source(C.csv-table-str("name,email,tickcount\nAli,ali@x.com,3", C.default-options))
+  .withSanitizer("tickcount", DS.num-sanitizer)
+  .load();
 }
+
+Builder methods:
+
+@itemlist[
+  @item{@tt{loadTable(cols :: List<String>) -> LoadTableBuilder} —
+    entry point; returns a fresh builder.  Auto-imported; no @tt{import} needed.}
+  @item{@tt{.source(src :: TableLoader) -> LoadTableBuilder} —
+    sets the data source.  Must be called exactly once before @tt{.load()}.
+    Accepts any @tt{TableLoader} value — see the
+    @tt{csv} and @tt{gdrive-sheets} modules for the available loaders.}
+  @item{@tt{.withSanitizer(col :: String, fn :: Sanitizer) -> LoadTableBuilder} —
+    attaches a per-column sanitizer.  May be called multiple times (once per column).
+    @tt{col} must appear in the column list passed to @tt{loadTable}.
+    See the @tt{data-source} module for available sanitizers
+    (@tt{string-sanitizer}, @tt{num-sanitizer}, @tt{bool-sanitizer}, …).}
+  @item{@tt{.load() -> Table} —
+    validates the builder state and loads the table.
+    Raises an error if @tt{.source()} was not called.}
+]
+
+@bold{Note:} Google Sheets loading (@tt{load-spreadsheet} from the
+@tt{gdrive-sheets} module) requires OAuth and only works in the
+@link["https://jayret-lang.github.io/code" "online playground (JLC)"];
+it is not available in the jayret-npm CLI.  CSV loading works in both
+environments.
+
+The underlying Pyret @tt{load-table:} keyword form is available but
+not idiomatic in Jayret; prefer @tt{loadTable}.
 
 @subsection[#:tag "s:reactor-expr"]{Reactor Expressions}
 
