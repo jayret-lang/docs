@@ -2241,7 +2241,7 @@ Builder methods:
 
 @bold{Note:} Google Sheets loading (@tt{load-spreadsheet} from the
 @tt{gdrive-sheets} module) requires OAuth and only works in the
-@link["https://jayret-lang.github.io/code" "online playground (JLC)"];
+online playground (JLC) at @url{http://jayret-lang.github.io/code};
 it is not available in the jayret-npm CLI.  CSV loading works in both
 environments.
 
